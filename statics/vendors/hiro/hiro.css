@@ -1,0 +1,10 @@
+/* NOTE that all css and js are global so be careful on choosing name for functions and variables */
+
+.hiro_btn {
+  width: 200px;
+  height: 48px;
+  background-color: wheat;
+  border-radius: 5px;
+  border: 1.2px solid burlywood;
+  color: rgb(161, 129, 68);
+}
