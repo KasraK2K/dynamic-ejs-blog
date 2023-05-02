@@ -1,0 +1,21 @@
+{
+  "name": "dynamic-ejs-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon src/server.js -e .js,.pug,.ejs"
+  },
+  "author": "Kasra Karami <Kasra.Karami.KK@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.39.0",
+    "eslint-config-google": "^0.14.0"
+  }
+}
