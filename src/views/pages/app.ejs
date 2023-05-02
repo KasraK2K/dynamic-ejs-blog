@@ -1,0 +1,37 @@
+<head>
+  <!-- ----------------------------------------------------------------------- -->
+  <!--                                 STYLES                                  -->
+  <!-- ----------------------------------------------------------------------- -->
+  <% elements.forEach(function(element){ %>
+  <% if(element.style){ %>
+  <link rel="stylesheet" href="<%= element.style %>" />
+  <% } %>
+  <% }); %>
+
+  <!-- TODO : Add Components Meta Data -->
+  <!-- TODO : Add Global CSS Libraries -->
+
+  <!-- Add Title -->
+  <title><%= title %></title>
+</head>
+
+<h1><%- app.title  %></h1>
+
+<!-- ----------------------------------------------------------------------- -->
+<!--                  Render Components (Like View Router)                   -->
+<!-- ----------------------------------------------------------------------- -->
+<% elements.forEach(function(element){ %>
+<%- include(`../components/${element.component}`, { element }); -%>
+<% }); %>
+
+<!-- ----------------------------------------------------------------------- -->
+<!--                                 SCRIPTS                                 -->
+<!-- ----------------------------------------------------------------------- -->
+<% elements.forEach(function(element){ %>
+<!-- TODO : Add Global CSS Libraries -->
+
+<!-- Add Components JS -->
+<% if(element.script){ %>
+<script src="<%= element.script %>"></script>
+<% } %>
+<% }); %>
