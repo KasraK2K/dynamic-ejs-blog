@@ -1,7 +1,5 @@
 const express = require('express')
 const compression = require('compression')
-const fs = require('fs')
-const path = require('path')
 const app = express()
 const v1 = require("./http/routes/v1")
 require("./requarments")
