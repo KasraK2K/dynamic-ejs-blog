@@ -1,11 +1,13 @@
-<% if(element.style){ %>
-<link rel="stylesheet" href="<%= element.style %>" />
-<% } %>
+<section id="slider">
+  <% if(element.style){ %>
+  <link rel="stylesheet" href="<%= element.style %>" />
+  <% } %>
 
-<% element.configuration.images.forEach(function(image){ %>
-<div><%- image -%></div>
-<% });%>
+  <% element.configuration.images.forEach(function(image){ %>
+  <div><%- image -%></div>
+  <% });%>
 
-<% if(element.script){ %>
-<script src="<%= element.script %>"></script>
-<% } %>
+  <% if(element.script){ %>
+  <script src="<%= element.script %>"></script>
+  <% } %>
+</section>

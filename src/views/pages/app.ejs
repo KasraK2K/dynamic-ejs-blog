@@ -1,8 +1,11 @@
 <head>
-  <!-- ----------------------------------------------------------------------- -->
-  <!--                                 STYLES                                  -->
-  <!-- ----------------------------------------------------------------------- -->
-  <% elements.forEach(function(element){ %>
+  <!-- ------------------------------ LIBRARIES ------------------------------ -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+  <!-- ------------------------------- STYLES -------------------------------- -->
+  <% data.elements.forEach(function(element){ %>
   <% if(element.style){ %>
   <link rel="stylesheet" href="<%= element.style %>" />
   <% } %>
@@ -11,27 +14,27 @@
   <!-- TODO : Add Components Meta Data -->
   <!-- TODO : Add Global CSS Libraries -->
 
+  <!-- ---------------------------- Behavior CSS ----------------------------- -->
+  <link rel="stylesheet" href="<%= data.server_address %>/vendors/app.css">
+
   <!-- Add Title -->
-  <title><%= title %></title>
+  <title><%= data.title %></title>
 </head>
 
-<h1><%- app.title  %></h1>
+<h1><%- data.app.title  %></h1>
 
-<!-- ----------------------------------------------------------------------- -->
-<!--                  Render Components (Like View Router)                   -->
-<!-- ----------------------------------------------------------------------- -->
-<% elements.forEach(function(element){ %>
-<%- include(`../components/${element.component}`, { element }); -%>
-<% }); %>
+<!-- ---------------- Render Components (Like View Router) ----------------- -->
+<div id="sortable">
+  <% data.elements.forEach(function(element){ %>
+  <%- include(`../components/${element.component}`, { element }); -%>
+  <% }); %>
+</div>
 
-<!-- ----------------------------------------------------------------------- -->
-<!--                                 SCRIPTS                                 -->
-<!-- ----------------------------------------------------------------------- -->
-<% elements.forEach(function(element){ %>
-<!-- TODO : Add Global CSS Libraries -->
-
+<!-- ------------------------------- SCRIPTS ------------------------------- -->
 <!-- Add Components JS -->
-<% if(element.script){ %>
-<script src="<%= element.script %>"></script>
-<% } %>
-<% }); %>
+<div id="component_scripts"></div>
+
+
+<!-- ----------------------------- Behavior JS ----------------------------- -->
+<script id="behavior_script" src="<%= data.server_address %>/vendors/app.js" data-object="<%= JSON.stringify(data) %>">
+</script>
