@@ -2,7 +2,7 @@ const express = require('express')
 const compression = require('compression')
 const app = express()
 const v1 = require("./http/routes/v1")
-require("./requarments")
+require("./configuration")
 
 
 const port = process.env.PORT || 8000
