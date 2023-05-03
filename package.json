@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon src/server.js -e .js,.pug,.ejs"
+    "start": "node src/server.js",
+    "dev": "node nodemon.js"
   },
   "author": "Kasra Karami <Kasra.Karami.KK@gmail.com>",
   "license": "ISC",
@@ -16,6 +17,7 @@
   },
   "devDependencies": {
     "eslint": "^8.39.0",
-    "eslint-config-google": "^0.14.0"
+    "eslint-config-google": "^0.14.0",
+    "nodemon": "^2.0.22"
   }
 }
