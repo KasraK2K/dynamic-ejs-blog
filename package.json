@@ -4,11 +4,11 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "build": "rm -rf dist && webpack --mode production",
-    "start": "NODE_ENV=production node dist/server.js",
-    "build:dev": "rm -rf dist && webpack --mode development",
+    "build": "rm -rf build && webpack --mode production",
+    "start": "NODE_ENV=production node build/server.js",
+    "build:dev": "rm -rf build && webpack --mode development",
     "dev": "NODE_ENV=development node nodemon.js",
-    "build:local": "rm -rf dist && webpack --mode none",
+    "build:local": "rm -rf build && webpack --mode none",
     "local": "NODE_ENV=local node nodemon.js"
   },
   "author": "Kasra Karami <Kasra.Karami.KK@gmail.com>",

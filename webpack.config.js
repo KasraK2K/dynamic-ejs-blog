@@ -9,7 +9,7 @@ module.exports = {
     server: './src/server.js',
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'build'),
     publicPath: '/',
     filename: '[name].js',
   },
@@ -29,19 +29,10 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [['@babel/preset-env', { targets: 'web' }]],
+            presets: [['@babel/preset-env']],
             plugins: ['@babel/plugin-proposal-class-properties'],
             cacheDirectory: true,
           },
-          use: [
-            'style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                importLoaders: 1,
-              },
-            },
-          ],
         },
       },
     ],
