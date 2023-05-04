@@ -1,1 +1,2 @@
-require("./requarments") // Environment Variable Checker
+require('./environment') // Register environments
+require('./requarments') // Environment Variable Checker
