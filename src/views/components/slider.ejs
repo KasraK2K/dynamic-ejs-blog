@@ -1,10 +1,12 @@
-<section id="slider">
+<section id="<%= element.dynamic_id %>" data-position="<%= element.position %>">
   <% if(element.style){ %>
   <link rel="stylesheet" href="<%= element.style %>" />
   <% } %>
 
+  No <%= element.position %>
+
   <% element.configuration.images.forEach(function(image){ %>
-  <div><%- image -%></div>
+  <div><%= image -%></div>
   <% });%>
 
   <% if(element.script){ %>
