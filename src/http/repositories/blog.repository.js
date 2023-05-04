@@ -1,5 +1,6 @@
 const blogPostDataRepository = async () => {
   return {
+    editable: true,
     server_address: global.serverAddress,
     title: 'App Page',
     app: {
