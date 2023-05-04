@@ -5,6 +5,7 @@ const path = require('path')
 const blogPostDataService = async () => {
   const data = await blogPostDataRepository()
 
+  let position = 0
   for (const element of data.elements) {
     const basePath = path.resolve(
       process.cwd(),
@@ -19,10 +20,12 @@ const blogPostDataService = async () => {
     if (fs.existsSync(`${basePath}.js`)) element.script = scriptPath
 
     element.dynamic_id = (+new Date() + Math.floor(Math.random() * (999 - 100) + 100)).toString(16)
+    element.position = position++
   }
+
   return data
 }
 
 module.exports = {
-  blogPostDataService
+  blogPostDataService,
 }
