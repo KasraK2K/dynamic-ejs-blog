@@ -16,19 +16,22 @@
 
 <h1><%- data.app.title %></h1>
 
+<!-- -------------- expose SERVER_DATA_SENT for other scripts -------------- -->
+<script>
+  const SERVER_DATA_SENT = <%- JSON.stringify(data) %>;
+</script>
+
 <!-- ---------------- Render Components (Like View Router) ----------------- -->
 <% if (data.editable) { %>
 <div id="sortable">
   <% } else { %>
   <div>
-    <% } %> <% data.elements.forEach(function(element) { %> <%-
-    include(`../components/${element.component}`, { element }); -%> <% }); %>
+    <% } %>
+    <% data.elements.forEach(function(element) { %>
+    <%- include(`../components/${element.component}`, { element }); -%> <% }); %>
   </div>
-
-  <!-- ----------------------------- Behavior JS ----------------------------- -->
-  <script
-    id="behavior_script"
-    src="<%= data.server_address %>/vendors/app.js"
-    data-object="<%= JSON.stringify(data) %>"
-  ></script>
 </div>
+
+<!-- ----------------------------- Behavior JS ----------------------------- -->
+<script id="behavior_script" src="<%= data.server_address %>/vendors/app.js">
+</script>

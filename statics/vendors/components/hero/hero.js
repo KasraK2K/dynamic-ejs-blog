@@ -4,7 +4,6 @@
 /*                                Hero Behavior                               */
 /* -------------------------------------------------------------------------- */
 $(document).ready(() => {
-  const SERVER_DATA_SENT = $('#behavior_script').data('object')
   const state = {}
 
   for (const element of SERVER_DATA_SENT.elements) {
