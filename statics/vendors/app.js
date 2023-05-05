@@ -6,7 +6,6 @@
 
 /* ----------------- Create State and Add Styles and Scripts ---------------- */
 $(document).ready(() => {
-  const SERVER_DATA_SENT = $('#behavior_script').data('object')
   const database = { elements: _.sortBy(SERVER_DATA_SENT.elements, ['position']) }
   window.state = new Proxy(database, handler)
 
