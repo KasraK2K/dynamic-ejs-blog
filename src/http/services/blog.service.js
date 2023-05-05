@@ -11,7 +11,7 @@ const blogPostDataService = async () => {
       process.cwd(),
       `statics/vendors/components/${element.component}/${element.component}`
     )
-    const baseAddress = `${global.serverAddress}/vendors/components/${element.component}/${element.component}`
+    const baseAddress = `${process.env.SERVER_ADDRESS}/vendors/components/${element.component}/${element.component}`
 
     const stylePath = `${baseAddress}.css`
     const scriptPath = `${baseAddress}.js`
