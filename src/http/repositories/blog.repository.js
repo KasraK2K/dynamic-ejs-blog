@@ -1,34 +1,34 @@
 const blogPostDataRepository = async () => {
   return {
     editable: true,
-    server_address: global.serverAddress,
+    server_address: process.env.SERVER_ADDRESS,
     title: 'App Page',
     app: {
       title: 'Application Page',
     },
     elements: [
       {
-        component: 'hiro',
+        component: 'hero',
         configuration: {
-          title: 'This is a Hiro!',
+          title: 'This is a Hero!',
         },
       },
       {
-        component: 'hiro',
+        component: 'hero',
         configuration: {
-          title: 'This is a Hiro!',
+          title: 'This is a Hero!',
         },
       },
       {
-        component: 'hiro',
+        component: 'hero',
         configuration: {
-          title: 'This is a Hiro!',
+          title: 'This is a Hero!',
         },
       },
       {
-        component: 'hiro',
+        component: 'hero',
         configuration: {
-          title: 'This is a Hiro!',
+          title: 'This is a Hero!',
         },
       },
       {
