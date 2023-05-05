@@ -1,4 +1,3 @@
-// @ts-nocheck
 const path = require('path')
 const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
@@ -40,7 +39,7 @@ module.exports = {
   plugins: [
     new WebpackShellPluginNext({
       onAfterDone: {
-        scripts: ["echo 'Build complete!'"],
+        scripts: ['echo "Build complete!"'],
       },
     }),
   ],
