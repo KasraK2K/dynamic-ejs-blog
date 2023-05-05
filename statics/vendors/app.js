@@ -1,13 +1,10 @@
-// @ts-nocheck
 /**
  * NOTE
  * This script is just for use blog behavior for delete, add or other design blog element
  * Do not forget submit data to backend after each change
  */
 
-/* -------------------------------------------------------------------------- */
-/*                                Main Behavior                               */
-/* -------------------------------------------------------------------------- */
+/* ----------------- Create State and Add Styles and Scripts ---------------- */
 $(document).ready(() => {
   const SERVER_DATA_SENT = $('#behavior_script').data('object')
   window.state = { elements: _.sortBy(SERVER_DATA_SENT.elements, ['position']) }
@@ -30,7 +27,6 @@ $(document).ready(() => {
     }
   }
 })
-/* -------------------------------------------------------------------------- */
 
 /* ----------------------------- Sort Components ---------------------------- */
 $(function () {
@@ -40,58 +36,60 @@ $(function () {
     cursor: 'move',
     opacity: 0.5,
     stop: (event, ui) => {
-      const elementDynamicId = $(ui.item).attr('id')
-      const lasPosition = getPositionById(elementDynamicId)
-
-      const moveAfterElementId = $(ui.item).prev().attr('id')
-      const moveAfterPosition = getPositionById(moveAfterElementId)
-
-      const moveBeforeElementId = $(ui.item).next().attr('id')
-      const moveBeforePosition = getPositionById(moveBeforeElementId)
-
-      const isFirst = moveAfterPosition === -1
-      const isLast = moveBeforePosition === -1
-
-      const element = state.elements[lasPosition]
-
-      // Put element on top
-      if (isFirst) {
-        element.position = 0
-        const elements = omitElementsById(elementDynamicId)
-        for (let i = 0; i < elements.length; i++) elements[i].position = i + 1
-        state.elements = [element, ...elements]
-      }
-      // Put element at the end
-      else if (isLast) {
-        element.position = state.elements.length - 1
-        const elements = omitElementsById(elementDynamicId)
-        for (let i = 0; i < elements.length; i++) elements[i].position = i
-        elements.push(element)
-        state.elements = [...elements]
-      }
-      // Put element between another element
-      else {
-        element.position =
-          (moveAfterPosition + moveBeforePosition) / 2 > moveAfterPosition
-            ? moveBeforePosition
-            : moveAfterPosition
-        let elements = omitElementsById(elementDynamicId)
-        const group_before = elements.slice(0, element.position)
-        const group_after = elements.slice(element.position)
-        state.elements = [...group_before, element, ...group_after]
-        for (let i = 0; i < state.elements.length; i++) state.elements[i].position = i
-      }
+      const sortedIDs = $('#sortable').sortable('toArray')
+      const { valid, result } = sortByAnotherArray(state.elements, sortedIDs, 'dynamic_id')
+      if (!valid) console.error('Error on sorting sections')
+      else state.elements = result
     },
   })
   $('#sortable').disableSelection()
-  /* -------------------------------------------------------------------------- */
 })
 
+/* -------------------------------------------------------------------------- */
+/*                              Useful Functions                              */
+/* -------------------------------------------------------------------------- */
+/**
+ * @param {string} dynamic_id
+ * @return {number}
+ */
 function getPositionById(dynamic_id) {
   if (dynamic_id) return state.elements[_.findIndex(state.elements, { dynamic_id })].position
   return -1
 }
 
+/**
+ * @param {string} dynamic_id
+ * @returns {Record<string, any>[]}
+ */
 function omitElementsById(dynamic_id) {
   return state.elements.filter((element) => element.dynamic_id !== dynamic_id)
+}
+
+/**
+ * @param {Record<string, any>[]} unsortedArray array of data should be sorted
+ * @param {string[]} arrayUseForSort array of strings to use for sorting
+ * @param {string} sensitiveKey sensetive key to use for sorting
+ * @returns { {valid: boolean, result: Record<string, any>[]} }
+ */
+function sortByAnotherArray(unsortedArray, arrayUseForSort, sensitiveKey) {
+  const sortedArray = []
+  if (unsortedArray.length !== arrayUseForSort.length) return { valid: false, result: [] }
+  for (let i = 0; i < unsortedArray.length; i++) {
+    const fondedValue = unsortedArray.find(
+      (element) => element[sensitiveKey] === arrayUseForSort[i]
+    )
+
+    sortedArray.push(fondedValue)
+  }
+  return { valid: true, result: sortedArray }
+}
+
+/**
+ * @param {Record<string, any>} sortedObject object of data should be sorted
+ * @param {string[]} arrayUseForSort array of strings to use for sorting
+ */
+function sortObjectByArray(unsortedObject, arrayUseForSort) {
+  const sortedObject = {}
+  for (let key of arrayUseForSort) sortedObject[key] = unsortedObject[key]
+  return sortedObject
 }

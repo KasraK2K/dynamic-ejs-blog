@@ -1,35 +1,35 @@
 <head>
   <!-- ------------------------------ LIBRARIES ------------------------------ -->
-  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script src="<%= data.server_address %>/vendors/libraries/lodash.min.js"></script>
+  <script src="<%= data.server_address %>/vendors/libraries/jquery-3.6.0.min.js"></script>
+  <script src="<%= data.server_address %>/vendors/libraries/jquery-ui-1.13.2.min.js"></script>
+  <script src="<%= data.server_address %>/vendors/libraries/html5sortable.min.js"></script>
 
   <!-- TODO : Add Components Meta Data -->
   <!-- TODO : Add Global CSS Libraries -->
 
   <!-- ---------------------------- Behavior CSS ----------------------------- -->
-  <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/app.css">
+  <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/app.css" />
 
   <!-- Add Title -->
   <title><%= data.title %></title>
 </head>
 
-<h1><%- data.app.title  %></h1>
+<h1><%- data.app.title %></h1>
 
 <!-- ---------------- Render Components (Like View Router) ----------------- -->
 <% if (data.editable) { %>
 <div id="sortable">
   <% } else { %>
   <div>
-    <% } %>
-    <% data.elements.forEach(function(element) { %>
-    <%- include(`../components/${element.component}`, { element }); -%>
-    <% }); %>
+    <% } %> <% data.elements.forEach(function(element) { %> <%-
+    include(`../components/${element.component}`, { element }); -%> <% }); %>
   </div>
 
-
   <!-- ----------------------------- Behavior JS ----------------------------- -->
-  <script id="behavior_script" src="<%= data.server_address %>/vendors/app.js" data-object="<%= JSON.stringify(data) %>">
-  </script>
+  <script
+    id="behavior_script"
+    src="<%= data.server_address %>/vendors/app.js"
+    data-object="<%= JSON.stringify(data) %>"
+  ></script>
+</div>
