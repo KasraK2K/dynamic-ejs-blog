@@ -1,4 +1,3 @@
-// @ts-nocheck
 const { ObjectId } = require('mongodb')
 const mongo = require('./mongo_drive')
 const _ = require('lodash')
@@ -12,9 +11,9 @@ const _ = require('lodash')
  * @return {Promise<Record<string, any>[]>}
  */
 function find(tableName, args, omits) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     args = this.sanitizeArgs(args)
-    await mongo
+    mongo
       .collection(tableName)
       .find(args, { projection: this.generateProjection(omits) })
       .toArray()
@@ -34,10 +33,10 @@ function find(tableName, args, omits) {
  * @return {Promise<Record<string, any>>}
  */
 function findOne(tableName, args, omits) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     args = this.sanitizeArgs(args)
 
-    await mongo
+    mongo
       .collection(tableName)
       .findOne(args, { projection: this.generateProjection(omits) })
       .then((result) => {
@@ -56,11 +55,11 @@ function findOne(tableName, args, omits) {
  * @return {Promise<Record<string, any>>}
  */
 function insertOne(tableName, args, omits) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     args = this.sanitizeArgs(args)
     _.assign(args, { createdAt: new Date(), updatedAt: new Date() })
 
-    await mongo
+    mongo
       .collection(tableName)
       .insertOne(args)
       .then(async (result) =>
@@ -80,11 +79,11 @@ function insertOne(tableName, args, omits) {
  * @return {Promise<Record<string, any>>}
  */
 function updateOne(tableName, findArgs, args, omits) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     findArgs = this.sanitizeArgs(findArgs)
     args = this.sanitizeArgs(args)
 
-    await mongo
+    mongo
       .collection(tableName)
       .updateOne(findArgs, { $set: args, $currentDate: { updatedAt: true } })
       .then(async () => resolve(await this.findOne(tableName, findArgs, omits)))
@@ -102,13 +101,13 @@ function updateOne(tableName, findArgs, args, omits) {
  * @return {Promise<Record<string, any>>}
  */
 function upsertOne(tableName, findArgs, args, options) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const { upsert, omits } = options
     findArgs = this.sanitizeArgs(findArgs)
     args = this.sanitizeArgs(args)
     const date = new Date()
 
-    await mongo
+    mongo
       .collection(tableName)
       .updateOne(
         findArgs,
@@ -129,11 +128,11 @@ function upsertOne(tableName, findArgs, args, options) {
  * @return {Promise<Record<string, any>>}
  */
 function safeDeleteOne(tableName, args, omits) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     args = this.sanitizeArgs(args)
     const date = new Date()
 
-    await mongo
+    mongo
       .collection(tableName)
       .updateOne(
         {
@@ -155,10 +154,10 @@ function safeDeleteOne(tableName, args, omits) {
  * @return {Promise<Record<string, any>>}
  */
 function deleteOne(tableName, args, omits) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     args = this.sanitizeArgs(args)
 
-    await mongo
+    mongo
       .collection(tableName)
       .deleteOne(args)
       .then(async () => resolve(await this.findOne(tableName, args, omits)))
@@ -175,10 +174,10 @@ function deleteOne(tableName, args, omits) {
  * @return {Promise<Record<string, any>>}
  */
 function restoreOne(tableName, args, omits) {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     args = this.sanitizeArgs(args)
 
-    await mongo
+    mongo
       .collection(tableName)
       .updateOne(
         {
