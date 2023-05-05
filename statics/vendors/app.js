@@ -7,7 +7,8 @@
 /* ----------------- Create State and Add Styles and Scripts ---------------- */
 $(document).ready(() => {
   const SERVER_DATA_SENT = $('#behavior_script').data('object')
-  window.state = { elements: _.sortBy(SERVER_DATA_SENT.elements, ['position']) }
+  const database = { elements: _.sortBy(SERVER_DATA_SENT.elements, ['position']) }
+  window.state = new Proxy(database, handler)
 
   for (const element of state.elements) {
     // Add Component Script
@@ -37,13 +38,60 @@ $(function () {
     opacity: 0.5,
     stop: (event, ui) => {
       const sortedIDs = $('#sortable').sortable('toArray')
-      const { valid, result } = sortByAnotherArray(state.elements, sortedIDs, 'dynamic_id')
-      if (!valid) console.error('Error on sorting sections')
-      else state.elements = result
+      handler.arrangeBy = { array: sortedIDs, sensitiveKey: 'dynamic_id', target: 'elements' }
+      const result = state.RearrangeByArrayOfIDs
+      console.log(result)
+      state.elements = result
     },
   })
   $('#sortable').disableSelection()
 })
+
+/* -------------------------------------------------------------------------- */
+/*                           Create Default handler                           */
+/* -------------------------------------------------------------------------- */
+/**
+ * @param {Record<string, any>} object
+ * @param {string} prop
+ * @param {Record<string, any>} arrangeBy
+ * @return {Record<string, any>[]}
+ */
+function RearrangeByArrayOfIDs(object, prop, arrangeBy) {
+  // If arrangeBy not filled
+  if (!arrangeBy) {
+    throw new Error(
+      'Please fill arrangeBy first, eq: {array: ["1", "2", "3"], sensitiveKey: "id", target: "elements"}'
+    )
+  }
+  // If arrangeBy target was not exist
+  else if (!Reflect.has(object, arrangeBy.target)) {
+    throw new Error(`target '${arrangeBy.target}' in arrangeBy object not exist`)
+  }
+
+  // Sort target by using arrangeBy array and sensitiveKey
+  const { valid, result } = sortByAnotherArray(
+    object[arrangeBy.target],
+    arrangeBy.array,
+    arrangeBy.sensitiveKey
+  )
+  if (!valid) throw new Error('Error on sorting sections')
+  return result
+}
+
+const handler = {
+  set(object, prop, value) {
+    if (prop === 'arrangeBy') {
+      this.arrangeBy = value
+      return true
+    } else {
+      return Reflect.set(object, prop, value)
+    }
+  },
+  get(object, prop) {
+    if (prop === 'RearrangeByArrayOfIDs') return RearrangeByArrayOfIDs(object, prop, this.arrangeBy)
+    else return object[prop]
+  },
+}
 
 /* -------------------------------------------------------------------------- */
 /*                              Useful Functions                              */
@@ -68,7 +116,7 @@ function omitElementsById(dynamic_id) {
 /**
  * @param {Record<string, any>[]} unsortedArray array of data should be sorted
  * @param {string[]} arrayUseForSort array of strings to use for sorting
- * @param {string} sensitiveKey sensetive key to use for sorting
+ * @param {string} sensitiveKey sensitive key to use for sorting
  * @returns { {valid: boolean, result: Record<string, any>[]} }
  */
 function sortByAnotherArray(unsortedArray, arrayUseForSort, sensitiveKey) {
