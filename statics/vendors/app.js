@@ -7,7 +7,7 @@
 /* ----------------- Create State and Add Styles and Scripts ---------------- */
 $(document).ready(() => {
   const database = { elements: _.sortBy(SERVER_DATA_SENT.elements, ['position']) }
-  window.state = new Proxy(database, handler)
+  window['state'] = new Proxy(database, handler)
 
   for (const element of state.elements) {
     // Add Component Script
@@ -37,7 +37,7 @@ $(function () {
     opacity: 0.5,
     stop: (event, ui) => {
       const sortedIDs = $('#sortable').sortable('toArray')
-      handler.arrangeBy = { array: sortedIDs, sensitiveKey: 'dynamic_id', target: 'elements' }
+      handler.arrangeBy = { array: sortedIDs, target: 'elements', sensitiveKey: 'dynamic_id' }
       const result = state.RearrangeByArrayOfIDs
       console.log(result)
       state.elements = result
