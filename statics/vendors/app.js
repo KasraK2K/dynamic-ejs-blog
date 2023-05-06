@@ -48,7 +48,18 @@ $(function () {
 
 // TODO DevExtreme File Manager
 // $('#file-manager').dxFileManager({
-//   //...
+//   fileSystemProvider: [
+//     {
+//       name: 'MyFolder',
+//       size: 1024,
+//       dateModified: '2019/05/08',
+//       // thumbnail: '/thumbnails/images/jpeg.ico',
+//       isDirectory: true,
+//       items: [
+//         // Nested data objects with the same structure
+//       ],
+//     },
+//   ],
 // })
 
 /* -------------------------------------------------------------------------- */
