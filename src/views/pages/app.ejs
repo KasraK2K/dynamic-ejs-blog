@@ -4,6 +4,10 @@
   <script src="<%= data.server_address %>/vendors/libraries/jquery-3.6.0.min.js"></script>
   <script src="<%= data.server_address %>/vendors/libraries/jquery-ui-1.13.2.min.js"></script>
 
+  <!-- TODO DevExtreme File Manager -->
+  <!-- <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/22.2.6/css/dx.light.css">
+  <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/22.2.6/js/dx.all.js"></script> -->
+
   <!-- TODO : Add Components Meta Data -->
   <!-- TODO : Add Global CSS Libraries -->
 
@@ -14,24 +18,29 @@
   <title><%= data.title %></title>
 </head>
 
-<h1 class="text-3xl font-bold underline"><%- data.app.title %></h1>
+<body>
+  <h1 class="text-3xl font-bold underline"><%- data.app.title %></h1>
 
-<!-- -------------- expose SERVER_DATA_SENT for other scripts -------------- -->
-<script>
-  const SERVER_DATA_SENT = <%- JSON.stringify(data) %>;
-</script>
+  <!-- TODO DevExtreme File Manager -->
+  <!-- <div id="file-manager"></div> -->
 
-<!-- ---------------- Render Components (Like View Router) ----------------- -->
-<% if (data.editable) { %>
-<div id="sortable">
-  <% } else { %>
-  <div>
-    <% } %>
-    <% data.elements.forEach(function(element) { %>
-    <%- include(`../components/${element.component}`, { element }); -%> <% }); %>
+  <!-- -------------- expose SERVER_DATA_SENT for other scripts -------------- -->
+  <script>
+    const SERVER_DATA_SENT = <%- JSON.stringify(data) %>;
+  </script>
+
+  <!-- ---------------- Render Components (Like View Router) ----------------- -->
+  <% if (data.editable) { %>
+  <div id="sortable">
+    <% } else { %>
+    <div>
+      <% } %>
+      <% data.elements.forEach(function(element) { %>
+      <%- include(`../components/${element.component}`, { element }); -%> <% }); %>
+    </div>
   </div>
-</div>
 
-<!-- ----------------------------- Behavior JS ----------------------------- -->
-<script id="behavior_script" src="<%= data.server_address %>/vendors/app.js">
-</script>
+  <!-- ----------------------------- Behavior JS ----------------------------- -->
+  <script id="behavior_script" src="<%= data.server_address %>/vendors/app.js">
+  </script>
+</body>

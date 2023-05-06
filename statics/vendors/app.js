@@ -46,6 +46,11 @@ $(function () {
   $('#sortable').disableSelection()
 })
 
+// TODO DevExtreme File Manager
+// $('#file-manager').dxFileManager({
+//   //...
+// })
+
 /* -------------------------------------------------------------------------- */
 /*                           Create Default handler                           */
 /* -------------------------------------------------------------------------- */
