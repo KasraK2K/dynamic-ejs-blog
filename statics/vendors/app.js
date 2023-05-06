@@ -23,7 +23,7 @@ $(document).ready(() => {
     if (element.style) {
       const isStyleExist = $(`link[href="${element.style}"]`).length > 0
       if (!isStyleExist)
-        $(`<link rel="stylesheet" href="${element.style}">`).insertBefore('#behavior_style')
+        $(`<link rel="stylesheet" href="${element.style}">`).insertAfter('#behavior_style')
     }
   }
 })
