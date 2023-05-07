@@ -20,7 +20,7 @@ Sample Object:
 <section id="<%= element.dynamic_id %>">
   <!-- Handle drop & drag -->
   <% if (data.editable) { %>
-  <div class="handle"></div>
+  <div class="handle_top"></div>
   <% } %>
 
   <div class="grid grid-cols-1 md:grid-cols-2">
@@ -40,4 +40,9 @@ Sample Object:
       </div>
     </div>
   </div>
+
+  <!-- Handle drop & drag -->
+  <% if (data.editable) { %>
+  <div class="handle_bottom"></div>
+  <% } %>
 </section>

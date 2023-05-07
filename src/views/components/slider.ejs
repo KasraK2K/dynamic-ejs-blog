@@ -12,7 +12,7 @@ Sample Object:
 
   <!-- Handle drop & drag -->
   <% if (data.editable) { %>
-  <div class="handle"></div>
+  <div class="handle_top"></div>
   <% } %>
 
   <div>No <%= element.position %></div>
@@ -20,4 +20,9 @@ Sample Object:
   <% element.configuration.images.forEach(function(image){ %>
   <div><%= image -%></div>
   <% });%>
+
+  <!-- Handle drop & drag -->
+  <% if (data.editable) { %>
+  <div class="handle_bottom"></div>
+  <% } %>
 </section>

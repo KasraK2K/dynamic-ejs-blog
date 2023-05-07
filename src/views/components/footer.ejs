@@ -65,7 +65,7 @@ Sample Object:
 <section id="<%= element.dynamic_id %>">
   <!-- Handle drop & drag -->
   <% if (data.editable) { %>
-  <div class="handle"></div>
+  <div class="handle_top"></div>
   <% } %>
 
   <div class="bg-gray-900 text-white text-opacity-40 font-semibold uppercase text-xs tracking-widest bg-opacity-80 px-12">
@@ -88,4 +88,9 @@ Sample Object:
       <%= element.configuration.copyright %>
     </div>
   </div>
+
+  <!-- Handle drop & drag -->
+  <% if (data.editable) { %>
+  <div class="handle_bottom"></div>
+  <% } %>
 </section>

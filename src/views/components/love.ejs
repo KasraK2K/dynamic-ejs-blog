@@ -12,7 +12,7 @@ Sample Object:
 <section id="<%= element.dynamic_id %>">
   <!-- Handle drop & drag -->
   <% if (data.editable) { %>
-  <div class="handle"></div>
+  <div class="handle_top"></div>
   <% } %>
 
   <div class="max-w-xl mx-auto text-center py-24 md:py-32">
@@ -23,4 +23,8 @@ Sample Object:
     </p>
   </div>
 
+  <!-- Handle drop & drag -->
+  <% if (data.editable) { %>
+  <div class="handle_bottom"></div>
+  <% } %>
 </section>

@@ -775,64 +775,114 @@ video {
 /* -------------------------------------------------------------------------- */
 /*                              START GLOBAL CSS                              */
 /* -------------------------------------------------------------------------- */
+#sortable {
+  overflow: hidden;
+}
+
 /* sortable items */
 #sortable section {
   position: relative;
 }
 
-/* sortable handler top line */
-#sortable section>.handle {
+/* sortable handler line */
+#sortable section>.handle_top,
+#sortable section>.handle_bottom {
   position: absolute;
-  top: 0;
   left: 0;
   right: 0;
   margin: auto;
   height: 3px;
-  background: dodgerblue;
+  background: purple;
   cursor: move;
   display: none;
   z-index: 999;
 }
-
-/* sortable handler middle line */
-#sortable section>.handle::before {
-  position: absolute;
+#sortable section>.handle_top {
   top: 0;
+}
+#sortable section>.handle_bottom {
+  bottom: 0;
+}
+
+/* sortable handler middle shape */
+#sortable section>.handle_top::before,
+#sortable section>.handle_bottom::before {
+  position: absolute;
   left: 0;
   right: 0;
   margin: auto;
   content: '';
   height: 12px;
   width: 100px;
-  background: dodgerblue;
+  background: purple;
   border-radius: 10px;
+}
+#sortable section>.handle_top::before {
+  top: 0;
   transform: translateY(calc(-50% + 1.5px));
+}
+#sortable section>.handle_bottom::before {
+  transform: translateY(calc(50% - 1.5px));
+  bottom: 0;
 }
 
 /* sortable handler show on hover */
-#sortable section:hover>.handle {
+#sortable section:hover>.handle_top,
+#sortable section:hover>.handle_bottom {
   display: block;
 }
 
 /* gap between items when are moving */
 .ui-state-highlight {
+  position: relative;
   height: 5em;
   line-height: 1.2em;
   background-color: rgb(105, 172, 227);
+  /* color: white;
+  background: repeating-linear-gradient(
+    45deg,
+    #606dbc,
+    #606dbc 10px,
+    #465298 10px,
+    #465298 20px
+    ); */
+    color: white;
+  background: repeating-radial-gradient(
+    circle,
+    purple,
+    purple 10px,
+    #4b026f 10px, 
+    #4b026f 20px
+  );
+  }
+
+.ui-state-highlight::before {
+  content: "Leave your section here to change it's order";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: -moz-max-content;
+  width: max-content;
+  height: -moz-max-content;
+  height: max-content;
+  padding: 8px 10px;
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #4b026f;
+  background-color: purple;
 }
-
 /* ----------------------------- END GLOBAL CSS ----------------------------- */
-
 .hover\:bg-yellow-800:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(133 77 14 / var(--tw-bg-opacity));
 }
-
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
-
 @media (min-width: 768px) {
   .md\:order-first {
     order: -9999;
@@ -872,7 +922,6 @@ video {
     line-height: 1.75rem;
   }
 }
-
 @media (min-width: 1024px) {
   .lg\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -893,7 +942,6 @@ video {
     line-height: 1.5rem;
   }
 }
-
 @media (min-width: 1280px) {
   .xl\:text-6xl {
     font-size: 3.75rem;

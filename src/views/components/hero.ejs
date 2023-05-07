@@ -12,7 +12,7 @@ Sample Object:
 
   <!-- Handle drop & drag -->
   <% if (data.editable) { %>
-  <div class="handle"></div>
+  <div class="handle_top"></div>
   <% } %>
 
   <div>No <%= element.position %> - <%= element.configuration.title %></div>
@@ -20,4 +20,9 @@ Sample Object:
   <div>
     <button class="hero_btn">0</button>
   </div>
+
+  <!-- Handle drop & drag -->
+  <% if (data.editable) { %>
+  <div class="handle_bottom"></div>
+  <% } %>
 </section>

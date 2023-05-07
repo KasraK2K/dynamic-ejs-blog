@@ -17,7 +17,7 @@ Sample Object:
 <section id="<%= element.dynamic_id %>">
   <!-- Handle drop & drag -->
   <% if (data.editable) { %>
-  <div class="handle"></div>
+  <div class="handle_top"></div>
   <% } %>
 
   <div class="relative w-full py-12 px-12">
@@ -32,4 +32,9 @@ Sample Object:
     </div>
     <img src="<%= element.configuration.image %>" class="w-full h-full absolute inset-0 object-cover" />
   </div>
+
+  <!-- Handle drop & drag -->
+  <% if (data.editable) { %>
+  <div class="handle_bottom"></div>
+  <% } %>
 </section>

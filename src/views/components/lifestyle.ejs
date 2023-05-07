@@ -26,7 +26,7 @@ Sample Object:
 <section id="<%= element.dynamic_id %>">
   <!-- Handle drop & drag -->
   <% if (data.editable) { %>
-  <div class="handle"></div>
+  <div class="handle_top"></div>
   <% } %>
 
   <div class="-mt-24 relative w-full py-12 px-12 bg-yellow-900" style="margin-top: 0px">
@@ -43,4 +43,9 @@ Sample Object:
     </div>
     <img src="<%= element.configuration.image %>" class="w-full h-full absolute inset-0 object-cover opacity-70" />
   </div>
+
+  <!-- Handle drop & drag -->
+  <% if (data.editable) { %>
+  <div class="handle_bottom"></div>
+  <% } %>
 </section>

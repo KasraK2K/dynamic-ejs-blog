@@ -31,7 +31,7 @@ $(document).ready(() => {
 /* ----------------------------- Sort Components ---------------------------- */
 $(function () {
   $('#sortable').sortable({
-    handle: $('#sortable > section > .handle'),
+    handle: $('#sortable > section > .handle_top, #sortable > section > .handle_bottom'),
     placeholder: 'ui-state-highlight',
     axis: 'y',
     cursor: 'move',
