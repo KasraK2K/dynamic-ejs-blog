@@ -11,7 +11,8 @@
 /* -------------------------------------------------------------------------- */
 /* sortable items */
 #sortable section {
-  border: 1px solid rgb(34, 126, 224);
+  /* border: 1px solid rgb(34, 126, 224); */
+  cursor: move;
 }
 #sortable section:not(:last-child) {
   border-bottom: none;
@@ -19,7 +20,7 @@
 
 /* gap between items when are moving */
 .ui-state-highlight {
-  height: 4em;
+  height: 0.5em;
   line-height: 1.2em;
   background-color: rgb(105, 172, 227);
 }
