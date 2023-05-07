@@ -31,7 +31,7 @@ $(document).ready(() => {
 /* ----------------------------- Sort Components ---------------------------- */
 $(function () {
   $('#sortable').sortable({
-    handle: $("#sortable > section > .handle"),
+    handle: $('#sortable > section > .handle'),
     placeholder: 'ui-state-highlight',
     axis: 'y',
     cursor: 'move',
@@ -48,20 +48,20 @@ $(function () {
 })
 
 // TODO DevExtreme File Manager
-// $('#file-manager').dxFileManager({
-//   fileSystemProvider: [
-//     {
-//       name: 'MyFolder',
-//       size: 1024,
-//       dateModified: '2019/05/08',
-//       // thumbnail: '/thumbnails/images/jpeg.ico',
-//       isDirectory: true,
-//       items: [
-//         // Nested data objects with the same structure
-//       ],
-//     },
-//   ],
-// })
+$('#file-manager').dxFileManager({
+  fileSystemProvider: [
+    {
+      name: 'MyFolder',
+      size: 1024,
+      dateModified: '2019/05/08',
+      // thumbnail: '/thumbnails/images/jpeg.ico',
+      isDirectory: true,
+      items: [
+        // Nested data objects with the same structure
+      ],
+    },
+  ],
+})
 
 /* -------------------------------------------------------------------------- */
 /*                           Create Default handler                           */
