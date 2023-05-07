@@ -1,0 +1,26 @@
+<%# 
+Sample Object:
+{
+  component: 'love',
+  configuration: {
+    title: 'We love to travel',
+    text: 'Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.'
+  },
+}
+%>
+
+<section id="<%= element.dynamic_id %>">
+  <!-- Handle drop & drag -->
+  <% if (data.editable) { %>
+  <div class="handle"></div>
+  <% } %>
+
+  <div class="max-w-xl mx-auto text-center py-24 md:py-32">
+    <div class="w-24 h-2 bg-yellow-800 mb-4 mx-auto"></div>
+    <h2 class="font-display font-bold text-3xl md:text-4xl lg:text-5xl mb-6"><%= element.configuration.title %></h2>
+    <p class="font-light text-gray-600 mb-6 leading-relaxed">
+      <%= element.configuration.text %>
+    </p>
+  </div>
+
+</section>
