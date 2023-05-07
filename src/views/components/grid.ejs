@@ -1,4 +1,29 @@
+<%# 
+Sample Object:
+{
+  component: 'grid',
+  configuration: {
+    title: 'This is my second post',
+    text: 'Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.',
+    button: {
+      label: 'Read more',
+      link: '#blog/my-third-big-post/'
+    },
+    image: {
+      src: 'https://images.unsplash.com/photo-1521145239174-279dc2227166?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80',
+      link: '#blog/my-third-big-post/'
+    }
+  },
+}
+%>
+
 <section id="<%= element.dynamic_id %>" class="grid grid-cols-1 md:grid-cols-2">
+  
+  <!-- Handle drop & drag -->
+  <% if (data.editable) { %>
+  <div class="handle"></div>
+  <% } %>
+
   <div class="bg-white p-12 md:p-24 flex justify-start items-center">
     <a href="<%= element.configuration.image.link %>"
       ><img

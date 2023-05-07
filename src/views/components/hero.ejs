@@ -1,5 +1,21 @@
+<%# 
+Sample Object:
+{
+  component: 'hero',
+  configuration: {
+    title: 'This is a Hero!',
+  },
+}
+%>
+
 <section id="<%= element.dynamic_id %>">
-  No <%= element.position %> - <%= element.configuration.title %>
+
+  <!-- Handle drop & drag -->
+  <% if (data.editable) { %>
+  <div class="handle"></div>
+  <% } %>
+
+  <div>No <%= element.position %> - <%= element.configuration.title %></div>
 
   <div>
     <button class="hero_btn">0</button>
