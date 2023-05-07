@@ -11,38 +11,46 @@
 /* -------------------------------------------------------------------------- */
 /* sortable items */
 #sortable section {
-  /* border: 1px solid rgb(34, 126, 224); */
   position: relative;
 }
 
-#sortable section:not(:last-child) {
-  border-bottom: none;
-}
-
-#sortable section > .handle {
+/* sortable handler top line */
+#sortable section>.handle {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   margin: auto;
-  height: 10px;
-  width: 100px;
+  height: 3px;
   background: dodgerblue;
-  z-index: 999;
-  transform: translateY(-50%);
-  border-radius: 10px;
   cursor: move;
   display: none;
+  z-index: 999;
 }
 
+/* sortable handler middle line */
+#sortable section>.handle::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  content: '';
+  height: 12px;
+  width: 100px;
+  background: dodgerblue;
+  border-radius: 10px;
+  transform: translateY(calc(-50% + 1.5px));
+}
 
-#sortable section:hover > .handle {
+/* sortable handler show on hover */
+#sortable section:hover>.handle {
   display: block;
 }
 
 /* gap between items when are moving */
 .ui-state-highlight {
-  height: 0.5em;
+  height: 5em;
   line-height: 1.2em;
   background-color: rgb(105, 172, 227);
 }
