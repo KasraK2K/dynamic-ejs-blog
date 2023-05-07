@@ -16,6 +16,7 @@
 /* sortable items */
 #sortable section {
   position: relative;
+  overflow: hidden;
 }
 
 /* sortable handler line */
@@ -26,10 +27,10 @@
   right: 0;
   margin: auto;
   height: 3px;
-  background: purple;
+  background: #1976d2;
   cursor: move;
   display: none;
-  z-index: 999;
+  z-index: 1;
 }
 #sortable section>.handle_top {
   top: 0;
@@ -48,7 +49,7 @@
   content: '';
   height: 12px;
   width: 100px;
-  background: purple;
+  background: #1976d2;
   border-radius: 10px;
 }
 #sortable section>.handle_top::before {
@@ -71,7 +72,6 @@
   position: relative;
   height: 5em;
   line-height: 1.2em;
-  background-color: rgb(105, 172, 227);
   /* color: white;
   background: repeating-linear-gradient(
     45deg,
@@ -83,10 +83,10 @@
     color: white;
   background: repeating-radial-gradient(
     circle,
-    purple,
-    purple 10px,
-    #4b026f 10px, 
-    #4b026f 20px
+    #2196f3,
+    #2196f3 10px,
+    #1976d2 10px, 
+    #1976d2 20px
   );
   }
 
@@ -103,7 +103,7 @@
   padding: 8px 10px;
   font-size: 1.2em;
   font-weight: 700;
-  color: #4b026f;
-  background-color: purple;
+  color: #1976d2;
+  background-color: #2196f3;
 }
 /* ----------------------------- END GLOBAL CSS ----------------------------- */
