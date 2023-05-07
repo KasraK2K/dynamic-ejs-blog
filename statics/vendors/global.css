@@ -12,7 +12,6 @@
 /* sortable items */
 #sortable section {
   /* border: 1px solid rgb(34, 126, 224); */
-  cursor: move;
   position: relative;
 }
 
@@ -32,6 +31,13 @@
   z-index: 999;
   transform: translateY(-50%);
   border-radius: 10px;
+  cursor: move;
+  display: none;
+}
+
+
+#sortable section:hover > .handle {
+  display: block;
 }
 
 /* gap between items when are moving */
