@@ -1,0 +1,27 @@
+<section
+  id="<%= element.dynamic_id %>"
+  class="bg-gray-900 text-white text-opacity-40 font-semibold uppercase text-xs tracking-widest bg-opacity-80 px-12"
+>
+  <div
+    class="container mx-auto grid grid-cols-1 lg:grid-cols-4 gap-12 text-center lg:text-left py-24"
+  >
+    <div>
+      <div class="text-white opacity-50 text-4xl font-display">
+        <%= element.configuration.title %>
+      </div>
+    </div>
+    <% element.configuration.links.forEach(function (item) { %>
+    <div>
+      <div class="font-display text-white uppercase text-sm tracking-widest mb-6"><%= item.header %></div>
+      <% item.items.forEach(function (sub_item) { %>
+        <a href="<%= sub_item.link %>" class="block mb-4"><%= sub_item.label %></a>
+      <% }); %>
+    </div>
+    <% }); %>
+  </div>
+  <div
+    class="text-sm lg:text-base text-center font-heading font-light tracking-widest uppercase text-white opacity-75 pb-24"
+  >
+    <%= element.configuration.copyright %>
+  </div>
+</section>
