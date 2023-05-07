@@ -1,21 +1,34 @@
+<%# 
+Sample Object:
+{
+  component: 'endless',
+  configuration: {
+    title: 'Endlessly customizable',
+    text: 'Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.',
+    button: {
+      label: 'Find out more',
+      link: '#pages/about-us'
+    },
+    image: 'https://images.unsplash.com/photo-1503516459261-40c66117780a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1949&amp;q=80'
+  },
+}
+%>
+
 <section id="<%= element.dynamic_id %>" class="relative w-full py-12 px-12">
+
+  <!-- Handle drop & drag -->
+  <% if (data.editable) { %>
+  <div class="handle"></div>
+  <% } %>
+
   <div class="relative z-10 text-center py-12 md:py-24">
-    <h1
-      class="text-white text-center text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold mb-6"
-    >
+    <h1 class="text-white text-center text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold mb-6">
       <%= element.configuration.title %>
     </h1>
     <p class="text-white mb-10 text-base md:text-lg font-bold">
       <%= element.configuration.text %>
     </p>
-    <a
-      href="<%= element.configuration.button.link %>"
-      class="inline-block bg-yellow-800 text-white uppercase text-sm tracking-widest font-heading px-8 py-4"
-      ><%= element.configuration.button.label %></a
-    >
+    <a href="<%= element.configuration.button.link %>" class="inline-block bg-yellow-800 text-white uppercase text-sm tracking-widest font-heading px-8 py-4"><%= element.configuration.button.label %></a>
   </div>
-  <img
-    src="<%= element.configuration.image %>"
-    class="w-full h-full absolute inset-0 object-cover"
-  />
+  <img src="<%= element.configuration.image %>" class="w-full h-full absolute inset-0 object-cover" />
 </section>
