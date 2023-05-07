@@ -8,21 +8,8 @@ Sample Object:
 }
 %>
 
-<section id="<%= element.dynamic_id %>">
+<div>No <%= element.position %> - <%= element.configuration.title %></div>
 
-  <!-- Handle drop & drag -->
-  <% if (data.editable) { %>
-  <div class="handle_top"></div>
-  <% } %>
-
-  <div>No <%= element.position %> - <%= element.configuration.title %></div>
-
-  <div>
-    <button class="hero_btn">0</button>
-  </div>
-
-  <!-- Handle drop & drag -->
-  <% if (data.editable) { %>
-  <div class="handle_bottom"></div>
-  <% } %>
-</section>
+<div>
+  <button class="hero_btn">0</button>
+</div>

@@ -36,7 +36,20 @@
     <div>
       <% } %>
       <% data.elements.forEach(function(element) { %>
-      <%- include(`../components/${element.component}`, { element }); -%> <% }); %>
+      <section id="<%= element.dynamic_id %>">
+        <!-- Handle drop & drag top of component -->
+        <% if (data.editable) { %>
+        <div class="handle_top"></div>
+        <% } %>
+
+        <%- include(`../components/${element.component}`, { element }); -%>
+
+        <!-- Handle drop & drag bottom of component -->
+        <% if (data.editable) { %>
+        <div class="handle_bottom"></div>
+        <% } %>
+      </section>
+      <% }); %>
     </div>
   </div>
 

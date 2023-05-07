@@ -8,21 +8,8 @@ Sample Object:
 }
 %>
 
-<section id="<%= element.dynamic_id %>">
+<div>No <%= element.position %></div>
 
-  <!-- Handle drop & drag -->
-  <% if (data.editable) { %>
-  <div class="handle_top"></div>
-  <% } %>
-
-  <div>No <%= element.position %></div>
-
-  <% element.configuration.images.forEach(function(image){ %>
-  <div><%= image -%></div>
-  <% });%>
-
-  <!-- Handle drop & drag -->
-  <% if (data.editable) { %>
-  <div class="handle_bottom"></div>
-  <% } %>
-</section>
+<% element.configuration.images.forEach(function(image){ %>
+<div><%= image -%></div>
+<% });%>
