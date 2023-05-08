@@ -10,7 +10,8 @@ const blogPostDataRepository = async () => {
       {
         component: 'lifestyle',
         configuration: {
-          image: 'https://images.unsplash.com/photo-1490129375591-2658b3e2ee50?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=2244&amp;q=80',
+          image:
+            'https://images.unsplash.com/photo-1490129375591-2658b3e2ee50?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=2244&amp;q=80',
           title: 'A taste of every lifestyle',
           button: {
             label: 'Read the blog',
@@ -19,13 +20,13 @@ const blogPostDataRepository = async () => {
           external_links: [
             {
               label: 'Find out more',
-              link: '#pages/about-us'
+              link: '#pages/about-us',
             },
             {
               label: 'Get in touch',
-              link: '#contact'
+              link: '#contact',
             },
-          ]
+          ],
         },
       },
       {
@@ -35,12 +36,12 @@ const blogPostDataRepository = async () => {
           text: 'Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.',
           button: {
             label: 'Read more',
-            link: '#blog/my-third-big-post/'
+            link: '#blog/my-third-big-post/',
           },
           image: {
             src: 'https://images.unsplash.com/photo-1521145239174-279dc2227166?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1950&amp;q=80',
-            link: '#blog/my-third-big-post/'
-          }
+            link: '#blog/my-third-big-post/',
+          },
         },
       },
       {
@@ -50,16 +51,17 @@ const blogPostDataRepository = async () => {
           text: 'Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.',
           button: {
             label: 'Find out more',
-            link: '#pages/about-us'
+            link: '#pages/about-us',
           },
-          image: 'https://images.unsplash.com/photo-1503516459261-40c66117780a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1949&amp;q=80'
+          image:
+            'https://images.unsplash.com/photo-1503516459261-40c66117780a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1949&amp;q=80',
         },
       },
       {
         component: 'love',
         configuration: {
           title: 'We love to travel',
-          text: 'Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.'
+          text: 'Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition.',
         },
       },
       {
@@ -82,7 +84,7 @@ const blogPostDataRepository = async () => {
                   label: 'API',
                   link: '#api',
                 },
-              ]
+              ],
             },
             {
               header: 'Helpful Links',
@@ -99,7 +101,7 @@ const blogPostDataRepository = async () => {
                   label: 'Map',
                   link: '#map',
                 },
-              ]
+              ],
             },
             {
               header: 'Find out more',
@@ -116,10 +118,10 @@ const blogPostDataRepository = async () => {
                   label: 'FAQ',
                   link: '#faq',
                 },
-              ]
+              ],
             },
           ],
-          copyright: '©2021 DESIGN BY NOVOLIO. IMAGES BY UNSPLASH'
+          copyright: '©2021 DESIGN BY NOVOLIO. IMAGES BY UNSPLASH',
         },
       },
       // {
