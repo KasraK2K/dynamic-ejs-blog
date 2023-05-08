@@ -47,9 +47,9 @@
         <%- include(`../components/${element.component}`, { element }); -%>
 
         <!-- Component Modifier -->
-        <!-- <div class="component_modifier" onclick="modifyComponent(<%= JSON.stringify(element) %>)">C</div> -->
-        <!-- <div class="component_modifier" onclick="showModifyComponentPopup(<%= JSON.stringify(element) %>)">C</div> -->
+        <% if (data.editable) { %>
         <div class="component_modifier" id="<%= `opener_${element.dynamic_id}` %>">C</div>
+        <% } %>
 
         <!-- Handle drop & drag bottom of component -->
         <% if (data.editable) { %>
