@@ -32,9 +32,11 @@
   display: none;
   z-index: 1;
 }
+
 #sortable section>.handle_top {
   top: 0;
 }
+
 #sortable section>.handle_bottom {
   bottom: 0;
 }
@@ -47,15 +49,17 @@
   right: 0;
   margin: auto;
   content: '';
-  height: 12px;
+  height: 18px;
   width: 100px;
   background: #1976d2;
   border-radius: 10px;
 }
+
 #sortable section>.handle_top::before {
   top: 0;
   transform: translateY(calc(-50% + 1.5px));
 }
+
 #sortable section>.handle_bottom::before {
   transform: translateY(calc(50% - 1.5px));
   bottom: 0;
@@ -72,23 +76,13 @@
   position: relative;
   height: 5em;
   line-height: 1.2em;
-  /* color: white;
-  background: repeating-linear-gradient(
-    45deg,
-    #606dbc,
-    #606dbc 10px,
-    #465298 10px,
-    #465298 20px
-    ); */
-    color: white;
-  background: repeating-radial-gradient(
-    circle,
-    #2196f3,
-    #2196f3 10px,
-    #1976d2 10px, 
-    #1976d2 20px
-  );
-  }
+  color: white;
+  background: repeating-radial-gradient(circle,
+      #2196f3,
+      #2196f3 10px,
+      #1976d2 10px,
+      #1976d2 20px);
+}
 
 .ui-state-highlight::before {
   content: "Leave your section here to change it's order";
@@ -106,4 +100,5 @@
   color: #1976d2;
   background-color: #2196f3;
 }
+
 /* ----------------------------- END GLOBAL CSS ----------------------------- */
