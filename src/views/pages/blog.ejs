@@ -1,0 +1,46 @@
+<head>
+  <!-- ------------------------------ LIBRARIES ------------------------------ -->
+  <script src="<%= data.server_address %>/vendors/libraries/lodash/lodash.min.js"></script>
+  <script src="<%= data.server_address %>/vendors/libraries/jquery/jquery-3.6.0.min.js"></script>
+  <script src="<%= data.server_address %>/vendors/libraries/jquery/jquery-ui-1.13.2.min.js"></script>
+
+  <!-- TODO DevExtreme File Manager -->
+  <link rel="stylesheet" href="<%= data.server_address %>/vendors/libraries/DevExtreme/dx.light.css">
+  <script type="text/javascript" src="<%= data.server_address %>/vendors/libraries/DevExtreme/dx.all.js"></script>
+
+  <!-- TODO : Add Components Meta Data -->
+  <!-- TODO : Add Global CSS Libraries -->
+
+  <!-- ---------------------------- Behavior CSS ----------------------------- -->
+  <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/app.css" />
+  <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/pages/blog.css" />
+
+  <!-- Add Title -->
+  <title><%= data.company %> Blog</title>
+</head>
+
+<body>
+  <!-- -------------- expose SERVER_DATA_SENT for other scripts -------------- -->
+  <script>
+    const SERVER_DATA_SENT = <%- JSON.stringify(data) %>;
+  </script>
+
+  <!-- ---------------- Render Posts ----------------- -->
+  <div class="flex flex-wrap sm:flex-no-wrap items-center justify-start gap-5 w-full mt-8 mx-auto container">
+    <% data.forEach(function(post) { %>
+    <div class="max-w-sm rounded overflow-hidden shadow-lg">
+      <a href="<%= data.server_address %>/v1/<%= 'embargo' %>/<%= post._id %>">
+        <img class="w-full" src="<%= post.info.image %>" alt="Sunset in the mountains">
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2"><%= post.info.title %></div>
+          <p class="text-gray-700 text-base"><%= post.info.description %></p>
+        </div>
+      </a>
+    </div>
+    <% }); %>
+  </div>
+
+  <!-- ----------------------------- Behavior JS ----------------------------- -->
+  <script src="<%= data.server_address %>/vendors/pages/blog.js"></script>
+  </script>
+</body>

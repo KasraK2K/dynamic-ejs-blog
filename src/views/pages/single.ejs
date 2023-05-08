@@ -1,0 +1,59 @@
+<head>
+  <!-- ------------------------------ LIBRARIES ------------------------------ -->
+  <script src="<%= data.server_address %>/vendors/libraries/lodash/lodash.min.js"></script>
+  <script src="<%= data.server_address %>/vendors/libraries/jquery/jquery-3.6.0.min.js"></script>
+  <script src="<%= data.server_address %>/vendors/libraries/jquery/jquery-ui-1.13.2.min.js"></script>
+
+  <!-- TODO DevExtreme File Manager -->
+  <link rel="stylesheet" href="<%= data.server_address %>/vendors/libraries/DevExtreme/dx.light.css">
+  <script type="text/javascript" src="<%= data.server_address %>/vendors/libraries/DevExtreme/dx.all.js"></script>
+
+  <!-- TODO : Add Components Meta Data -->
+  <!-- TODO : Add Global CSS Libraries -->
+
+  <!-- ---------------------------- Behavior CSS ----------------------------- -->
+  <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/app.css" />
+  <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/pages/single.css" />
+
+  <!-- Add Title -->
+  <title><%= data.info.title %></title>
+</head>
+
+<body>
+  <!-- <h1 class="text-3xl font-bold underline"><%- data.info.title %></h1> -->
+
+  <!-- TODO DevExtreme File Manager -->
+  <!-- <div class="dx-viewport" id="file-manager"></div> -->
+
+  <!-- -------------- expose SERVER_DATA_SENT for other scripts -------------- -->
+  <script>
+    const SERVER_DATA_SENT = <%- JSON.stringify(data) %>;
+  </script>
+
+  <!-- ---------------- Render Components (Like View Router) ----------------- -->
+  <% if (data.editable) { %>
+  <div id="sortable">
+    <% } else { %>
+    <div>
+      <% } %>
+      <% data.elements.forEach(function(element) { %>
+      <section id="<%= element.dynamic_id %>">
+        <!-- Handle drop & drag top of component -->
+        <% if (data.editable) { %>
+        <div class="handle_top"></div>
+        <% } %>
+
+        <%- include(`../components/${element.component}`, { element }); -%>
+
+        <!-- Handle drop & drag bottom of component -->
+        <% if (data.editable) { %>
+        <div class="handle_bottom"></div>
+        <% } %>
+      </section>
+      <% }); %>
+    </div>
+  </div>
+
+  <!-- ----------------------------- Behavior JS ----------------------------- -->
+  <script id="behavior_script" src="<%= data.server_address %>/vendors/pages/single.js"></script>
+</body>
