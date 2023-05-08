@@ -17,6 +17,8 @@ Sample Object:
 }
 %>
 
+<% var dynamic_id = JSON.stringify(element.dynamic_id) %>
+
 <div class="grid grid-cols-1 md:grid-cols-2">
   <div class="bg-white p-12 md:p-24 flex justify-start items-center">
     <a href="<%= element.configuration.image.link %>"><img src="<%= element.configuration.image.src %>" class="w-full max-w-md" /></a>
@@ -30,7 +32,7 @@ Sample Object:
       <p class="font-light text-gray-600 text-sm md:text-base mb-6 leading-relaxed">
         <%= element.configuration.text %>
       </p>
-      <a href="<%= element.configuration.button.link %>" class="inline-block border-2 border-yellow-800 font-light text-yellow-800 text-sm uppercase tracking-widest py-3 px-8 hover:bg-yellow-800 hover:text-white"><%= element.configuration.button.label %></a>
+      <a onclick=`${lifeStyleEmitter(<%= dynamic_id %>)}` href="<%= element.configuration.button.link %>" class="inline-block border-2 border-yellow-800 font-light text-yellow-800 text-sm uppercase tracking-widest py-3 px-8 hover:bg-yellow-800 hover:text-white"><%= element.configuration.button.label %></a>
     </div>
   </div>
 </div>

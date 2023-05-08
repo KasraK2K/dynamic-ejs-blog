@@ -8,6 +8,8 @@ Sample Object:
 }
 %>
 
+<% var dynamic_id = JSON.stringify(element.dynamic_id) %>
+
 <div>No <%= element.position %></div>
 
 <% element.configuration.images.forEach(function(image){ %>
