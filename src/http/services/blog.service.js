@@ -1,5 +1,6 @@
 const {
   getBlogPostDataRepository,
+  getAllBlogPostsDataRepository,
   upsertBlogPostRepository,
 } = require('../repositories/blog.repository')
 const fs = require('fs')
@@ -24,13 +25,22 @@ const getBlogPostDataService = async (company, id) => {
     element.dynamic_id = (+new Date() + Math.floor(Math.random() * (999 - 100) + 100)).toString(16)
   }
 
+  data.editable = true
   data.server_address = process.env.SERVER_ADDRESS
+  return data
+}
 
+const getAllBlogPostsDataService = async (company) => {
+  const data = await getAllBlogPostsDataRepository(company)
+  data.editable = true
+  data.server_address = process.env.SERVER_ADDRESS
+  data.company = company
   return data
 }
 
 const upsertBlogPostService = async (company, data) => {
   delete data.server_address
+  delete data.editable
 
   for (const element of data.elements) {
     delete element.basePath
@@ -44,5 +54,6 @@ const upsertBlogPostService = async (company, data) => {
 
 module.exports = {
   getBlogPostDataService,
+  getAllBlogPostsDataService,
   upsertBlogPostService,
 }

@@ -1,10 +1,8 @@
 const mongoFunctions = require('../../database/mongo/mongo_functions')
 
 const getBlogPostDataRepository = async (company, id) => {
-  // return {
-  //   editable: true,
-  //   server_address: process.env.SERVER_ADDRESS,
-  //   title: 'App Page',
+  // const sampleData = {
+  //   title: 'Single Page',
   //   app: {
   //     title: 'Application Page',
   //   },
@@ -132,13 +130,21 @@ const getBlogPostDataRepository = async (company, id) => {
   return await mongoFunctions.findOne(company, { _id: id })
 }
 
+const getAllBlogPostsDataRepository = async (company) => {
+  return await mongoFunctions.findAll(company, {})
+}
+
 const upsertBlogPostRepository = async (company, data) => {
-  return data._id
-    ? await mongoFunctions.replaceOne(company, { _id: data._id }, data)
+  const id = data._id
+  delete data._id
+
+  return id
+    ? await mongoFunctions.replaceOne(company, { _id: id }, data)
     : await mongoFunctions.create(company, data)
 }
 
 module.exports = {
   getBlogPostDataRepository,
+  getAllBlogPostsDataRepository,
   upsertBlogPostRepository,
 }
