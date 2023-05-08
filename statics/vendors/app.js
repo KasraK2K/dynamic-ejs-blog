@@ -157,3 +157,26 @@ function sortObjectByArray(unsortedObject, arrayUseForSort) {
   for (let key of arrayUseForSort) sortedObject[key] = unsortedObject[key]
   return sortedObject
 }
+
+/* ------------------------------ Emit Listener ----------------------------- */
+$(window).on('emit', function (e, name, ...args) {
+  console.log(`Emit ${name} happened. Sent arguments:`, args)
+
+  switch (name) {
+    case 'change-element':
+      changeElement(args)
+      break
+
+    default:
+      console.log({ e, name, args })
+      break
+  }
+})
+
+/* --------------------------------- Emitter -------------------------------- */
+window['$emit'] = (name, ...args) => $(window).trigger('emit', [name, ...args])
+
+function changeElement(args) {
+  const [dynamic_id, newElement] = args
+  console.log({ dynamic_id, newElement })
+}
