@@ -115,6 +115,24 @@ const handler = {
 /*                              Useful Functions                              */
 /* -------------------------------------------------------------------------- */
 /**
+ * NOTE: Do not change this function
+ * This function trigger each time any section moved
+ */
+function updateSort() {
+  const pageUrl = document.location.href
+  const urlStringParams = pageUrl.substring(SERVER_DATA_SENT.server_address.length + 4)
+  const [company, id] = urlStringParams.split('/')
+
+  $.ajax({
+    method: 'POST',
+    url: `${SERVER_DATA_SENT.server_address}/v1/${company}`,
+    data: JSON.stringify(SERVER_DATA_SENT),
+    contentType: 'application/json',
+    dataType: 'json',
+  })
+}
+
+/**
  * @param {string} dynamic_id
  * @returns {Record<string, any>[]}
  */
@@ -151,7 +169,9 @@ function sortObjectByArray(unsortedObject, arrayUseForSort) {
   return sortedObject
 }
 
-/* ------------------------------ Emit Listener ----------------------------- */
+/* -------------------------------------------------------------------------- */
+/*                           Register Emit Listener                           */
+/* -------------------------------------------------------------------------- */
 $(window).on('emit', function (e, name, ...args) {
   console.log(`Emit ${name} happened. Sent arguments:`, args)
 
@@ -166,7 +186,9 @@ $(window).on('emit', function (e, name, ...args) {
   }
 })
 
-/* --------------------------------- Emitter -------------------------------- */
+/* -------------------------------------------------------------------------- */
+/*                              Register Emitter                              */
+/* -------------------------------------------------------------------------- */
 window['$emit'] = (name, ...args) => $(window).trigger('emit', [name, ...args])
 
 function changeElement(args) {
@@ -174,22 +196,47 @@ function changeElement(args) {
   console.log({ dynamic_id, newElement })
 }
 
-function updateSort() {
-  const pageUrl = document.location.href
-  const urlStringParams = pageUrl.substring(SERVER_DATA_SENT.server_address.length + 4)
-  const [company, id] = urlStringParams.split('/')
+/* -------------------------------------------------------------------------- */
+/*                               Register Dialog                              */
+/* -------------------------------------------------------------------------- */
+$(function () {
+  for (const element of state.elements) {
+    const title = `${element.component} Modifier`
 
-  $.ajax({
-    method: 'POST',
-    url: `${SERVER_DATA_SENT.server_address}/v1/${company}`,
-    data: JSON.stringify(SERVER_DATA_SENT),
-    contentType: 'application/json',
-    dataType: 'json',
-  })
-  /* Do something after done */
-  // .done(function (data) {
-  //   if (console && console.log) {
-  //     console.log(data)
-  //   }
-  // })
-}
+    $(`#dialog_${element.dynamic_id}`).dialog({
+      autoOpen: false,
+      show: {
+        effect: 'blind',
+        duration: 500,
+      },
+      hide: {
+        effect: 'explode',
+        duration: 500,
+      },
+      resizable: true,
+      height: 'auto',
+      width: 400,
+      modal: false,
+      // buttons: {
+      //   Save: function () {
+      //     $(this).dialog('close')
+      //   },
+      //   Cancel: function () {
+      //     $(this).dialog('close')
+      //   },
+      // },
+      title: title.charAt(0).toUpperCase() + title.slice(1),
+      position: { my: 'center', at: 'center', of: `section#${element.dynamic_id}` },
+      open: function () {
+        $(`section#${element.dynamic_id}`).addClass('modal_style')
+      },
+      close: function () {
+        $(`section#${element.dynamic_id}`).removeClass('modal_style')
+      },
+    })
+
+    $(`#opener_${element.dynamic_id}`).on('click', function () {
+      $(`#dialog_${element.dynamic_id}`).dialog('open')
+    })
+  }
+})

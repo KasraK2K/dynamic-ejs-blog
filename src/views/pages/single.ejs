@@ -1,6 +1,7 @@
 <head>
   <!-- ------------------------------ LIBRARIES ------------------------------ -->
   <script src="<%= data.server_address %>/vendors/libraries/lodash/lodash.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <script src="<%= data.server_address %>/vendors/libraries/jquery/jquery-3.6.0.min.js"></script>
   <script src="<%= data.server_address %>/vendors/libraries/jquery/jquery-ui-1.13.2.min.js"></script>
 
@@ -44,6 +45,11 @@
         <% } %>
 
         <%- include(`../components/${element.component}`, { element }); -%>
+
+        <!-- Component Modifier -->
+        <!-- <div class="component_modifier" onclick="modifyComponent(<%= JSON.stringify(element) %>)">C</div> -->
+        <!-- <div class="component_modifier" onclick="showModifyComponentPopup(<%= JSON.stringify(element) %>)">C</div> -->
+        <div class="component_modifier" id="<%= `opener_${element.dynamic_id}` %>">C</div>
 
         <!-- Handle drop & drag bottom of component -->
         <% if (data.editable) { %>

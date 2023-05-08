@@ -24,13 +24,14 @@ Sample Object:
 %>
 
 <% var dynamic_id = JSON.stringify(element.dynamic_id) %>
+<%# if (data.editable) { %>
+<%# } %>
 
 <div class="-mt-24 relative w-full py-12 px-12 bg-yellow-900" style="margin-top: 0px">
   <div class="relative z-10 text-center py-24 md:py-48">
-    <h1 class="text-white text-center text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold mb-12">
+    <h1 id="header" class="text-white text-center text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold mb-12">
       <%= element.configuration.title %>
     </h1>
-
     <a onclick=`${lifeStyleEmitter(<%= dynamic_id %>)}` href="<%= element.configuration.button.link %>" class="inline-block bg-yellow-800 text-white uppercase text-sm tracking-widest font-heading px-8 py-4"><%= element.configuration.button.label %></a>
   </div>
   <div class="relative z-10 mx-auto max-w-4xl flex justify-between uppercase text-white font-heading tracking-widest text-sm">
@@ -39,4 +40,18 @@ Sample Object:
     <% }); %>
   </div>
   <img src="<%= element.configuration.image %>" class="w-full h-full absolute inset-0 object-cover opacity-70" />
+</div>
+
+<!-- Modifier Dialog -->
+<div id="<%= `dialog_${element.dynamic_id}` %>">
+  <div class="mb-3">
+    <label class="block text-gray-700 text-sm font-bold mb-1" for="<%= `title_${element.dynamic_id}` %>">
+      Title
+    </label>
+    <input id="<%= `title_${element.dynamic_id}` %>" value="<%= element.configuration.title %>" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Title">
+  </div>
+
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+    Save
+  </button>
 </div>
