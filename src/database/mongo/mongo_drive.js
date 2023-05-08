@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb')
 
-const mongoClient = new MongoClient(String(process.env.MONGO_URI))
+const mongoClient = new MongoClient(process.env.MONGO_URI)
 
 mongoClient
   .on('connect', () => console.log('MongoDB connected'))
@@ -13,8 +13,8 @@ mongoClient
 const mongo = {
   mongoClient,
   database: (databaseName = 'dynamicBlog') => mongoClient.db(databaseName),
-  collection: (databaseName = 'dynamicBlog', collectionName = 'article') =>
-    mongoClient.db(databaseName).collection(collectionName),
+  collection: (collectionName = 'dynamicCol') =>
+    mongoClient.db('dynamicBlog').collection(collectionName),
 }
 
-module.exports = mongo
+module.exports = { mongo, mongoClient }

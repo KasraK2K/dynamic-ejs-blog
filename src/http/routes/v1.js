@@ -1,7 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const {blogPostController} = require("../controllers/blog.controller")
+const {
+  getBlogPostController,
+  upsertBlogPostController,
+} = require('../controllers/blog.controller')
 
-router.get('/:company/:id', blogPostController)
+router.get('/:company/:id', getBlogPostController)
+router.post('/:company', upsertBlogPostController)
 
 module.exports = router

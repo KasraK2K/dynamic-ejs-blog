@@ -1,2 +1,2 @@
-require('./environment') // Register environments
-require('./requarments') // Environment Variable Checker
+require('./environments') // Register environments
+require('./requirements') // Environment Variable Checker

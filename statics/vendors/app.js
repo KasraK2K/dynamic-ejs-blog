@@ -6,7 +6,7 @@
 
 /* ----------------- Create State and Add Styles and Scripts ---------------- */
 $(document).ready(() => {
-  const database = { elements: _.sortBy(SERVER_DATA_SENT.elements, ['position']) }
+  const database = { elements: SERVER_DATA_SENT.elements }
   window['state'] = new Proxy(database, handler)
 
   for (const element of state.elements) {
@@ -112,15 +112,6 @@ const handler = {
 /* -------------------------------------------------------------------------- */
 /*                              Useful Functions                              */
 /* -------------------------------------------------------------------------- */
-/**
- * @param {string} dynamic_id
- * @return {number}
- */
-function getPositionById(dynamic_id) {
-  if (dynamic_id) return state.elements[_.findIndex(state.elements, { dynamic_id })].position
-  return -1
-}
-
 /**
  * @param {string} dynamic_id
  * @returns {Record<string, any>[]}

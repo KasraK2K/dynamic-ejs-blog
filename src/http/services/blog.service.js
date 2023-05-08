@@ -1,11 +1,13 @@
-const { blogPostDataRepository } = require('../repositories/blog.repository')
+const {
+  getBlogPostDataRepository,
+  upsertBlogPostRepository,
+} = require('../repositories/blog.repository')
 const fs = require('fs')
 const path = require('path')
 
-const blogPostDataService = async () => {
-  const data = await blogPostDataRepository()
+const getBlogPostDataService = async (company, id) => {
+  const data = await getBlogPostDataRepository(company, id)
 
-  let position = 0
   for (const element of data.elements) {
     const basePath = path.resolve(
       process.cwd(),
@@ -20,12 +22,27 @@ const blogPostDataService = async () => {
     if (fs.existsSync(`${basePath}.js`)) element.script = scriptPath
 
     element.dynamic_id = (+new Date() + Math.floor(Math.random() * (999 - 100) + 100)).toString(16)
-    element.position = position++
   }
+
+  data.server_address = process.env.SERVER_ADDRESS
 
   return data
 }
 
+const upsertBlogPostService = async (company, data) => {
+  delete data.server_address
+
+  for (const element of data.elements) {
+    delete element.basePath
+    delete element.style
+    delete element.script
+    delete element.dynamic_id
+  }
+
+  return await upsertBlogPostRepository(company, data)
+}
+
 module.exports = {
-  blogPostDataService,
+  getBlogPostDataService,
+  upsertBlogPostService,
 }

@@ -1,10 +1,12 @@
 const express = require('express')
 const compression = require('compression')
 const _ = require('lodash')
+require('./configuration')
+
+_.assign(global, {})
+
 const app = express()
 const v1 = require('./http/routes/v1')
-require('./configuration')
-_.assign(global, {})
 
 app.set('view engine', 'ejs')
 app.set('views', './src/views/pages')
