@@ -43,7 +43,7 @@ Sample Object:
 </div>
 
 <!-- Modifier Dialog -->
-<div id="<%= `dialog_${element.dynamic_id}` %>">
+<div class="dialog" id="<%= `dialog_${element.dynamic_id}` %>">
   <div class="mb-3">
     <label class="block text-gray-700 text-sm font-bold mb-1" for="<%= `title_${element.dynamic_id}` %>">
       Title
@@ -51,7 +51,14 @@ Sample Object:
     <input id="<%= `title_${element.dynamic_id}` %>" value="<%= element.configuration.title %>" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="Title">
   </div>
 
-  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-    Save
-  </button>
+  <div class="flex">
+    <button type="button" class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+      <svg class="-ml-0.5 mr-1.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+      </svg>
+      Publish
+    </button>
+
+    <button type="button" class="ml-2 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+  </div>
 </div>
