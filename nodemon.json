@@ -3,6 +3,6 @@
   "ignore": [
     "node_modules"
   ],
-  "ext": "js,ts,html,json,ejs,yml,css",
+  "ext": "js,ts,html,json,ejs,yml,css,scss,sass",
   "exec": "node src/server.js"
 }
