@@ -19,12 +19,10 @@
   <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/pages/single.css" />
 
   <!-- Add Title -->
-  <title><%= data.info.title %></title>
+  <title><%- data.info.title[0].toUpperCase() + data.info.title.slice(1) %> Blog</title>
 </head>
 
 <body>
-  <!-- <h1 class="text-3xl font-bold underline"><%- data.info.title %></h1> -->
-
   <!-- TODO DevExtreme File Manager -->
   <!-- <div class="dx-viewport" id="file-manager"></div> -->
 
@@ -32,6 +30,7 @@
   <script>
     const SERVER_DATA_SENT = <%- JSON.stringify(data) %>;
   </script>
+
 
   <!-- ---------------- Render Components (Like View Router) ----------------- -->
   <% if (data.editable) { %>
