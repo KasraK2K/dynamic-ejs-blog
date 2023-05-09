@@ -204,7 +204,7 @@ $(function () {
     const title = `${element.component} Modifier`
 
     $(`#dialog_${element.dynamic_id}`).dialog({
-      autoOpen: false,
+      autoOpen: true,
       show: {
         effect: 'blind',
         duration: 500,
@@ -213,7 +213,7 @@ $(function () {
         effect: 'explode',
         duration: 500,
       },
-      resizable: true,
+      resizable: false,
       height: 'auto',
       width: 400,
       modal: false,
