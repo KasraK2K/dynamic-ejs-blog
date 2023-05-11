@@ -34,7 +34,6 @@ $(function () {
     handle: $('#sortable > section > .handle_top, #sortable > section > .handle_bottom'),
     placeholder: 'ui-state-highlight',
     axis: 'y',
-    cursor: 'move',
     opacity: 0.5,
     stop: (event, ui) => {
       const sortedIDs = $('#sortable').sortable('toArray')
@@ -42,11 +41,9 @@ $(function () {
       const newSortedElements = state.RearrangeByArrayOfIDs
       state.elements = newSortedElements
       SERVER_DATA_SENT.elements = newSortedElements
-
       updateSort()
     },
   })
-  $('#sortable').disableSelection()
 })
 
 // TODO DevExtreme File Manager
@@ -121,15 +118,15 @@ const handler = {
 function updateSort() {
   const pageUrl = document.location.href
   const urlStringParams = pageUrl.substring(SERVER_DATA_SENT.server_address.length + 4)
-  const [company, id] = urlStringParams.split('/')
+  const [id] = urlStringParams.split('/')
 
   $.ajax({
     method: 'POST',
-    url: `${SERVER_DATA_SENT.server_address}/v1/${company}`,
+    url: `${SERVER_DATA_SENT.server_address}/v1/${SERVER_DATA_SENT.company}`,
     data: JSON.stringify(SERVER_DATA_SENT),
     contentType: 'application/json',
     dataType: 'json',
-  })
+  }) // FIXME : save just when save button is clicked
 }
 
 /**
@@ -176,8 +173,8 @@ $(window).on('emit', function (e, name, ...args) {
   console.log(`Emit ${name} happened. Sent arguments:`, args)
 
   switch (name) {
-    case 'change-element':
-      changeElement(args)
+    case 'save-state-elements':
+      saveStateElements()
       break
 
     default:
@@ -191,9 +188,19 @@ $(window).on('emit', function (e, name, ...args) {
 /* -------------------------------------------------------------------------- */
 window['$emit'] = (name, ...args) => $(window).trigger('emit', [name, ...args])
 
-function changeElement(args) {
-  const [dynamic_id, newElement] = args
-  console.log({ dynamic_id, newElement })
+function saveStateElements() {
+  SERVER_DATA_SENT.elements = state.elements
+
+  // Save
+  $.ajax({
+    method: 'POST',
+    url: `${SERVER_DATA_SENT.server_address}/v1/${SERVER_DATA_SENT.company}`,
+    data: JSON.stringify(SERVER_DATA_SENT),
+    contentType: 'application/json',
+    dataType: 'json',
+  })
+  // Show Toast
+  // alert('updated')
 }
 
 /* -------------------------------------------------------------------------- */
@@ -213,7 +220,7 @@ $(function () {
         effect: 'explode',
         duration: 500,
       },
-      resizable: false,
+      resizable: true,
       height: 'auto',
       width: 400,
       modal: false,
@@ -239,4 +246,32 @@ $(function () {
       $(`#dialog_${element.dynamic_id}`).dialog('open')
     })
   }
+})
+
+/* -------------------------------------------------------------------------- */
+/*                             Register Text Edit                             */
+/* -------------------------------------------------------------------------- */
+$(document).ready(function () {
+  $('[contenteditable]')
+    .click(function (e) {
+      e.preventDefault()
+    })
+    .focus(function (e) {
+      $(this).data('oldText', $(this).text())
+    })
+    .blur(function () {
+      const elementKey = $(this).data('key')
+      if (!elementKey) {
+        console.error('data-key not found!')
+        return
+      } else if ($(this).data('oldText') !== $(this).text()) {
+        const newText = $(this).text().trim()
+        const dynamic_id = $(this).closest('[data-parent]').attr('id')
+        const elementIndex = _.findIndex(state.elements, { dynamic_id })
+        const element = state.elements[elementIndex]
+        const path = `element.${elementKey}`
+        eval(`element.${elementKey} = newText`)
+        $emit('save-state-elements') // FIXME : save just when save button is clicked
+      }
+    })
 })
