@@ -26,6 +26,7 @@ const getBlogPostDataService = async (company, id) => {
   }
 
   data.editable = true
+  data.company = company
   data.server_address = process.env.SERVER_ADDRESS
   return data
 }
