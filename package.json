@@ -9,14 +9,15 @@
     "local": "NODE_ENV=local node nodemon.js",
     "watch": "concurrently --kill-others \"npm run local\" \"npm run build:dev:css\"",
     "build": "rm -rf build && npm run build:css && webpack --mode production",
+    "build:dev": "rm -rf build && npm run build:css && webpack --mode development",
     "build:css": "postcss statics/vendors/global.css -o statics/vendors/app.css",
     "build:dev:css": "postcss statics/vendors/global.css -o statics/vendors/app.css --watch",
-    "build:dev": "rm -rf build && npm run build:css && webpack --mode development",
     "build:local": "rm -rf build && npm run build:css && webpack --mode none"
   },
   "author": "Kasra Karami <Kasra.Karami.KK@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@material-tailwind/html": "^2.0.0",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

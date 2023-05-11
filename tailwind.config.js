@@ -1,5 +1,8 @@
+const withMT = require('@material-tailwind/html/utils/withMT')
+const plugin = require('tailwindcss/plugin')
+
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+module.exports = withMT({
   content: ['./src/**/*.{ejs,js,sass,scss,css}'],
   theme: {
     extend: {
@@ -8,5 +11,5 @@ module.exports = {
       fontFamily: {},
     },
   },
-  plugins: [],
-}
+  plugins: [plugin(({ addBase, addComponents, addUtilities, theme, e, config }) => {})],
+})
