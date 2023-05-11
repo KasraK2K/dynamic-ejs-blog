@@ -19,7 +19,7 @@
   <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/pages/single.css" />
 
   <!-- Add Title -->
-  <title><%- data.info.title[0].toUpperCase() + data.info.title.slice(1) %> Blog</title>
+  <!-- <title><%- data.info.title[0].toUpperCase() + data.info.title.slice(1) %> Blog</title> -->
 </head>
 
 <body>
@@ -27,10 +27,10 @@
   <!-- <div class="dx-viewport" id="file-manager"></div> -->
 
   <!-- -------------- expose SERVER_DATA_SENT for other scripts -------------- -->
+  <!-- <script src="jquery-liveedit.js"></script> -->
   <script>
     const SERVER_DATA_SENT = <%- JSON.stringify(data) %>;
   </script>
-
 
   <!-- ---------------- Render Components (Like View Router) ----------------- -->
   <% if (data.editable) { %>
@@ -39,7 +39,7 @@
     <div>
       <% } %>
       <% data.elements.forEach(function(element) { %>
-      <section id="<%= element.dynamic_id %>">
+      <section id="<%= element.dynamic_id %>" data-parent>
         <!-- Handle drop & drag top of component -->
         <% if (data.editable) { %>
         <div class="handle_top"></div>
