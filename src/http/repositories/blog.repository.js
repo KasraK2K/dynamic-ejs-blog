@@ -1,10 +1,14 @@
 const mongoFunctions = require('../../database/mongo/mongo_functions')
 
 const getBlogPostDataRepository = async (company, id) => {
-  // const sampleData = {
-  //   title: 'Single Page',
-  //   app: {
-  //     title: 'Application Page',
+  // return {
+  //   _id: '6458c981d03953d0d1cf0cda',
+  //   info: {
+  //     title: 'Life is beautiful',
+  //     description:
+  //       'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.',
+  //     image:
+  //       'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2974&q=80',
   //   },
   //   elements: [
   //     {
