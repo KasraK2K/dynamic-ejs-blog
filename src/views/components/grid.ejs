@@ -30,7 +30,7 @@ Sample Object:
         <%= element.configuration.title %> </h2>
         <p <%if(data.editable){%> contenteditable <%}%> data-key="configuration.text" class="font-light text-gray-600 text-sm md:text-base mb-6 leading-relaxed">
         <%= element.configuration.text %> </p>
-          <a onclick=`${lifeStyleEmitter(<%= dynamic_id %>)}` href="<%= element.configuration.button.link %>" class="inline-block border-2 border-yellow-800 font-light text-yellow-800 text-sm uppercase tracking-widest py-3 px-8 hover:bg-yellow-800 hover:text-white"><%= element.configuration.button.label %></a>
+          <a onclick=`${gridEmitter(<%= dynamic_id %>)}` href="<%= element.configuration.button.link %>" class="inline-block border-2 border-yellow-800 font-light text-yellow-800 text-sm uppercase tracking-widest py-3 px-8 hover:bg-yellow-800 hover:text-white"><%= element.configuration.button.label %></a>
     </div>
   </div>
 </div>
