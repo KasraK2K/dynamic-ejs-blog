@@ -98,18 +98,17 @@ div[role='dialog'] {
   padding: 0;
   width: auto !important;
 }
-
 div[role='dialog'] .dialog {
   padding: 1rem;
-  width: 500px;
   min-height: calc(100% - 46px) !important;
 }
-
 /* It's not necessary but i keep it for later */
 div[role='dialog'] .ui-dialog-content {
   border-radius: 0 0 1rem 1rem;
 }
-
+div[role='dialog'] .ui-dialog-buttonpane {
+  border-radius: 0 0 1rem 1rem;
+}
 div[role='dialog'] .ui-dialog-titlebar {
   background-color: transparent;
   border: none;
@@ -117,14 +116,17 @@ div[role='dialog'] .ui-dialog-titlebar {
   border-radius: 1rem 1rem 0 0;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
-
 div[role='dialog'] .ui-dialog-title {
   color: #5046e5;
   font-size: 1.2rem;
 }
-
 div[role='dialog'] .ui-dialog-titlebar-close {
   margin: -10px 10px 0 0;
+  display: none;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  visibility: hidden;
 }
 
 /* gap between items when are moving */
@@ -183,5 +185,18 @@ div[role='dialog'] .ui-dialog-titlebar-close {
 [contenteditable] {
   outline: none;
   cursor: copy;
+}
+
+/* default_dialog */
+#default_dialog {
+  min-height: auto !important;
+}
+div[role='dialog'][aria-describedby='default_dialog'] .ui-dialog-titlebar {
+  display: none;
+}
+div[role='dialog'][aria-describedby='default_dialog'] .dialog {
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 10px;
 }
 /* ----------------------------- END GLOBAL CSS ----------------------------- */
