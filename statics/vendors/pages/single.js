@@ -30,6 +30,8 @@ $(document).ready(() => {
 
 /* ----------------------------- Sort Components ---------------------------- */
 $(function () {
+  if (!SERVER_DATA_SENT.editable) return
+
   $('#sortable').sortable({
     handle: $('#sortable > section > .handle_top, #sortable > section > .handle_bottom'),
     placeholder: 'ui-state-highlight',
@@ -166,6 +168,22 @@ function sortObjectByArray(unsortedObject, arrayUseForSort) {
   return sortedObject
 }
 
+/**
+ * This is default dialog without content
+ * Do not forget to erase content each time and add your specific content by using jQuery
+ * @param {Record<string, any>} event
+ */
+function defaultDialog(event) {
+  $('#default_dialog').dialog({
+    autoOpen: false,
+    resizable: true,
+    height: 'auto',
+    width: 400,
+    modal: false,
+    position: { my: 'bottom', at: 'top', of: event.currentTarget },
+  })
+}
+
 /* -------------------------------------------------------------------------- */
 /*                           Register Emit Listener                           */
 /* -------------------------------------------------------------------------- */
@@ -189,6 +207,8 @@ $(window).on('emit', function (e, name, ...args) {
 window['$emit'] = (name, ...args) => $(window).trigger('emit', [name, ...args])
 
 function saveStateElements() {
+  if (!SERVER_DATA_SENT.editable) return
+
   SERVER_DATA_SENT.elements = state.elements
 
   // Save
@@ -207,6 +227,8 @@ function saveStateElements() {
 /*                               Register Dialog                              */
 /* -------------------------------------------------------------------------- */
 $(function () {
+  if (!SERVER_DATA_SENT.editable) return
+
   for (const element of state.elements) {
     const title = `${element.component} Modifier`
 
@@ -252,6 +274,8 @@ $(function () {
 /*                             Register Text Edit                             */
 /* -------------------------------------------------------------------------- */
 $(document).ready(function () {
+  if (!SERVER_DATA_SENT.editable) return
+
   $('[contenteditable]')
     .click(function (e) {
       e.preventDefault()
@@ -274,4 +298,82 @@ $(document).ready(function () {
         $emit('save-state-elements') // FIXME : save just when save button is clicked
       }
     })
+})
+
+/* -------------------------------------------------------------------------- */
+/*                             Register Link Edit                             */
+/* -------------------------------------------------------------------------- */
+$(document).ready(function () {
+  if (!SERVER_DATA_SENT.editable) return
+
+  $('a').each(function (tag) {
+    // $(this).prop('tagName')
+    $(this).on('click', function (e) {
+      const key = $(this).data('key')
+      const dynamic_id = $(this).closest('[data-parent]').attr('id')
+      const link = $(this).attr('href')
+
+      const linkHtml = /* HTML */ `
+        <div class="dialog min-w-[200px]">
+          <div class="relative w-full h-10">
+            <input
+              value="${link}"
+              class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 pr-20 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+              placeholder="http://example.com"
+              required
+            />
+            <label
+              class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:!border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:!border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"
+            >
+              Link
+            </label>
+          </div>
+        </div>
+
+        <div class="flex mb-2">
+          <button
+            data-key="${key}"
+            data-id="${dynamic_id}"
+            data-link-change
+            type="button"
+            class="btn-primary mb-0"
+          >
+            Publish
+          </button>
+
+          <button
+            onclick="$('#default_dialog').dialog('close')"
+            type="button"
+            class="ml-2 btn-default mb-0"
+          >
+            Cancel
+          </button>
+        </div>
+      `
+
+      if (e.ctrlKey || e.metaKey) {
+        $('#default_dialog').html('')
+        $('#default_dialog').html(linkHtml)
+        defaultDialog(e)
+        // do something
+        $('#default_dialog').dialog('open')
+      }
+    })
+  })
+})
+
+// This event raise on click publish button at default_dialog
+// You can see default_dialog by command+click on any link
+$(document).on('click', '[data-link-change]', function () {
+  if (!SERVER_DATA_SENT.editable) return
+  const elementKey = $(this).data('key')
+  const linkKey = elementKey.slice(0, elementKey.lastIndexOf('.') + 1) + 'link'
+  const dynamic_id = $(this).data('id')
+  const newLink = $('#default_dialog input').val()
+  const elementIndex = _.findIndex(state.elements, { dynamic_id })
+  const element = state.elements[elementIndex]
+  $(`section#${dynamic_id} a[data-key='${elementKey}']`).attr('href', newLink)
+  eval(`element.${linkKey} = newLink`)
+  $('#default_dialog').dialog('close')
+  $emit('save-state-elements') // FIXME : save just when save button is clicked
 })
