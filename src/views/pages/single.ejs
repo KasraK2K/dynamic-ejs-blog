@@ -16,7 +16,7 @@
 
   <!-- ---------------------------- Behavior CSS ----------------------------- -->
   <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/app.css" />
-  <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/pages/single.css" />
+  <link rel="stylesheet" href="<%= data.server_address %>/vendors/pages/single.css" />
 
   <!-- Add Title -->
   <!-- <title><%- data.info.title[0].toUpperCase() + data.info.title.slice(1) %> Blog</title> -->
@@ -26,8 +26,9 @@
   <!-- TODO DevExtreme File Manager -->
   <!-- <div class="dx-viewport" id="file-manager"></div> -->
 
+  <div id="default_dialog"></div>
+
   <!-- -------------- expose SERVER_DATA_SENT for other scripts -------------- -->
-  <!-- <script src="jquery-liveedit.js"></script> -->
   <script>
     const SERVER_DATA_SENT = <%- JSON.stringify(data) %>;
   </script>
