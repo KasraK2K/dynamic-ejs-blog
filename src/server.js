@@ -1,6 +1,7 @@
 const express = require('express')
 const http = require('http')
 const compression = require('compression')
+const cors = require('cors')
 const _ = require('lodash')
 require('./configuration')
 
@@ -16,6 +17,7 @@ app.set('views', './src/views/pages')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(compression())
+app.use(cors())
 app.use(express.static('statics'))
 app.use('/v1', v1)
 
