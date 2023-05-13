@@ -184,6 +184,15 @@ function defaultDialog(event) {
   })
 }
 
+function escapeSpecialChars(str) {
+  return str
+    .replace(/</g, '')
+    .replace(/>/g, '')
+    .replace(/"/g, '')
+    .replace(/'/g, '’')
+    .replace(/\\/g, '')
+}
+
 /* -------------------------------------------------------------------------- */
 /*                           Register Emit Listener                           */
 /* -------------------------------------------------------------------------- */
@@ -284,15 +293,16 @@ $(document).ready(function () {
       $(this).data('oldText', $(this).text())
     })
     .blur(function () {
-      const elementKey = $(this).data('key')
+      const elementKey = escapeSpecialChars($(this).data('key'))
       if (!elementKey) {
         console.error('data-key not found!')
         return
       } else if ($(this).data('oldText') !== $(this).text()) {
-        const newText = $(this).text().trim()
+        const newText = escapeSpecialChars($(this).text().trim())
         const dynamic_id = $(this).closest('[data-parent]').attr('id')
         const elementIndex = _.findIndex(state.elements, { dynamic_id })
         const element = state.elements[elementIndex]
+        $(this).text(newText)
 
         const command = `element.${elementKey} = newText`
         const func = new Function('element', 'elementKey', 'newText', command)
@@ -370,9 +380,9 @@ $(document).ready(function () {
 $(document).on('click', '[data-link-change]', function () {
   if (!SERVER_DATA_SENT.editable) return
   const elementKey = $(this).data('key')
-  const linkKey = elementKey.slice(0, elementKey.lastIndexOf('.') + 1) + 'link'
+  const linkKey = escapeSpecialChars(elementKey.slice(0, elementKey.lastIndexOf('.') + 1) + 'link')
   const dynamic_id = $(this).data('id')
-  const newLink = $(`#default_dialog input#input_${dynamic_id}`).val()
+  const newLink = escapeSpecialChars($(`#default_dialog input#input_${dynamic_id}`).val())
   const elementIndex = _.findIndex(state.elements, { dynamic_id })
   const element = state.elements[elementIndex]
   $(`section#${dynamic_id} a[data-key='${elementKey}']`).attr('href', newLink)
@@ -458,10 +468,10 @@ $(document).ready(function () {
 // You can see default_dialog by command+click on any text
 $(document).on('click', '[data-tag-change]', function () {
   if (!SERVER_DATA_SENT.editable) return
-  const tagKey = $(this).data('key')
+  const tagKey = escapeSpecialChars($(this).data('key'))
   const oldTag = $(this).data('old-tag')
   const dynamic_id = $(this).data('id')
-  const newTag = $(`#default_dialog select#select_${dynamic_id}`).val()
+  const newTag = escapeSpecialChars($(`#default_dialog select#select_${dynamic_id}`).val())
   const elementIndex = _.findIndex(state.elements, { dynamic_id })
   const element = state.elements[elementIndex]
 
