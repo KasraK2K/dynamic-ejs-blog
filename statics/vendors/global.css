@@ -195,8 +195,6 @@ div[role='dialog'][aria-describedby='default_dialog'] .ui-dialog-titlebar {
   display: none;
 }
 div[role='dialog'][aria-describedby='default_dialog'] .dialog {
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 10px;
+  padding: 10px 0;
 }
 /* ----------------------------- END GLOBAL CSS ----------------------------- */
