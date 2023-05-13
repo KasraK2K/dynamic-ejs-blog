@@ -277,10 +277,10 @@ $(document).ready(function () {
   if (!SERVER_DATA_SENT.editable) return
 
   $('[contenteditable]')
-    .click(function (e) {
-      e.preventDefault()
+    .click(function (event) {
+      event.preventDefault()
     })
-    .focus(function (e) {
+    .focus(function (event) {
       $(this).data('oldText', $(this).text())
     })
     .blur(function () {
@@ -306,17 +306,18 @@ $(document).ready(function () {
 $(document).ready(function () {
   if (!SERVER_DATA_SENT.editable) return
 
-  $('a').each(function (tag) {
-    // $(this).prop('tagName')
-    $(this).on('click', function (e) {
+  $('a').each(function () {
+    $(this).on('click', function (event) {
+      if (!(event.ctrlKey || event.metaKey)) return
       const key = $(this).data('key')
       const dynamic_id = $(this).closest('[data-parent]').attr('id')
       const link = $(this).attr('href')
 
-      const linkHtml = /* HTML */ `
+      const dialogHtmlContent = /* HTML */ `
         <div class="dialog min-w-[200px]">
-          <div class="relative w-full h-10">
+          <div class="relative w-full h-10 mb-2">
             <input
+              id="input_${dynamic_id}"
               value="${link}"
               class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 pr-20 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
               placeholder="http://example.com"
@@ -328,36 +329,35 @@ $(document).ready(function () {
               Link
             </label>
           </div>
-        </div>
 
-        <div class="flex mb-2">
-          <button
-            data-key="${key}"
-            data-id="${dynamic_id}"
-            data-link-change
-            type="button"
-            class="btn-primary mb-0"
-          >
-            Publish
-          </button>
+          <!-- Call To Actions -->
+          <div class="flex">
+            <button
+              data-key="${key}"
+              data-id="${dynamic_id}"
+              data-link-change
+              type="button"
+              class="btn-primary"
+            >
+              Publish
+            </button>
 
-          <button
-            onclick="$('#default_dialog').dialog('close')"
-            type="button"
-            class="ml-2 btn-default mb-0"
-          >
-            Cancel
-          </button>
+            <button
+              onclick="$('#default_dialog').dialog('close')"
+              type="button"
+              class="ml-2 btn-default"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       `
 
-      if (e.ctrlKey || e.metaKey) {
-        $('#default_dialog').html('')
-        $('#default_dialog').html(linkHtml)
-        defaultDialog(e)
-        // do something
-        $('#default_dialog').dialog('open')
-      }
+      $('#default_dialog').html('')
+      $('#default_dialog').html(dialogHtmlContent)
+      defaultDialog(event)
+      // do something
+      $('#default_dialog').dialog('open')
     })
   })
 })
@@ -369,7 +369,7 @@ $(document).on('click', '[data-link-change]', function () {
   const elementKey = $(this).data('key')
   const linkKey = elementKey.slice(0, elementKey.lastIndexOf('.') + 1) + 'link'
   const dynamic_id = $(this).data('id')
-  const newLink = $('#default_dialog input').val()
+  const newLink = $(`#default_dialog input#input_${dynamic_id}`).val()
   const elementIndex = _.findIndex(state.elements, { dynamic_id })
   const element = state.elements[elementIndex]
   $(`section#${dynamic_id} a[data-key='${elementKey}']`).attr('href', newLink)
@@ -377,3 +377,126 @@ $(document).on('click', '[data-link-change]', function () {
   $('#default_dialog').dialog('close')
   $emit('save-state-elements') // FIXME : save just when save button is clicked
 })
+
+/* -------------------------------------------------------------------------- */
+/*                       Register Header & Paragraph Tag                      */
+/* -------------------------------------------------------------------------- */
+$(document).ready(function () {
+  if (!SERVER_DATA_SENT.editable) return
+  const validTags = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre', 'blockquote']
+
+  $(validTags.join()).each(function () {
+    $(this).on('click', function (event) {
+      if (!(event.ctrlKey || event.metaKey)) return
+      const tagKey = $(this).data('tag')
+      const dynamic_id = $(this).closest('[data-parent]').attr('id')
+      const tagName = $(this).prop('tagName').toLowerCase()
+
+      const dialogHtmlContent = /* HTML */ `
+        <div class="dialog min-w-[200px]">
+          <div class="relative h-10 w-full mb-2 mt-4">
+            <select
+              id="select_${dynamic_id}"
+              class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 empty:!bg-red-500 focus:border-2 focus:border-pink-500 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+            >
+              ${validTags
+                .map((tag) => {
+                  return `<option value="${tag}" ${tag === tagName && 'selected'}>${tagToName(
+                    tag
+                  )}</option>`
+                })
+                .join('')}
+            </select>
+            <label
+              class="before:content[' '] after:content[' '] pointer-events-none absolute left-0 -top-1.5 flex h-full w-full select-none text-[11px] font-normal leading-tight text-blue-gray-400 transition-all before:pointer-events-none before:mt-[6.5px] before:mr-1 before:box-border before:block before:h-1.5 before:w-2.5 before:rounded-tl-md before:border-t before:border-l before:border-blue-gray-200 before:transition-all after:pointer-events-none after:mt-[6.5px] after:ml-1 after:box-border after:block after:h-1.5 after:w-2.5 after:flex-grow after:rounded-tr-md after:border-t after:border-r after:border-blue-gray-200 after:transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:leading-[3.75] peer-placeholder-shown:text-blue-gray-500 peer-placeholder-shown:before:border-transparent peer-placeholder-shown:after:border-transparent peer-focus:text-[11px] peer-focus:leading-tight peer-focus:text-pink-500 peer-focus:before:border-t-2 peer-focus:before:border-l-2 peer-focus:before:border-pink-500 peer-focus:after:border-t-2 peer-focus:after:border-r-2 peer-focus:after:border-pink-500 peer-disabled:text-transparent peer-disabled:before:border-transparent peer-disabled:after:border-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500"
+            >
+              Select a City
+            </label>
+          </div>
+
+          <!-- Call To Actions -->
+          <div class="flex">
+            <button
+              data-key="${tagKey}"
+              data-id="${dynamic_id}"
+              data-old-tag="${tagName}"
+              data-tag-change
+              type="button"
+              class="btn-primary mb-0"
+            >
+              Publish
+            </button>
+
+            <button
+              onclick="$('#default_dialog').dialog('close')"
+              type="button"
+              class="ml-2 btn-default mb-0"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      `
+
+      $('#default_dialog').html('')
+      $('#default_dialog').html(dialogHtmlContent)
+      defaultDialog(event)
+      // do something
+      $('#default_dialog').dialog('open')
+    })
+  })
+})
+
+// This event raise on click publish button at default_dialog
+// You can see default_dialog by command+click on any text
+$(document).on('click', '[data-tag-change]', function () {
+  if (!SERVER_DATA_SENT.editable) return
+  const tagKey = $(this).data('key')
+  const oldTag = $(this).data('old-tag')
+  const dynamic_id = $(this).data('id')
+  const newTag = $(`#default_dialog select#select_${dynamic_id}`).val()
+  const elementIndex = _.findIndex(state.elements, { dynamic_id })
+  const element = state.elements[elementIndex]
+
+  const oldHeading = $(`section#${dynamic_id} ${oldTag}[data-tag='${tagKey}']`)
+  const newHeading = $(`<${newTag}>`)
+  newHeading.html(oldHeading.html())
+  const attrs = oldHeading.prop('attributes')
+  $.each(attrs, function () {
+    newHeading.attr(this.name, this.value)
+  })
+  oldHeading.replaceWith(newHeading)
+  eval(`element.${tagKey} = newTag`)
+  $('#default_dialog').dialog('close')
+  $emit('save-state-elements') // FIXME : save just when save button is clicked
+})
+
+/**
+ * @param {string} tag
+ * @return {'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'pre' | 'blockquote'}
+ */
+function tagToName(tagName) {
+  switch (tagName.toLowerCase()) {
+    case 'p':
+      return 'Paragraph'
+    case 'h1':
+      return 'Heading 1'
+    case 'h2':
+      return 'Heading 2'
+    case 'h3':
+      return 'Heading 3'
+    case 'h4':
+      return 'Heading 4'
+    case 'h5':
+      return 'Heading 5'
+    case 'h6':
+      return 'Heading 6'
+    case 'pre':
+      return 'Pre'
+    case 'blockquote':
+      return 'Blockquote'
+
+    default:
+      return 'Undefined Tag Name'
+  }
+}
