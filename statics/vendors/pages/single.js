@@ -293,8 +293,11 @@ $(document).ready(function () {
         const dynamic_id = $(this).closest('[data-parent]').attr('id')
         const elementIndex = _.findIndex(state.elements, { dynamic_id })
         const element = state.elements[elementIndex]
-        const path = `element.${elementKey}`
-        eval(`element.${elementKey} = newText`)
+
+        const command = `element.${elementKey} = newText`
+        const func = new Function('element', 'elementKey', 'newText', command)
+        func(element, elementKey, newText)
+
         $emit('save-state-elements') // FIXME : save just when save button is clicked
       }
     })
@@ -373,7 +376,11 @@ $(document).on('click', '[data-link-change]', function () {
   const elementIndex = _.findIndex(state.elements, { dynamic_id })
   const element = state.elements[elementIndex]
   $(`section#${dynamic_id} a[data-key='${elementKey}']`).attr('href', newLink)
-  eval(`element.${linkKey} = newLink`)
+
+  const command = `element.${linkKey} = newLink`
+  const func = new Function('element', 'linkKey', 'newLink', command)
+  func(element, linkKey, newLink)
+
   $('#default_dialog').dialog('close')
   $emit('save-state-elements') // FIXME : save just when save button is clicked
 })
@@ -466,7 +473,11 @@ $(document).on('click', '[data-tag-change]', function () {
     newHeading.attr(this.name, this.value)
   })
   oldHeading.replaceWith(newHeading)
-  eval(`element.${tagKey} = newTag`)
+
+  const command = `element.${tagKey} = newTag`
+  const func = new Function('element', 'tagKey', 'newTag', command)
+  func(element, tagKey, newTag)
+
   $('#default_dialog').dialog('close')
   $emit('save-state-elements') // FIXME : save just when save button is clicked
 })
