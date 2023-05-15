@@ -1,33 +1,12 @@
 <head>
-  <!-- ------------------------------ LIBRARIES ------------------------------ -->
-  <script src="<%= data.server_address %>/vendors/libraries/lodash/lodash.min.js"></script>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-  <script src="<%= data.server_address %>/vendors/libraries/jquery/jquery-3.6.0.min.js"></script>
-  <script src="<%= data.server_address %>/vendors/libraries/jquery/jquery-ui-1.13.2.min.js"></script>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <!-- TODO DevExtreme File Manager -->
-  <link rel="stylesheet" href="<%= data.server_address %>/vendors/libraries/DevExtreme/dx.light.css">
-  <script type="text/javascript" src="<%= data.server_address %>/vendors/libraries/DevExtreme/dx.all.js"></script>
-
-  <!-- TODO : Add Components Meta Data -->
-  <!-- TODO : Add Global CSS Libraries -->
+  <%- include(`../partials/header`, { data }); -%>
 
   <!-- ---------------------------- Behavior CSS ----------------------------- -->
   <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/app.css" />
   <link rel="stylesheet" href="<%= data.server_address %>/vendors/pages/blog.css" />
-
-  <!-- Add Title -->
-  <title><%- data.company[0].toUpperCase() + data.company.slice(1) %> Blog</title>
 </head>
 
 <body>
-  <!-- -------------- expose SERVER_DATA_SENT for other scripts -------------- -->
-  <script>
-    const SERVER_DATA_SENT = <%- JSON.stringify(data) %>;
-  </script>
-
   <!-- ---------------- Render Posts ----------------- -->
   <div class="flex flex-wrap sm:flex-no-wrap items-center justify-start gap-5 w-full mt-8 mx-auto container">
     <% data.forEach(function(post) { %>

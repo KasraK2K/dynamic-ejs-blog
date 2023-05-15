@@ -1,68 +1,23 @@
 <head>
-  <!-- ------------------------------ LIBRARIES ------------------------------ -->
-  <script src="<%= data.server_address %>/vendors/libraries/lodash/lodash.min.js"></script>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-  <script src="<%= data.server_address %>/vendors/libraries/jquery/jquery-3.6.0.min.js"></script>
-  <script src="<%= data.server_address %>/vendors/libraries/jquery/jquery-ui-1.13.2.min.js"></script>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <!-- TODO DevExtreme File Manager -->
-  <link rel="stylesheet" href="<%= data.server_address %>/vendors/libraries/DevExtreme/dx.light.css">
-  <script type="text/javascript" src="<%= data.server_address %>/vendors/libraries/DevExtreme/dx.all.js"></script>
-
-  <!-- TODO : Add Components Meta Data -->
-  <!-- TODO : Add Global CSS Libraries -->
+  <%- include(`../partials/header`, { data }); -%>
 
   <!-- ---------------------------- Behavior CSS ----------------------------- -->
   <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/app.css" />
   <link rel="stylesheet" href="<%= data.server_address %>/vendors/pages/single.css" />
-
-  <!-- Add Title -->
-  <!-- <title><%- data.info.title[0].toUpperCase() + data.info.title.slice(1) %> Blog</title> -->
 </head>
 
 <body>
   <!-- TODO DevExtreme File Manager -->
   <!-- <div class="dx-viewport" id="file-manager"></div> -->
 
+  <!-- ----------------------------- Right Panel ----------------------------- -->
+  <%- include(`../partials/panel`, { data }); -%>
+
+  <!-- --------------------------- Default Dialog ---------------------------- -->
   <div id="default_dialog"></div>
 
-  <!-- -------------- expose SERVER_DATA_SENT for other scripts -------------- -->
-  <script>
-    const SERVER_DATA_SENT = <%- JSON.stringify(data) %>;
-  </script>
-
   <!-- ---------------- Render Components (Like View Router) ----------------- -->
-  <% if (data.editable) { %>
-  <div id="sortable">
-    <% } else { %>
-    <div>
-      <% } %>
-      <% data.elements.forEach(function(element) { %>
-      <section id="<%= element.dynamic_id %>" data-parent>
-        <!-- Handle drop & drag top of component -->
-        <% if (data.editable) { %>
-        <div class="handle_top"></div>
-        <% } %>
-
-        <%- include(`../components/${element.component}`, { element }); -%>
-
-        <!-- Component Modifier -->
-        <% if (data.editable) { %>
-        <div class="component_modifier" id="<%= `opener_${element.dynamic_id}` %>">
-          <i class="fa-regular fa-pen-to-square"></i>
-        </div>
-        <% } %>
-
-        <!-- Handle drop & drag bottom of component -->
-        <% if (data.editable) { %>
-        <div class="handle_bottom"></div>
-        <% } %>
-      </section>
-      <% }); %>
-    </div>
-  </div>
+  <%- include(`../partials/elements`, { data }); -%>
 
   <!-- ----------------------------- Behavior JS ----------------------------- -->
   <script id="behavior_script" src="<%= data.server_address %>/vendors/pages/single.js"></script>
