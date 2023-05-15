@@ -197,4 +197,66 @@ div[role='dialog'][aria-describedby='default_dialog'] .ui-dialog-titlebar {
 div[role='dialog'][aria-describedby='default_dialog'] .dialog {
   padding: 10px 0;
 }
+
+/* ---------------------------------- Panel --------------------------------- */
+#panel {
+  z-index: 99999;
+  box-shadow: 0px 2px 15px rgba(95, 101, 155, 0.15);
+  border-radius: 32px;
+  width: 64px;
+  min-width: 64px;
+  max-height: 448px;
+  height: fit-content;
+  position: fixed;
+  left: 30px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: white;
+  transition: 0.5s ease-in-out;
+  display: flex;
+}
+
+#panel .panel_toolbar {
+  min-width: 64px;
+  max-width: 64px;
+  height: 448px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 54px 0;
+  box-shadow: 0px 1px 10px rgba(22, 30, 49, 0.1);
+  border-radius: 32px;
+}
+
+#panel .panel_toolbar .panel_item:not(:last-child) {
+  margin-bottom: 30px;
+}
+
+#panel .panel_body {
+  max-width: 652px;
+  height: 448px;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: 24px;
+}
+
+#panel .panel_close {
+  width: 20px;
+  height: 100px;
+  background-color: white;
+  box-shadow: 0px 1px 10px rgba(22, 30, 49, 0.1);
+  border-radius: 15.5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  transform: translateX(50%);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
 /* ----------------------------- END GLOBAL CSS ----------------------------- */

@@ -15,7 +15,7 @@ app.set('view engine', 'ejs')
 app.set('views', './src/views/pages')
 
 app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: false }))
 app.use(compression())
 app.use(cors())
 app.use(express.static('statics'))
