@@ -12,6 +12,36 @@
   .btn-default {
     @apply inline-flex w-full items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto;
   }
+  .p {
+    @apply text-deep-pb1 text-base mb-3;
+  }
+  .h1 {
+    @apply text-deep-pb1 text-4xl font-bold mb-10;
+  }
+  .h2 {
+    @apply text-deep-pb1 text-3xl font-bold mb-9;
+  }
+  .h3 {
+    @apply text-deep-pb1 text-2xl font-bold mb-8;
+  }
+  .h4 {
+    @apply text-deep-pb1 text-xl font-bold mb-7;
+  }
+  .h5 {
+    @apply text-deep-pb1 text-lg font-bold mb-6;
+  }
+  .h6 {
+    @apply text-deep-pb1 text-base font-bold mb-5;
+  }
+  .pre {
+    @apply text-deep-pb1 text-sm mb-2;
+  }
+  .code {
+    @apply text-deep-pb1 text-sm mb-2;
+  }
+  .blockquote {
+    @apply text-deep-pb1 text-base mb-2 italic;
+  }
 }
 /* ---------------------------- END TAILWIND CSS ---------------------------- */
 
@@ -41,8 +71,8 @@ html {
 }
 
 /* sortable handler line */
-#sortable section > .handle_top,
-#sortable section > .handle_bottom {
+#sortable section.selected > .handle_top,
+#sortable section.selected > .handle_bottom {
   position: absolute;
   left: 0;
   right: 0;
@@ -54,17 +84,17 @@ html {
   z-index: 1;
 }
 
-#sortable section > .handle_top {
+#sortable section.selected > .handle_top {
   top: 0;
 }
 
-#sortable section > .handle_bottom {
+#sortable section.selected > .handle_bottom {
   bottom: 0;
 }
 
 /* sortable handler middle shape */
-#sortable section > .handle_top::before,
-#sortable section > .handle_bottom::before {
+#sortable section.selected > .handle_top::before,
+#sortable section.selected > .handle_bottom::before {
   position: absolute;
   left: 0;
   right: 0;
@@ -76,19 +106,19 @@ html {
   border-radius: 10px;
 }
 
-#sortable section > .handle_top::before {
+#sortable section.selected > .handle_top::before {
   top: 0;
   transform: translateY(calc(-50% + 1.5px));
 }
 
-#sortable section > .handle_bottom::before {
+#sortable section.selected > .handle_bottom::before {
   transform: translateY(calc(50% - 1.5px));
   bottom: 0;
 }
 
 /* sortable handler show on hover */
-#sortable section:hover > .handle_top,
-#sortable section:hover > .handle_bottom {
+#sortable section.selected > .handle_top,
+#sortable section.selected > .handle_bottom {
   display: block;
 }
 
@@ -235,8 +265,9 @@ div[role='dialog'][aria-describedby='default_dialog'] .dialog {
 }
 
 #panel .panel_body {
-  max-width: 652px;
-  height: 448px;
+  /* max-width: 652px; */
+  width: 100%;
+  height: 400px;
   overflow: hidden;
   white-space: nowrap;
   margin: 24px;
@@ -258,5 +289,42 @@ div[role='dialog'][aria-describedby='default_dialog'] .dialog {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+#panel .panel_body .tab .tab_title {
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 30px;
+  color: #0f1637;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #ecedf5;
+  margin-bottom: 24px;
+}
+
+#panel .panel_body .tab .tab_content {
+  white-space: break-spaces;
+  height: 345px;
+  overflow: auto;
+}
+
+.blockquote {
+  position: relative;
+  width: fit-content;
+}
+.blockquote::before {
+  content: '\201C';
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: auto;
+  transform: translate(-6px, -2px);
+}
+.blockquote::after {
+  content: '\201D';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  transform: translate(6px, 10px);
 }
 /* ----------------------------- END GLOBAL CSS ----------------------------- */
