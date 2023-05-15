@@ -1,0 +1,32 @@
+<%# 
+Sample Object:
+{
+  component: 'container',
+  configuration: {
+    rows: [
+        {
+            tag: 'h1',
+            text: 'A big main title'
+        },
+        {
+            tag: 'p',
+            text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat odit illum quia labore at tempore vel aspernatur, omnis sint esse placeat facilis neque explicabo quos doloremque temporibus cupiditate inventore tempora maxime eligendi modi optio itaque deserunt reprehenderit! Harum, nobis. Provident!'
+        },
+        {
+            tag: 'code',
+            text: '{ name: "Kasra" }'
+        },
+    ]
+  },
+}
+%>
+
+<% var dynamic_id = JSON.stringify(element.dynamic_id) %>
+
+
+<div id="<%= `sortable_${dynamic_id}` %>" class="container mx-auto px-64 my-10">
+  <% element.configuration.rows.forEach((row) => { %>
+  <!-- tag -->
+  <<%= row.tag %> class="<%= row.tag %>"><%= row.text %></<%= row.tag %>>
+  <% }) %>
+</div>
