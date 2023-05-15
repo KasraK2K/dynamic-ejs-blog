@@ -193,6 +193,13 @@ function escapeSpecialChars(str) {
     .replace(/\\/g, '')
 }
 
+/**
+ * @return {string}
+ */
+function dynamicIdGenerator() {
+  return (+new Date() + Math.floor(Math.random() * (999 - 100) + 100)).toString(16)
+}
+
 /* -------------------------------------------------------------------------- */
 /*                           Register Emit Listener                           */
 /* -------------------------------------------------------------------------- */
@@ -521,3 +528,28 @@ function tagToName(tagName) {
       return 'Undefined Tag Name'
   }
 }
+
+/* -------------------------------------------------------------------------- */
+/*                           Register Panel Behavior                          */
+/* -------------------------------------------------------------------------- */
+$('#panel .panel_toolbar ul li').on('click', function (e) {
+  const dataset = $(this).data('tab')
+
+  const panel = $('#panel')
+  const close = panel.find('.panel_close')
+  const panelTabContents = panel.find('.panel_body').children()
+
+  panelTabContents.each(function (i, el) {
+    if (el.dataset.tab !== dataset) el.style.display = 'none'
+    else el.style.display = ''
+  })
+
+  panel.css('width', '652px')
+  close.css('display', 'flex')
+
+  close.on('click', function (e) {
+    e.stopPropagation()
+    panel.css('width', '64px')
+    close.css('display', 'none')
+  })
+})

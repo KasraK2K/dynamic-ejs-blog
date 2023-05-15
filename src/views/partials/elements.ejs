@@ -1,0 +1,24 @@
+<div <% if (data.editable) { %>id="sortable" <% } %>>
+  <% data.elements.forEach(function(element) { %>
+  <section id="<%= element.dynamic_id %>" data-parent>
+    <!-- Handle drop & drag top of component -->
+    <% if (data.editable) { %>
+    <div class="handle_top"></div>
+    <% } %>
+
+    <%- include(`../components/${element.component}`, { element }); -%>
+
+    <!-- Component Modifier -->
+    <% if (data.editable) { %>
+    <div class="component_modifier" id="<%= `opener_${element.dynamic_id}` %>">
+      <i class="fa-regular fa-pen-to-square"></i>
+    </div>
+    <% } %>
+
+    <!-- Handle drop & drag bottom of component -->
+    <% if (data.editable) { %>
+    <div class="handle_bottom"></div>
+    <% } %>
+  </section>
+  <% }); %>
+</div>
