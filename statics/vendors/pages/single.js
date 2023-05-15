@@ -5,7 +5,7 @@
  */
 
 /* ----------------- Create State and Add Styles and Scripts ---------------- */
-$(document).ready(() => {
+$(document).ready(function () {
   const database = { elements: SERVER_DATA_SENT.elements }
   window['state'] = new Proxy(database, handler)
 
@@ -26,42 +26,6 @@ $(document).ready(() => {
         $(`<link rel="stylesheet" href="${element.style}">`).insertAfter('#behavior_style')
     }
   }
-})
-
-/* ----------------------------- Sort Components ---------------------------- */
-$(function () {
-  if (!SERVER_DATA_SENT.editable) return
-
-  $('#sortable').sortable({
-    handle: $('#sortable > section > .handle_top, #sortable > section > .handle_bottom'),
-    placeholder: 'ui-state-highlight',
-    axis: 'y',
-    opacity: 0.5,
-    stop: (event, ui) => {
-      const sortedIDs = $('#sortable').sortable('toArray')
-      handler.arrangeBy = { array: sortedIDs, target: 'elements', sensitiveKey: 'dynamic_id' }
-      const newSortedElements = state.RearrangeByArrayOfIDs
-      state.elements = newSortedElements
-      SERVER_DATA_SENT.elements = newSortedElements
-      updateSort()
-    },
-  })
-})
-
-// TODO DevExtreme File Manager
-$('#file-manager').dxFileManager({
-  fileSystemProvider: [
-    {
-      name: 'MyFolder',
-      size: 1024,
-      dateModified: '2019/05/08',
-      // thumbnail: '/thumbnails/images/jpeg.ico',
-      isDirectory: true,
-      items: [
-        // Nested data objects with the same structure
-      ],
-    },
-  ],
 })
 
 /* -------------------------------------------------------------------------- */
@@ -199,6 +163,64 @@ function escapeSpecialChars(str) {
 function dynamicIdGenerator() {
   return (+new Date() + Math.floor(Math.random() * (999 - 100) + 100)).toString(16)
 }
+
+/* -------------------------------------------------------------------------- */
+/*                          Register Sort Components                          */
+/* -------------------------------------------------------------------------- */
+$(function () {
+  if (!SERVER_DATA_SENT.editable) return
+
+  const mainSortable = $('#sortable')
+  const children = mainSortable.children()
+
+  mainSortable.on('click', function (e) {
+    children.each(function (i, el) {
+      el.classList.remove('selected')
+    })
+
+    $(e.target).closest('section').addClass('selected')
+
+    const dynamic_id = $(e.target).closest('section').attr('id')
+    const elementIndex = _.findIndex(state.elements, { dynamic_id })
+    const element = state.elements[elementIndex]
+
+    state['selected_section_id'] = dynamic_id
+    state['selected_element'] = element
+  })
+
+  mainSortable.sortable({
+    handle: $('#sortable > section > .handle_top, #sortable > section > .handle_bottom'),
+    placeholder: 'ui-state-highlight',
+    axis: 'y',
+    opacity: 0.5,
+    stop: (event, ui) => {
+      const sortedIDs = $('#sortable').sortable('toArray')
+      handler.arrangeBy = { array: sortedIDs, target: 'elements', sensitiveKey: 'dynamic_id' }
+      const newSortedElements = state.RearrangeByArrayOfIDs
+      state.elements = newSortedElements
+      SERVER_DATA_SENT.elements = newSortedElements
+      updateSort()
+    },
+  })
+})
+
+/* -------------------------------------------------------------------------- */
+/*                      Register DevExtreme File Manager                      */
+/* -------------------------------------------------------------------------- */
+$('#file-manager').dxFileManager({
+  fileSystemProvider: [
+    {
+      name: 'MyFolder',
+      size: 1024,
+      dateModified: '2019/05/08',
+      // thumbnail: '/thumbnails/images/jpeg.ico',
+      isDirectory: true,
+      items: [
+        // Nested data objects with the same structure
+      ],
+    },
+  ],
+})
 
 /* -------------------------------------------------------------------------- */
 /*                           Register Emit Listener                           */
