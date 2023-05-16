@@ -149,6 +149,7 @@ function defaultDialog(event) {
 }
 
 function escapeSpecialChars(str) {
+  if (!str) return
   return str
     .replace(/</g, '')
     .replace(/>/g, '')
@@ -164,19 +165,79 @@ function dynamicIdGenerator() {
   return (+new Date() + Math.floor(Math.random() * (999 - 100) + 100)).toString(16)
 }
 
+function closeComponentPanel() {
+  const panel = $('#panel')
+  const close = panel.find('.panel_close')
+  panel.css('width', '64px')
+  close.css('display', 'none')
+}
+
+function addContainer() {
+  const dynamic_id = dynamicIdGenerator()
+  const html = /* HTML */ `
+    <section id="${dynamic_id}" data-parent class="selected">
+      ${SERVER_DATA_SENT.editable && '<div class="handle_top"></div>'}
+      <div class="container mx-auto px-64 my-10"></div>
+      ${SERVER_DATA_SENT.editable && '<div class="handle_bottom"></div>'}
+    </section>
+  `
+  const element = {
+    component: 'container',
+    configuration: {
+      rows: [],
+    },
+    dynamic_id,
+  }
+
+  const parent = $('#sortable')
+  parent.children().each(function (i, el) {
+    el.classList.remove('selected')
+  })
+
+  parent.append($(html))
+  state.selected_element = element
+  state.selected_section_id = dynamic_id
+  $('html, body').animate({ scrollTop: $(`section#${dynamic_id}`).offset().top }, 1000)
+
+  state.elements.push(element)
+}
+
+function addContainerRow(tag) {
+  const element = state.selected_element
+  const dynamic_id = state.selected_section_id
+
+  if (!element || element.component !== 'container') return
+
+  const row = {
+    tag,
+    text: 'Sample Text - Change it please...',
+  }
+
+  const html = /* HTML */ `
+    <!-- tag -->
+    <${tag} ${
+    SERVER_DATA_SENT.editable && 'contenteditable'
+  } data-key="configuration.text" class="${tag}">${row.text}</${tag}>
+  `
+
+  element.configuration.rows.push(row)
+  $(`#sortable section#${dynamic_id} .container`).append($(html))
+  $('html, body').animate({ scrollTop: $(`section#${dynamic_id} .container`).offset().top }, 1000)
+  $emit('save-state-elements')
+}
+
 /* -------------------------------------------------------------------------- */
 /*                          Register Sort Components                          */
 /* -------------------------------------------------------------------------- */
 $(function () {
   if (!SERVER_DATA_SENT.editable) return
 
-  const mainSortable = $('#sortable')
-  const children = mainSortable.children()
-
-  mainSortable.on('click', function (e) {
-    children.each(function (i, el) {
-      el.classList.remove('selected')
-    })
+  $('#sortable').on('click', function (e) {
+    $('#sortable')
+      .children()
+      .each(function (i, el) {
+        el.classList.remove('selected')
+      })
 
     $(e.target).closest('section').addClass('selected')
 
@@ -188,7 +249,7 @@ $(function () {
     state['selected_element'] = element
   })
 
-  mainSortable.sortable({
+  $('#sortable').sortable({
     handle: $('#sortable > section > .handle_top, #sortable > section > .handle_bottom'),
     placeholder: 'ui-state-highlight',
     axis: 'y',
@@ -433,10 +494,14 @@ $(document).ready(function () {
 
   $(validTags.join()).each(function () {
     $(this).on('click', function (event) {
-      if (!(event.ctrlKey || event.metaKey)) return
+      event.preventDefault()
+      event.stopPropagation()
       const tagKey = $(this).data('tag')
       const dynamic_id = $(this).closest('[data-parent]').attr('id')
       const tagName = $(this).prop('tagName').toLowerCase()
+
+      if (!(event.ctrlKey || event.metaKey)) return
+      if (!tagKey) return
 
       const dialogHtmlContent = /* HTML */ `
         <div class="dialog min-w-[200px]">
