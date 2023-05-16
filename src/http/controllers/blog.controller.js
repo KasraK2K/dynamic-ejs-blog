@@ -23,8 +23,15 @@ const upsertBlogPostController = async (req, res) => {
   return res.json(result)
 }
 
+const getBlogPostDataController = async (req, res) => {
+  const { company, id } = req.params
+  const data = await getBlogPostDataService(company, id)
+  return res.json(data.elements)
+}
+
 module.exports = {
   getBlogPostController,
   getAllBlogPostsController,
   upsertBlogPostController,
+  getBlogPostDataController,
 }
