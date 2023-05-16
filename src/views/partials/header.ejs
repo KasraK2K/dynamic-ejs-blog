@@ -1,10 +1,11 @@
 <!-- -------------- expose SERVER_DATA_SENT for other scripts -------------- -->
 <script>
   const SERVER_DATA_SENT = <%- JSON.stringify(data) %>;
+  // const state = Object.assign(SERVER_DATA_SENT)
 </script>
 
 <!-- ------------------------------ LIBRARIES ------------------------------ -->
-<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+<script src="<%= data.server_address %>/vendors/libraries/alpine/alpine.min.js"></script>
 
 <script src="<%= data.server_address %>/vendors/libraries/lodash/lodash.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
@@ -19,6 +20,3 @@
 
 <!-- TODO : Add Components Meta Data -->
 <!-- TODO : Add Global CSS Libraries -->
-
-<!-- Add Title -->
-<title><%- data.info.title[0].toUpperCase() + data.info.title.slice(1) %> Blog</title>
