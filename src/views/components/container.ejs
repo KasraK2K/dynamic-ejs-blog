@@ -21,12 +21,14 @@ Sample Object:
 }
 %>
 
-<% var dynamic_id = JSON.stringify(element.dynamic_id) %>
+<%
+var dynamic_id = JSON.stringify(element.dynamic_id)
+%>
 
 
-<div id="<%= `sortable_${dynamic_id}` %>" class="container mx-auto px-64 my-10">
-  <% element.configuration.rows.forEach((row) => { %>
+<div class="container mx-auto px-64 my-10">
+  <% element.configuration.rows.forEach(function(row) { %>
   <!-- tag -->
-  <<%= row.tag %> class="<%= row.tag %>"><%= row.text %></<%= row.tag %>>
-  <% }) %>
+  <<%= row.tag %> <%if(data.editable){%> contenteditable <%}%> data-key="configuration.text" class="<%= row.tag %>"><%= row.text %></<%= row.tag %>>
+  <% }); %>
 </div>
