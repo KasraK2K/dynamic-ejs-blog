@@ -4,9 +4,18 @@
   <!-- ---------------------------- Behavior CSS ----------------------------- -->
   <link rel="stylesheet" id="behavior_style" href="<%= data.server_address %>/vendors/app.css" />
   <link rel="stylesheet" href="<%= data.server_address %>/vendors/pages/single.css" />
+
+  <!-- Add Title -->
+  <title><%- data.info.title[0].toUpperCase() + data.info.title.slice(1) %> Blog</title>
 </head>
 
 <body>
+  <!-- <div x-data="{ elements: [] }" x-init="elements = await (await fetch('<%= data.server_address %>/v1/ejs/<%= data.company %>/<%= data._id %>')).json()">
+    <template x-for="element in elements">
+      <p x-text="element.component"></p>
+    </template>
+  </div> -->
+
   <!-- TODO DevExtreme File Manager -->
   <!-- <div class="dx-viewport" id="file-manager"></div> -->
 
