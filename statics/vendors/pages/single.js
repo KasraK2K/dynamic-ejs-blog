@@ -173,20 +173,20 @@ function closeComponentPanel() {
 }
 
 function addContainer() {
-  const dynamic_id = dynamicIdGenerator()
+  state.selected_section_id = dynamicIdGenerator()
   const html = /* HTML */ `
-    <section id="${dynamic_id}" data-parent class="selected">
+    <section id="${state.selected_section_id}" data-parent class="selected">
       ${SERVER_DATA_SENT.editable && '<div class="handle_top"></div>'}
       <div class="container mx-auto px-64 my-10"></div>
       ${SERVER_DATA_SENT.editable && '<div class="handle_bottom"></div>'}
     </section>
   `
-  const element = {
+  state.selected_element = {
     component: 'container',
     configuration: {
       rows: [],
     },
-    dynamic_id,
+    dynamic_id: state.selected_section_id,
   }
 
   const parent = $('#sortable')
@@ -195,18 +195,16 @@ function addContainer() {
   })
 
   parent.append($(html))
-  state.selected_element = element
-  state.selected_section_id = dynamic_id
-  $('html, body').animate({ scrollTop: $(`section#${dynamic_id}`).offset().top }, 1000)
+  $('html, body').animate(
+    { scrollTop: $(`section#${state.selected_section_id}`).offset().top },
+    1000
+  )
 
-  state.elements.push(element)
+  state.elements.push(state.selected_element)
 }
 
 function addContainerRow(tag) {
-  const element = state.selected_element
-  const dynamic_id = state.selected_section_id
-
-  if (!element || element.component !== 'container') return
+  if (!state.selected_element || state.selected_element.component !== 'container') addContainer()
 
   const row = {
     tag,
@@ -220,9 +218,12 @@ function addContainerRow(tag) {
   } data-key="configuration.text" class="${tag}">${row.text}</${tag}>
   `
 
-  element.configuration.rows.push(row)
-  $(`#sortable section#${dynamic_id} .container`).append($(html))
-  $('html, body').animate({ scrollTop: $(`section#${dynamic_id} .container`).offset().top }, 1000)
+  state.selected_element.configuration.rows.push(row)
+  $(`#sortable section#${state.selected_section_id} .container`).append($(html))
+  $('html, body').animate(
+    { scrollTop: $(`section#${state.selected_section_id} .container`).offset().top },
+    1000
+  )
   $emit('save-state-elements')
 }
 
