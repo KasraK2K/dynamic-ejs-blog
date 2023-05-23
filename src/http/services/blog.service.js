@@ -43,6 +43,7 @@ const getAllBlogPostsDataService = async (company) => {
 const upsertBlogPostService = async (company, data) => {
   delete data.server_address
   delete data.editable
+  delete data.components
 
   for (const element of data.elements) {
     delete element.basePath
