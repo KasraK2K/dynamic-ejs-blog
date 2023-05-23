@@ -1,0 +1,15 @@
+<div class="tab" data-tab="<%= dataTab %>">
+  <div class="tab_title"><%= title %></div>
+  <div class="tab_content">
+    <%- include('./item', { title: 'Heading 1',   tag: 'h1',          classes: 'h1',          emSize: '2rem',     pxSize: '32px'    }) %>
+    <%- include('./item', { title: 'Heading 2',   tag: 'h2',          classes: 'h2',          emSize: '1.5rem',   pxSize: '24px'    }) %>
+    <%- include('./item', { title: 'Heading 3',   tag: 'h3',          classes: 'h3',          emSize: '1.17rem',  pxSize: '18.72px' }) %>
+    <%- include('./item', { title: 'Heading 4',   tag: 'h4',          classes: 'h4',          emSize: '1rem',     pxSize: '16px'    }) %>
+    <%- include('./item', { title: 'Heading 5',   tag: 'h5',          classes: 'h5',          emSize: '0.83rem',  pxSize: '13.28px' }) %>
+    <%- include('./item', { title: 'Heading 6',   tag: 'h6',          classes: 'h6',          emSize: '0.67rem',  pxSize: '10.72px' }) %>
+    <%- include('./item', { title: 'Paragraph',   tag: 'p',           classes: 'p',           emSize: '1rem',     pxSize: '16px'    }) %>
+    <%- include('./item', { title: 'Pre',         tag: 'pre',         classes: 'pre',         emSize: '0.875rem', pxSize: '14px'    }) %>
+    <%- include('./item', { title: 'Code',        tag: 'code',        classes: 'code',        emSize: '0.875rem', pxSize: '14px'    }) %>
+    <%- include('./item', { title: 'Blockquote',  tag: 'blockquote',  classes: 'blockquote',  emSize: '1rem',     pxSize: '16px'    }) %>
+  </div>
+</div>
