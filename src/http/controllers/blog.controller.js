@@ -2,6 +2,7 @@ const {
   getBlogPostDataService,
   getAllBlogPostsDataService,
   upsertBlogPostService,
+  getComponentImagesService,
 } = require('../services/blog.service')
 
 const getBlogPostController = async (req, res) => {
@@ -29,9 +30,15 @@ const getBlogPostDataController = async (req, res) => {
   return res.json(data.elements)
 }
 
+// const getComponentImagesController = async (req, res) => {
+//   const result = await getComponentImagesService()
+//   return res.json(result)
+// }
+
 module.exports = {
   getBlogPostController,
   getAllBlogPostsController,
   upsertBlogPostController,
   getBlogPostDataController,
+  // getComponentImagesController,
 }

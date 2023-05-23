@@ -28,6 +28,7 @@ const getBlogPostDataService = async (company, id) => {
   data.editable = true
   data.company = company
   data.server_address = process.env.SERVER_ADDRESS
+  data.components = await getComponentImagesService()
   return data
 }
 
@@ -53,8 +54,27 @@ const upsertBlogPostService = async (company, data) => {
   return await upsertBlogPostRepository(company, data)
 }
 
+const getComponentImagesService = async () => {
+  const dirPath = path.resolve(process.cwd(), 'statics/component-images')
+  const images = fs.readdirSync(dirPath)
+
+  const result = []
+  const baseAddress = `${process.env.SERVER_ADDRESS}/component-images`
+
+  for (const image of images) {
+    const component_name = image.slice(0, image.lastIndexOf('.'))
+    result.push({
+      component_name,
+      url: `${baseAddress}/${image}`,
+    })
+  }
+
+  return result
+}
+
 module.exports = {
   getBlogPostDataService,
   getAllBlogPostsDataService,
   upsertBlogPostService,
+  // getComponentImagesService,
 }
