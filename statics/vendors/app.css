@@ -4112,6 +4112,9 @@ video {
 .h-96 {
   height: 24rem;
 }
+.h-\[100px\] {
+  height: 100px;
+}
 .h-auto {
   height: auto;
 }
@@ -4135,9 +4138,6 @@ video {
 }
 .h-screen {
   height: 100vh;
-}
-.h-\[100px\] {
-  height: 100px;
 }
 .max-h-0 {
   max-height: 0px;
@@ -4249,9 +4249,6 @@ video {
 }
 .max-h-screen {
   max-height: 100vh;
-}
-.max-h-\[100px\] {
-  max-height: 100px;
 }
 .min-h-0 {
   min-height: 0px;
@@ -11524,21 +11521,13 @@ video {
   --tw-border-opacity: 1;
   border-color: rgb(127 29 29 / var(--tw-border-opacity));
 }
-.border-slate-100 {
-  --tw-border-opacity: 1;
-  border-color: rgb(241 245 249 / var(--tw-border-opacity));
-}
 .border-slate-200 {
   --tw-border-opacity: 1;
   border-color: rgb(226 232 240 / var(--tw-border-opacity));
 }
-.border-slate-50 {
+.border-slate-300 {
   --tw-border-opacity: 1;
-  border-color: rgb(248 250 252 / var(--tw-border-opacity));
-}
-.border-slate-700 {
-  --tw-border-opacity: 1;
-  border-color: rgb(51 65 85 / var(--tw-border-opacity));
+  border-color: rgb(203 213 225 / var(--tw-border-opacity));
 }
 .border-teal-100 {
   --tw-border-opacity: 1;
@@ -15617,10 +15606,6 @@ video {
 .bg-red-900 {
   --tw-bg-opacity: 1;
   background-color: rgb(127 29 29 / var(--tw-bg-opacity));
-}
-.bg-slate-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(203 213 225 / var(--tw-bg-opacity));
 }
 .bg-teal-100 {
   --tw-bg-opacity: 1;
@@ -20003,10 +19988,6 @@ video {
 .text-red-900 {
   --tw-text-opacity: 1;
   color: rgb(127 29 29 / var(--tw-text-opacity));
-}
-.text-slate-700 {
-  --tw-text-opacity: 1;
-  color: rgb(51 65 85 / var(--tw-text-opacity));
 }
 .text-teal-100 {
   --tw-text-opacity: 1;
@@ -24596,7 +24577,7 @@ div[role='dialog'][aria-describedby='default_dialog'] .dialog {
 }
 
 #panel .panel_body .tab .tab_content {
-  height: 345px;
+  max-height: 325px;
   overflow: auto;
 }
 
@@ -24807,6 +24788,10 @@ div[role='dialog'][aria-describedby='default_dialog'] .dialog {
 }
 .hover\:opacity-75:hover {
   opacity: 0.75;
+}
+.hover\:saturate-150:hover {
+  --tw-saturate: saturate(1.5);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 .focus\:border-2:focus {
   border-width: 2px;

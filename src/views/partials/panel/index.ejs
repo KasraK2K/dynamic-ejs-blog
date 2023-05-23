@@ -19,7 +19,7 @@
   <!-- Menu Body -->
   <div class="panel_body">
     <%- include('./containers/heading/index', { title: 'Text', dataTab: 'text' }) %>
-    <%- include('./containers/component/index', { title: 'Component', dataTab: 'component' }) %>
+    <%- include('./containers/add-component/index', { title: 'Component', dataTab: 'component', components: data.components }) %>
   </div>
   <div class="panel_close">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

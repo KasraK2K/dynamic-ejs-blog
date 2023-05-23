@@ -303,7 +303,7 @@ div[role='dialog'][aria-describedby='default_dialog'] .dialog {
 }
 
 #panel .panel_body .tab .tab_content {
-  height: 345px;
+  max-height: 325px;
   overflow: auto;
 }
 

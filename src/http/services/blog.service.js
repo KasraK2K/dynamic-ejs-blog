@@ -66,7 +66,7 @@ const getComponentImagesService = async () => {
     const component_name = image.slice(0, image.lastIndexOf('.'))
     result.push({
       component_name,
-      url: `${baseAddress}/${image}`,
+      src: `${baseAddress}/${image}`,
     })
   }
 
