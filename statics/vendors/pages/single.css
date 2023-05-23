@@ -1,0 +1,9 @@
+.panel_heading_info {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 150%;
+  color: #636782;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

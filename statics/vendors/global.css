@@ -12,10 +12,7 @@
   .btn-default {
     @apply inline-flex w-full items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto;
   }
-  .p {
-    @apply text-deep-pb1 text-base mb-3;
-  }
-  .h1 {
+  /* .h1 {
     @apply text-deep-pb1 text-4xl font-bold mb-10;
   }
   .h2 {
@@ -32,6 +29,10 @@
   }
   .h6 {
     @apply text-deep-pb1 text-base font-bold mb-5;
+  }
+  */
+  .p {
+    @apply text-deep-pb1 text-base mb-3;
   }
   .pre {
     @apply text-deep-pb1 text-sm mb-2;
@@ -302,12 +303,11 @@ div[role='dialog'][aria-describedby='default_dialog'] .dialog {
 }
 
 #panel .panel_body .tab .tab_content {
-  white-space: break-spaces;
   height: 345px;
   overflow: auto;
 }
 
-.blockquote {
+/* .blockquote {
   position: relative;
   width: fit-content;
 }
@@ -326,5 +326,47 @@ div[role='dialog'][aria-describedby='default_dialog'] .dialog {
   bottom: 0;
   margin: auto;
   transform: translate(6px, 10px);
+} */
+
+.h1 {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 150%;
+  color: #0f1637;
+}
+
+.h2 {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 150%;
+  color: #0f1637;
+}
+
+.h3 {
+  font-weight: 700;
+  font-size: 18.72px;
+  line-height: 150%;
+  color: #0f1637;
+}
+
+.h4 {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+  color: #0f1637;
+}
+
+.h5 {
+  font-weight: 700;
+  font-size: 13.28px;
+  line-height: 150%;
+  color: #0f1637;
+}
+
+.h6 {
+  font-weight: 700;
+  font-size: 10.72px;
+  line-height: 150%;
+  color: #0f1637;
 }
 /* ----------------------------- END GLOBAL CSS ----------------------------- */
