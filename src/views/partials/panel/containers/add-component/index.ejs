@@ -2,8 +2,8 @@
   <div class="tab_title"><%= title %></div>
   <div class="tab_content">
     <div class="gap-3 columns-2">
-      <% components.forEach(component => { %>
-      <img class="h-auto w-full rounded-lg border border-slate-300 shadow-sm mb-3 hover:saturate-150" src="<%= component.src %>" alt="<%= component.component_name %>">
+      <% components.forEach(item => { %>
+      <img class="h-auto w-full rounded-lg border border-slate-300 shadow-sm mb-3 hover:saturate-150" src="<%= item.src %>" alt="<%= item.component %>" onclick="addComponent(<%= JSON.stringify(item) %>)">
       <% }); %>
     </div>
   </div>

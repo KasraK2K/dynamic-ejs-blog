@@ -5,7 +5,7 @@ const {
   getAllBlogPostsController,
   upsertBlogPostController,
   getBlogPostDataController,
-  getComponentImagesController,
+  // getComponentImagesController,
 } = require('../controllers/blog.controller')
 
 router.get('/:company/:id', getBlogPostController)
