@@ -227,6 +227,12 @@ function addContainerRow(tag) {
   $emit('save-state-elements')
 }
 
+function addComponent(element) {
+  delete element.src
+  state.elements.push(element)
+  Promise.resolve().then($emit('save-state-elements')).then(location.reload())
+}
+
 /* -------------------------------------------------------------------------- */
 /*                          Register Sort Components                          */
 /* -------------------------------------------------------------------------- */
@@ -319,8 +325,6 @@ function saveStateElements() {
     contentType: 'application/json',
     dataType: 'json',
   })
-  // Show Toast
-  // alert('updated')
 }
 
 /* -------------------------------------------------------------------------- */
