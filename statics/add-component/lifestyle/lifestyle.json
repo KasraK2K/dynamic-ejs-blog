@@ -1,0 +1,21 @@
+{
+    "image": "https://picsum.photos/id/206/1680/660",
+    "title": {
+        "tag": "h1",
+        "text": "A taste of every lifestyle 2"
+    },
+    "button": {
+        "label": "Read the blog",
+        "link": "/read_blog"
+    },
+    "external_links": [
+        {
+            "label": "Find out more",
+            "link": "#pages/about-us"
+        },
+        {
+            "label": "Get in touch",
+            "link": "#contact"
+        }
+    ]
+}

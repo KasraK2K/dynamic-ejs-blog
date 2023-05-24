@@ -1,0 +1,57 @@
+{
+    "title": "impulse",
+    "links": [
+        {
+            "header": "More info",
+            "items": [
+                {
+                    "label": "Learning Center",
+                    "link": "#learning_center"
+                },
+                {
+                    "label": "Forum",
+                    "link": "#forum"
+                },
+                {
+                    "label": "API",
+                    "link": "#api"
+                }
+            ]
+        },
+        {
+            "header": "Helpful Links",
+            "items": [
+                {
+                    "label": "Support",
+                    "link": "#support"
+                },
+                {
+                    "label": "Contact US",
+                    "link": "#contact_us"
+                },
+                {
+                    "label": "Map",
+                    "link": "#map"
+                }
+            ]
+        },
+        {
+            "header": "Find out more",
+            "items": [
+                {
+                    "label": "Store",
+                    "link": "#store"
+                },
+                {
+                    "label": "Trade",
+                    "link": "#trade"
+                },
+                {
+                    "label": "FAQ",
+                    "link": "#faq"
+                }
+            ]
+        }
+    ],
+    "copyright": "©2021 DESIGN BY NOVOLIO. IMAGES BY UNSPLASH"
+}

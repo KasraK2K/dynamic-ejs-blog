@@ -1,0 +1,12 @@
+{
+    "title": "This is my second post",
+    "text": "Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.",
+    "button": {
+        "label": "Read more",
+        "link": "#blog/my-third-big-post/"
+    },
+    "image": {
+        "src": "https://picsum.photos/id/225/840/447",
+        "link": "#blog/my-third-big-post/"
+    }
+}
