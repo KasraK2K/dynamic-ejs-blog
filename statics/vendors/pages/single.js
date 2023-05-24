@@ -641,7 +641,13 @@ $('#panel .panel_toolbar ul li').on('click', function (e) {
 
   close.on('click', function (e) {
     e.stopPropagation()
-    panel.css('width', '64px')
-    close.css('display', 'none')
+    closeComponentPanel()
+  })
+
+  $('body').on('click', function (e) {
+    var target = $(e.target)
+    if (!target.is('#panel') && !target.closest('#panel').length) {
+      closeComponentPanel()
+    }
   })
 })
