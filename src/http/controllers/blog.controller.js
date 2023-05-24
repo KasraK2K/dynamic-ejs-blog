@@ -2,8 +2,9 @@ const {
   getBlogPostDataService,
   getAllBlogPostsDataService,
   upsertBlogPostService,
-  getComponentImagesService,
+  // getComponentDataService,
 } = require('../services/blog.service')
+const ejs = require('ejs')
 
 const getBlogPostController = async (req, res) => {
   const { company, id } = req.params
@@ -31,7 +32,7 @@ const getBlogPostDataController = async (req, res) => {
 }
 
 // const getComponentImagesController = async (req, res) => {
-//   const result = await getComponentImagesService()
+//   const result = await getComponentDataService()
 //   return res.json(result)
 // }
 

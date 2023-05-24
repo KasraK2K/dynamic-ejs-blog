@@ -28,7 +28,7 @@ const getBlogPostDataService = async (company, id) => {
   data.editable = true
   data.company = company
   data.server_address = process.env.SERVER_ADDRESS
-  data.components = await getComponentImagesService()
+  data.components = await getComponentDataService()
   return data
 }
 
@@ -55,27 +55,34 @@ const upsertBlogPostService = async (company, data) => {
   return await upsertBlogPostRepository(company, data)
 }
 
-const getComponentImagesService = async () => {
-  const dirPath = path.resolve(process.cwd(), 'statics/component-images')
-  const images = fs.readdirSync(dirPath)
+const getComponentDataService = async () => {
+  const components = []
+  const baseAddress = `${process.env.SERVER_ADDRESS}/add-component`
 
-  const result = []
-  const baseAddress = `${process.env.SERVER_ADDRESS}/component-images`
+  const dirPath = path.resolve(process.cwd(), 'statics/add-component')
+  fs.readdirSync(dirPath).forEach((file) => {
+    const absolute = path.join(dirPath, file)
+    if (fs.statSync(absolute).isDirectory()) {
+      const componentFiles = fs.readdirSync(absolute)
 
-  for (const image of images) {
-    const component_name = image.slice(0, image.lastIndexOf('.'))
-    result.push({
-      component_name,
-      src: `${baseAddress}/${image}`,
-    })
-  }
+      const cover = componentFiles.filter((file) => !file.endsWith('.json'))[0]
+      const config = componentFiles.filter((file) => file.endsWith('.json'))[0]
+      const configData = fs.readFileSync(path.join(absolute, config))
 
-  return result
+      components.push({
+        component: file,
+        src: `${baseAddress}/${file}/${cover}`,
+        configuration: JSON.parse(configData.toString()),
+      })
+    }
+  })
+
+  return components
 }
 
 module.exports = {
   getBlogPostDataService,
   getAllBlogPostsDataService,
   upsertBlogPostService,
-  // getComponentImagesService,
+  getComponentDataService,
 }
