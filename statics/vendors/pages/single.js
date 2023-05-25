@@ -82,6 +82,7 @@ const handler = {
  * This function trigger each time any section moved
  */
 function updateSort() {
+  if (!SERVER_DATA_SENT.editable) return
   const pageUrl = document.location.href
   const urlStringParams = pageUrl.substring(SERVER_DATA_SENT.server_address.length + 4)
   const [id] = urlStringParams.split('/')
@@ -172,6 +173,13 @@ function closeComponentPanel() {
   close.css('display', 'none')
 }
 
+function openComponentPanel() {
+  const panel = $('#panel')
+  const close = panel.find('.panel_close')
+  panel.css('width', '652px')
+  close.css('display', 'flex')
+}
+
 function addContainer() {
   state.selected_section_id = dynamicIdGenerator()
   const html = /* HTML */ `
@@ -227,18 +235,17 @@ function addContainerRow(tag) {
   $emit('save-state-elements')
 }
 
-function addComponent(element) {
-  delete element.src
-  state.elements.push(element)
-  Promise.resolve().then($emit('save-state-elements')).then(location.reload())
-}
+// function addComponent(element) {
+//   delete element.src
+//   state.elements.push(element)
+//   Promise.resolve().then($emit('save-state-elements')).then(location.reload())
+// }
 
 /* -------------------------------------------------------------------------- */
 /*                          Register Sort Components                          */
 /* -------------------------------------------------------------------------- */
-$(function () {
+$(document).ready(function () {
   if (!SERVER_DATA_SENT.editable) return
-
   $('#sortable').on('click', function (e) {
     $('#sortable')
       .children()
@@ -295,7 +302,6 @@ $('#file-manager').dxFileManager({
 /* -------------------------------------------------------------------------- */
 $(window).on('emit', function (e, name, ...args) {
   console.log(`Emit ${name} happened. Sent arguments:`, args)
-
   switch (name) {
     case 'save-state-elements':
       saveStateElements()
@@ -314,9 +320,7 @@ window['$emit'] = (name, ...args) => $(window).trigger('emit', [name, ...args])
 
 function saveStateElements() {
   if (!SERVER_DATA_SENT.editable) return
-
   SERVER_DATA_SENT.elements = state.elements
-
   // Save
   $.ajax({
     method: 'POST',
@@ -330,9 +334,8 @@ function saveStateElements() {
 /* -------------------------------------------------------------------------- */
 /*                               Register Dialog                              */
 /* -------------------------------------------------------------------------- */
-$(function () {
+function sanitizeDialogs() {
   if (!SERVER_DATA_SENT.editable) return
-
   for (const element of state.elements) {
     const title = `${element.component} Modifier`
 
@@ -372,6 +375,11 @@ $(function () {
       $(`#dialog_${element.dynamic_id}`).dialog('open')
     })
   }
+}
+
+$(function () {
+  if (!SERVER_DATA_SENT.editable) return
+  sanitizeDialogs()
 })
 
 /* -------------------------------------------------------------------------- */
@@ -379,7 +387,6 @@ $(function () {
 /* -------------------------------------------------------------------------- */
 $(document).ready(function () {
   if (!SERVER_DATA_SENT.editable) return
-
   $('[contenteditable]')
     .click(function (event) {
       event.preventDefault()
@@ -411,9 +418,9 @@ $(document).ready(function () {
 /* -------------------------------------------------------------------------- */
 /*                             Register Link Edit                             */
 /* -------------------------------------------------------------------------- */
-$(document).ready(function () {
+function addLinkChangeEvent() {
   if (!SERVER_DATA_SENT.editable) return
-
+  $('a').off()
   $('a').each(function () {
     $(this).on('click', function (event) {
       if (!(event.ctrlKey || event.metaKey)) return
@@ -468,6 +475,11 @@ $(document).ready(function () {
       $('#default_dialog').dialog('open')
     })
   })
+}
+
+$(document).ready(function () {
+  if (!SERVER_DATA_SENT.editable) return
+  addLinkChangeEvent()
 })
 
 // This event raise on click publish button at default_dialog
@@ -493,11 +505,11 @@ $(document).on('click', '[data-link-change]', function () {
 /* -------------------------------------------------------------------------- */
 /*                       Register Header & Paragraph Tag                      */
 /* -------------------------------------------------------------------------- */
-$(document).ready(function () {
+function addTagChangerEvent() {
   if (!SERVER_DATA_SENT.editable) return
   const validTags = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'pre', 'blockquote']
-
-  $(validTags.join()).each(function () {
+  $(validTags.join()).each(function (e) {
+    $(e.target).off()
     $(this).on('click', function (event) {
       event.preventDefault()
       event.stopPropagation()
@@ -561,6 +573,11 @@ $(document).ready(function () {
       $('#default_dialog').dialog('open')
     })
   })
+}
+
+$(document).ready(function () {
+  if (!SERVER_DATA_SENT.editable) return
+  addTagChangerEvent()
 })
 
 // This event raise on click publish button at default_dialog
@@ -625,6 +642,8 @@ function tagToName(tagName) {
 /*                           Register Panel Behavior                          */
 /* -------------------------------------------------------------------------- */
 $('#panel .panel_toolbar ul li').on('click', function (e) {
+  if (!SERVER_DATA_SENT.editable) return
+
   const dataset = $(this).data('tab')
 
   const panel = $('#panel')
@@ -636,8 +655,7 @@ $('#panel .panel_toolbar ul li').on('click', function (e) {
     else el.style.display = ''
   })
 
-  panel.css('width', '652px')
-  close.css('display', 'flex')
+  openComponentPanel()
 
   close.on('click', function (e) {
     e.stopPropagation()
@@ -646,8 +664,84 @@ $('#panel .panel_toolbar ul li').on('click', function (e) {
 
   $('body').on('click', function (e) {
     var target = $(e.target)
-    if (!target.is('#panel') && !target.closest('#panel').length) {
-      closeComponentPanel()
-    }
+    if (!target.is('#panel') && !target.closest('#panel').length) closeComponentPanel()
   })
 })
+
+/* -------------------------------------------------------------------------- */
+/*                          Register Delete Component                         */
+/* -------------------------------------------------------------------------- */
+function addDeleteEvent() {
+  if (!SERVER_DATA_SENT.editable) return
+  $('.handle_delete').off()
+  $('.handle_delete').on('click', function (e) {
+    const dynamic_id = $(this).data('id')
+    $(`#sortable section#${dynamic_id}`).remove()
+    const elements = state.elements.filter(function (el) {
+      return el.dynamic_id !== dynamic_id
+    })
+    state.elements = elements
+    $emit('save-state-elements')
+  })
+}
+$(function () {
+  if (!SERVER_DATA_SENT.editable) return
+  addDeleteEvent()
+})
+
+function addCompiledComponent(component) {
+  $.get(`${SERVER_DATA_SENT.server_address}/components/${component}.ejs`, function (template) {
+    const element = _.find(SERVER_DATA_SENT.components, { component })
+    const dynamic_id = dynamicIdGenerator()
+    element.dynamic_id = dynamic_id
+    const htmlCompiler = ejs.compile(template)
+    const html = htmlCompiler({ element, data: SERVER_DATA_SENT })
+    const finalTemplate = $(/* HTML */ `
+      <section id="${element.dynamic_id}" data-parent>
+        <div class="handle_top"></div>
+        ${html}
+        <div class="component_modifier" id="opener_${element.dynamic_id}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+            />
+          </svg>
+        </div>
+        <div class="handle_delete" data-id="${element.dynamic_id}">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+            />
+          </svg>
+        </div>
+      </section>
+      <div class="handle_bottom"></div>
+    `)
+    state.elements.push(element)
+    $('#sortable').append(finalTemplate)
+    sanitizeDialogs()
+    addTagChangerEvent()
+    addLinkChangeEvent()
+    addDeleteEvent()
+    $emit('save-state-elements')
+    // TODO : Save
+  })
+}

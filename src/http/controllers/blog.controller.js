@@ -4,7 +4,6 @@ const {
   upsertBlogPostService,
   // getComponentDataService,
 } = require('../services/blog.service')
-const ejs = require('ejs')
 
 const getBlogPostController = async (req, res) => {
   const { company, id } = req.params
