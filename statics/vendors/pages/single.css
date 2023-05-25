@@ -238,3 +238,37 @@ div[role='dialog'][aria-describedby='default_dialog'] .dialog {
   margin: auto;
   transform: translate(6px, 10px);
 } */
+
+.handle_delete {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #64748b;
+  border-radius: 50%;
+  padding: 8px;
+  border: 1px solid #64748b;
+  margin-top: 10px;
+  margin-right: 10px;
+  background-color: white;
+  box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.5);
+}
+
+.handle_delete::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+  width: auto;
+  height: auto;
+  border-radius: 50%;
+}
+
+.handle_delete:hover {
+  color: white;
+  background-color: #64748b;
+  border-color: #64748b;
+}
