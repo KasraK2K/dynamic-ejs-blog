@@ -19,6 +19,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(compression())
 app.use(cors())
 app.use(express.static('statics'))
+app.use('/components', express.static('src/views/components'))
 app.use('/v1', v1)
 
 server.listen(process.env.PORT, () =>
