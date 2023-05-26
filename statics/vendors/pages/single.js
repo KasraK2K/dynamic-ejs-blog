@@ -429,8 +429,6 @@ $(async function () {
     rootFolderName: 'images',
     selectionMode: 'single',
     allowedFileExtensions: ['.jpeg', '.jpg', '.png'],
-    currentPath: 'embargo',
-    // permissions: { download: true },
     contextMenu: { items: [] },
     toolbar: {
       items: [uploadToolbar, 'showNavPane', 'switchView', 'refresh'],
