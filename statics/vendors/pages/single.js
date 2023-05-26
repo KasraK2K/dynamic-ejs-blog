@@ -299,19 +299,164 @@ $(document).ready(function () {
 /* -------------------------------------------------------------------------- */
 /*                      Register DevExtreme File Manager                      */
 /* -------------------------------------------------------------------------- */
-$('#file-manager').dxFileManager({
-  fileSystemProvider: [
-    {
-      name: 'MyFolder',
-      size: 1024,
-      dateModified: '2019/05/08',
-      // thumbnail: '/thumbnails/images/jpeg.ico',
-      isDirectory: true,
-      items: [
-        // Nested data objects with the same structure
+$(async function () {
+  /* Context Configs */
+  // const selectContext = {
+  //   name: 'Select',
+  //   text: 'Select',
+  //   icon: 'check',
+  //   onClick: selectFile,
+  // }
+  // const deleteContext = {
+  //   name: 'Delete',
+  //   text: 'Delete',
+  //   icon: 'trash',
+  //   onClick: deleteFile,
+  // }
+
+  /* Toolbar Configs */
+  const uploadToolbar = {
+    widget: 'dxButton',
+    options: {
+      text: 'Upload',
+      icon: 'upload',
+    },
+    location: 'before',
+    onClick: uploadFile,
+  }
+  const downloadToolbar = {
+    widget: 'dxButton',
+    options: {
+      text: 'Download',
+      icon: 'download',
+    },
+    location: 'before',
+    onClick: downloadFile,
+  }
+  const selectToolbar = {
+    widget: 'dxButton',
+    options: {
+      text: 'Select',
+      icon: 'check',
+    },
+    location: 'after',
+    onClick: selectFile,
+  }
+  const deleteToolbar = {
+    widget: 'dxButton',
+    options: {
+      text: 'Delete',
+      icon: 'trash',
+    },
+    location: 'after',
+    onClick: deleteFile,
+  }
+
+  /* Functions */
+  function selectFile(e) {
+    console.log(state.selected_file)
+    // TODO : Change component image
+  }
+
+  function deleteFile(e) {
+    console.log(state.selected_file)
+    // TODO : Delete image from server
+  }
+
+  function onSelectionChanged(e) {
+    if (e.selectedItems.length) {
+      state.selected_file = e.selectedItems[0]
+      console.log(e)
+    } else delete state.selected_file
+  }
+
+  function customizeDetailColumns(columns) {
+    columns[2].caption = 'Upload Date'
+    return columns
+  }
+
+  async function uploadFile(e) {
+    const input = $('<input>')
+    input.attr('type', 'file')
+    input.on('change', async function (event) {
+      var file = event.target.files[0]
+      const uploadKey = file.name.slice(0, file.name.lastIndexOf('.'))
+      var form = new FormData()
+      form.append(uploadKey, file, file.name)
+      var settings = {
+        url: `${SERVER_DATA_SENT.server_address}/v1/upload`,
+        method: 'POST',
+        timeout: 0,
+        processData: false,
+        mimeType: 'multipart/form-data',
+        dataType: 'json',
+        contentType: false,
+        data: form,
+      }
+      const result = await $.ajax(settings).done(function (response) {
+        return response
+      })
+      $('#file-manager').dxFileManager('instance').refresh()
+    })
+    input.click()
+  }
+
+  async function downloadFile(e) {
+    const filePath = `${SERVER_DATA_SENT.server_address}/${SERVER_DATA_SENT.company}/${state.selected_file.name}`
+    $.ajax({
+      url: filePath,
+      method: 'GET',
+      xhrFields: {
+        responseType: 'blob',
+      },
+      success: function (data) {
+        var a = document.createElement('a')
+        var url = window.URL.createObjectURL(data)
+        a.href = url
+        a.download = state.selected_file.name
+        a.click()
+        window.URL.revokeObjectURL(url)
+      },
+    })
+  }
+
+  const provider = new DevExpress.fileManagement.RemoteFileSystemProvider({
+    endpointUrl: `${SERVER_DATA_SENT.server_address}/v1/upload/${SERVER_DATA_SENT.company}`,
+  })
+
+  // Main Config
+  const fileManagerOptions = {
+    rootFolderName: 'images',
+    selectionMode: 'single',
+    allowedFileExtensions: ['.jpeg', '.jpg', '.png'],
+    currentPath: 'embargo',
+    // permissions: { download: true },
+    contextMenu: { items: [] },
+    toolbar: {
+      items: [uploadToolbar, 'showNavPane', 'switchView', 'refresh'],
+      fileSelectionItems: [
+        uploadToolbar,
+        'separator',
+        downloadToolbar,
+        'separator',
+        deleteToolbar,
+        selectToolbar,
+        'clearSelection',
+        'showNavPane',
+        'switchView',
       ],
     },
-  ],
+    fileSystemProvider: provider,
+    itemView: { mode: 'thumbnails' },
+    upload: { chunkSize: 500000, maxFileSize: 1000000 },
+    onSelectionChanged,
+    customizeDetailColumns,
+    visible: true,
+    onErrorOccurred: function (e) {
+      console.error('An error occurred', e)
+    },
+  }
+  $('#file-manager').dxFileManager(fileManagerOptions)
 })
 
 /* -------------------------------------------------------------------------- */
