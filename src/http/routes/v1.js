@@ -5,6 +5,7 @@ const blogController = require('../controllers/blog.controller')
 const generalController = require('../controllers/general.controller')
 const multipartMiddleware = require('../middlewares/multipart.middleware')
 
+router.get('/upload/:company', generalController.getAllImages)
 router.post('/upload', multipartMiddleware.handle, generalController.upload)
 
 router.get('/:company/:id', blogController.getBlogPost)

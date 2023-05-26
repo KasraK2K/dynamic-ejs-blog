@@ -1,6 +1,12 @@
 const generalService = require('../services/general.service')
 
 class GeneralController {
+  async getAllImages(req, res) {
+    const { company } = req.params
+    const result = await generalService.getAllImages(company)
+    return res.json({ errorCode: null, errorText: '', result: result, success: true })
+  }
+
   async upload(req, res, next) {
     await generalService
       .upload(req.body)
