@@ -41,14 +41,12 @@ class MultipartMiddleware {
         checkUpload.valid = false
         checkUpload.errors.push('Error on uploading file')
         console.error(err.message)
-        console.assert(err.stack)
       })
       /* ------------------------------- END: EVENTS ------------------------------ */
 
       form.parse(req, (err, fields, files) => {
         if (err) {
           console.error(err.message)
-          console.assert(err.stack)
           checkUpload.valid = false
           checkUpload.errors.push('Error on extending multipart header')
         }
@@ -90,7 +88,6 @@ class MultipartMiddleware {
               fs.unlinkSync(file.filepath)
             })
             console.error('Error on uploading file')
-            console.assert(err.stack)
             return res.status(500).json({
               success: false,
               message: 'Error on uploading file',
