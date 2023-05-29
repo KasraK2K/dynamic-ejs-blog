@@ -27,8 +27,8 @@ var dynamic_id = JSON.stringify(element.dynamic_id)
 
 
 <div class="container mx-auto px-64 my-10">
-  <% element.configuration.rows.forEach(function(row) { %>
+  <% element.configuration.rows.forEach(function(row, index) { %>
   <!-- tag -->
-  <<%= row.tag %> <%if(data.editable){%> contenteditable <%}%> data-key="configuration.text" class="<%= row.tag %>"><%= row.text %></<%= row.tag %>>
+  <<%= row.tag %> <%if(data.editable){%> contenteditable <%}%> data-key="configuration.rows[<%= index %>].text" class="<%= row.tag %>"><%= row.text %></<%= row.tag %>>
   <% }); %>
 </div>
