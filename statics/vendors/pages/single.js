@@ -232,23 +232,9 @@ function addContainer() {
 
   scrollToElement(`section#${state.selected_section_id}`)
 
-  addDeleteEvent()
+  registerSortBehavior(true)
 
-  // $('#sortable').sortable({
-  //   handle: $('#sortable > section > .handle_top, #sortable > section > .handle_bottom'),
-  //   placeholder: 'ui-state-highlight',
-  //   axis: 'y',
-  //   opacity: 0.5,
-  //   stop: (event, ui) => {
-  //     const sortedIDs = $('#sortable').sortable('toArray')
-  //     handler.arrangeBy = { array: sortedIDs, target: 'elements', sensitiveKey: 'dynamic_id' }
-  //     const newSortedElements = state.RearrangeByArrayOfIDs
-  //     state.elements = newSortedElements
-  //     SERVER_DATA_SENT.elements = newSortedElements
-  //     updateSort()
-  //     toast('success', 'Component Sort', 'Your component positions changed successfully.')
-  //   },
-  // })
+  addDeleteEvent()
   state.elements.push(state.selected_element)
 }
 
@@ -319,6 +305,28 @@ function toast(status, title, text, options = {}) {
 /* -------------------------------------------------------------------------- */
 /*                          Register Sort Components                          */
 /* -------------------------------------------------------------------------- */
+function registerSortBehavior(destroy) {
+  if (destroy) $('#sortable').sortable('destroy')
+  $('#sortable').sortable({
+    handle: $('#sortable > section > .handle_top, #sortable > section > .handle_bottom'),
+    placeholder: 'ui-state-highlight',
+    axis: 'y',
+    opacity: 0.5,
+    stop: (event, ui) => {
+      const sortedIDs = $('#sortable').sortable('toArray')
+      handler.arrangeBy = { array: sortedIDs, target: 'elements', sensitiveKey: 'dynamic_id' }
+      console.log({ state, h: handler.arrangeBy, sortedIDs })
+      const newSortedElements = state.RearrangeByArrayOfIDs
+      state.elements = newSortedElements
+
+      SERVER_DATA_SENT.elements = newSortedElements
+
+      updateSort()
+      toast('success', 'Component Sort', 'Your component positions changed successfully.')
+    },
+  })
+}
+
 $(document).ready(function () {
   if (!SERVER_DATA_SENT.editable) return
   $('#sortable').on('click', function (e) {
@@ -338,21 +346,7 @@ $(document).ready(function () {
     state['selected_element'] = element
   })
 
-  $('#sortable').sortable({
-    handle: $('#sortable > section > .handle_top, #sortable > section > .handle_bottom'),
-    placeholder: 'ui-state-highlight',
-    axis: 'y',
-    opacity: 0.5,
-    stop: (event, ui) => {
-      const sortedIDs = $('#sortable').sortable('toArray')
-      handler.arrangeBy = { array: sortedIDs, target: 'elements', sensitiveKey: 'dynamic_id' }
-      const newSortedElements = state.RearrangeByArrayOfIDs
-      state.elements = newSortedElements
-      SERVER_DATA_SENT.elements = newSortedElements
-      updateSort()
-      toast('success', 'Component Sort', 'Your component positions changed successfully.')
-    },
-  })
+  registerSortBehavior(false)
 })
 
 /* -------------------------------------------------------------------------- */
@@ -995,7 +989,7 @@ function addCompiledComponent(component) {
     const html = htmlCompiler({ element, data: SERVER_DATA_SENT })
     const finalTemplate = $(/* HTML */ `
       <section id="${element.dynamic_id}" data-parent class="selected">
-        <div class="handle_top"></div>
+        <div class="handle_top ui-sortable-handle"></div>
         ${html}
         <div class="component_modifier" id="opener_${element.dynamic_id}">
           <svg
@@ -1029,8 +1023,8 @@ function addCompiledComponent(component) {
             />
           </svg>
         </div>
+        <div class="handle_bottom ui-sortable-handle"></div>
       </section>
-      <div class="handle_bottom"></div>
     `)
     state.elements.push(element)
 
@@ -1040,6 +1034,8 @@ function addCompiledComponent(component) {
     })
     parent.append(finalTemplate)
 
+    registerSortBehavior(true)
+
     scrollToElement(`section#${dynamic_id}`)
 
     sanitizeDialogs()
@@ -1047,6 +1043,7 @@ function addCompiledComponent(component) {
     addLinkChangeEvent()
     addDeleteEvent()
     addImageChangeEvent()
+
     toast('success', 'Component Added', 'Your component has been added successfully.')
     $emit('save-state-elements')
   })
