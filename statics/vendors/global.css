@@ -62,34 +62,34 @@ html {
 }
 
 /* ---------------------------- jQuery UI Dialog ---------------------------- */
-div[role='dialog'] {
+div[role='dialog']:not(.swal-modal) {
   border-radius: 1rem;
   padding: 0;
   width: auto !important;
 }
-div[role='dialog'] .dialog {
+div[role='dialog']:not(.swal-modal) .dialog {
   padding: 1rem;
   min-height: calc(100% - 46px) !important;
 }
 /* It's not necessary but i keep it for later */
-div[role='dialog'] .ui-dialog-content {
+div[role='dialog']:not(.swal-modal) .ui-dialog-content {
   border-radius: 0 0 1rem 1rem;
 }
-div[role='dialog'] .ui-dialog-buttonpane {
+div[role='dialog']:not(.swal-modal) .ui-dialog-buttonpane {
   border-radius: 0 0 1rem 1rem;
 }
-div[role='dialog'] .ui-dialog-titlebar {
+div[role='dialog']:not(.swal-modal) .ui-dialog-titlebar {
   background-color: transparent;
   border: none;
   border-bottom: 1px solid #e5e7eb;
   border-radius: 1rem 1rem 0 0;
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
 }
-div[role='dialog'] .ui-dialog-title {
+div[role='dialog']:not(.swal-modal) .ui-dialog-title {
   color: #5046e5;
   font-size: 1.2rem;
 }
-div[role='dialog'] .ui-dialog-titlebar-close {
+div[role='dialog']:not(.swal-modal) .ui-dialog-titlebar-close {
   margin: -10px 10px 0 0;
   display: none;
   width: 0;
