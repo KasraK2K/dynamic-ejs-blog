@@ -87,6 +87,17 @@ class GeneralService {
       return resolve(filesToResponse)
     })
   }
+
+  async deleteImage(args) {
+    const { file_name } = args
+    const company = 'embargo' // FIXME : Get company from token
+    const filePath = path.resolve(process.cwd(), `uploads/${company}/${file_name}`)
+    if (!fs.existsSync(filePath)) return false
+    else {
+      fs.unlinkSync(filePath)
+      return true
+    }
+  }
 }
 
 module.exports = new GeneralService()

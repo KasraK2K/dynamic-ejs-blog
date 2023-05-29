@@ -7,6 +7,7 @@ const multipartMiddleware = require('../middlewares/multipart.middleware')
 
 router.get('/upload/:company', generalController.getAllImages)
 router.post('/upload', multipartMiddleware.handle, generalController.upload)
+router.post('/delete-image', generalController.deleteImage)
 
 router.get('/:company/:id', blogController.getBlogPost)
 router.get('/:company', blogController.getAllBlogPosts)
