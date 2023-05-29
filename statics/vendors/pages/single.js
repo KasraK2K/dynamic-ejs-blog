@@ -149,6 +149,11 @@ function defaultDialog(event) {
   })
 }
 
+/**
+ * Remove dangerous special characters
+ * @param {string} str
+ * @return {string | undefined}
+ */
 function escapeSpecialChars(str) {
   if (!str) return
   return str
@@ -180,6 +185,10 @@ function openComponentPanel() {
   close.css('display', 'flex')
 }
 
+/**
+ * Add container component
+ * Container component is empty component just for handle add another text elements
+ */
 function addContainer() {
   if (!SERVER_DATA_SENT.editable) return
   state.selected_section_id = dynamicIdGenerator()
@@ -224,9 +233,29 @@ function addContainer() {
   scrollToElement(`section#${state.selected_section_id}`)
 
   addDeleteEvent()
+
+  // $('#sortable').sortable({
+  //   handle: $('#sortable > section > .handle_top, #sortable > section > .handle_bottom'),
+  //   placeholder: 'ui-state-highlight',
+  //   axis: 'y',
+  //   opacity: 0.5,
+  //   stop: (event, ui) => {
+  //     const sortedIDs = $('#sortable').sortable('toArray')
+  //     handler.arrangeBy = { array: sortedIDs, target: 'elements', sensitiveKey: 'dynamic_id' }
+  //     const newSortedElements = state.RearrangeByArrayOfIDs
+  //     state.elements = newSortedElements
+  //     SERVER_DATA_SENT.elements = newSortedElements
+  //     updateSort()
+  //     toast('success', 'Component Sort', 'Your component positions changed successfully.')
+  //   },
+  // })
   state.elements.push(state.selected_element)
 }
 
+/**
+ * Add text element to selected container component
+ * @param {string} tag
+ */
 function addContainerRow(tag) {
   if (!state.selected_element || state.selected_element.component !== 'container') addContainer()
 
@@ -245,17 +274,46 @@ function addContainerRow(tag) {
   state.selected_element.configuration.rows.push(row)
   $(`#sortable section#${state.selected_section_id} .container`).append($(html))
   scrollToElement(`section#${state.selected_section_id} .container`)
+  toast('success', 'Container Added', 'New Container Added successfully.')
   $emit('save-state-elements')
 }
 
-// function addComponent(element) {
-//   delete element.src
-//   state.elements.push(element)
-//   Promise.resolve().then($emit('save-state-elements')).then(location.reload())
-// }
-
+/**
+ * Scroll to top of element with 1 sec animation
+ * @param {string} selector
+ */
 function scrollToElement(selector) {
   $('html, body').animate({ scrollTop: $(selector).offset().top }, 1000)
+}
+
+/**
+ * Simple Toast Notify. eq: toast('success', 'Title', 'Some text')
+ * @param {'success'|'warning'|'error'} status
+ * @param {string} title
+ * @param {string} text
+ * @param {Record<string, any>} [options={}]
+ * @return {*} notify instance, useful to close instance by _**instance.close()**_
+ */
+function toast(status, title, text, options = {}) {
+  const notifyObject = {
+    title,
+    text,
+    status, //  success, error, or warning
+    autoclose: options.autoclose ?? true,
+    autotimeout: options.autotimeout ?? 3000,
+    effect: options.effect ?? 'fade', // slide, fade
+    speed: options.speed ?? 500, // animation speed
+    showCloseButton: options.showCloseButton ?? false,
+    showIcon: options.showIcon ?? true,
+    gap: options.gap ?? 10,
+    distance: options.distance ?? 10, // space between popup & screen edge
+    position: options.position ?? 'right top', // top, right, bottom, left, x-center, y-center, center
+    type: options.type ?? 1, // 1: Default, 2: Filled Background + Dark Text ,3: Filled Background + Light Text
+    customIcon: options.customIcon ?? '',
+    customClass: options.customClass ?? '',
+  }
+
+  return new Notify(notifyObject)
 }
 
 /* -------------------------------------------------------------------------- */
@@ -292,6 +350,7 @@ $(document).ready(function () {
       state.elements = newSortedElements
       SERVER_DATA_SENT.elements = newSortedElements
       updateSort()
+      toast('success', 'Component Sort', 'Your component positions changed successfully.')
     },
   })
 })
@@ -351,22 +410,67 @@ $(async function () {
     location: 'after',
     onClick: deleteFile,
   }
-
-  /* Functions */
-  function selectFile(e) {
-    console.log(state.selected_file)
-    // TODO : Change component image
+  const closeToolbar = {
+    widget: 'dxButton',
+    options: {
+      text: '',
+      icon: 'close',
+    },
+    location: 'after',
+    onClick: close,
   }
 
-  function deleteFile(e) {
-    console.log(state.selected_file)
-    // TODO : Delete image from server
+  /* Functions */
+  function selectFile() {
+    const newFileUrl = `${SERVER_DATA_SENT.server_address}/${SERVER_DATA_SENT.company}/${state.selected_file.name}`
+    const element = state.selected_element
+    const elementKey = state.selected_file_key
+
+    // Change Selected Element SRC
+    const command = `element.${elementKey} = newFileUrl`
+    const func = new Function('element', 'elementKey', 'newFileUrl', command)
+    func(element, elementKey, newFileUrl)
+
+    // Change Dom SRC
+    const parent = $(`section#${state.selected_section_id}[data-parent]`)
+    const fileDomElement = parent.find(`img[data-key="${elementKey}"]`)
+    fileDomElement.attr('src', newFileUrl)
+
+    toast('success', 'Image Changed', 'Your image has been changed successfully.')
+    $emit('save-state-elements')
+
+    close()
+  }
+
+  function refreshFileManager() {
+    $('#file-manager').dxFileManager('instance').refresh()
+  }
+
+  function close() {
+    delete state.selected_file
+    delete state.selected_file_key
+    $('#file-manager').addClass('hidden')
+    refreshFileManager()
+  }
+
+  async function deleteFile(e) {
+    const settings = {
+      url: `${SERVER_DATA_SENT.server_address}/v1/delete-image`,
+      method: 'POST',
+      timeout: 0,
+      processData: false,
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify({ file_name: state.selected_file.name }),
+    }
+    const result = await $.ajax(settings)
+    toast('success', 'File deleted', 'File deleted successfully')
+    refreshFileManager()
   }
 
   function onSelectionChanged(e) {
     if (e.selectedItems.length) {
       state.selected_file = e.selectedItems[0]
-      console.log(e)
     } else delete state.selected_file
   }
 
@@ -379,11 +483,11 @@ $(async function () {
     const input = $('<input>')
     input.attr('type', 'file')
     input.on('change', async function (event) {
-      var file = event.target.files[0]
+      const file = event.target.files[0]
       const uploadKey = file.name.slice(0, file.name.lastIndexOf('.'))
-      var form = new FormData()
+      const form = new FormData()
       form.append(uploadKey, file, file.name)
-      var settings = {
+      const settings = {
         url: `${SERVER_DATA_SENT.server_address}/v1/upload`,
         method: 'POST',
         timeout: 0,
@@ -393,10 +497,15 @@ $(async function () {
         contentType: false,
         data: form,
       }
-      const result = await $.ajax(settings).done(function (response) {
-        return response
-      })
-      $('#file-manager').dxFileManager('instance').refresh()
+      $.ajax(settings)
+        .then(function (data, status, jqXHR) {
+          toast('success', 'Upload successful', 'File uploaded successfully')
+          refreshFileManager()
+        })
+        .catch(function (jqXHR, textStatus, errorThrown) {
+          const response = jqXHR.responseJSON
+          toast('error', response.message, response.errors.join('.<br />'))
+        })
     })
     input.click()
   }
@@ -431,17 +540,17 @@ $(async function () {
     allowedFileExtensions: ['.jpeg', '.jpg', '.png'],
     contextMenu: { items: [] },
     toolbar: {
-      items: [uploadToolbar, 'showNavPane', 'switchView', 'refresh'],
+      items: [uploadToolbar, 'showNavPane', 'switchView', closeToolbar],
       fileSelectionItems: [
         uploadToolbar,
         'separator',
         downloadToolbar,
-        'separator',
         deleteToolbar,
         selectToolbar,
         'clearSelection',
         'showNavPane',
         'switchView',
+        closeToolbar,
       ],
     },
     fileSystemProvider: provider,
@@ -570,6 +679,7 @@ $(document).ready(function () {
         const func = new Function('element', 'elementKey', 'newText', command)
         func(element, elementKey, newText)
 
+        toast('success', 'Text saved', 'You text changes are saved successfully.')
         $emit('save-state-elements') // FIXME : save just when save button is clicked
       }
     })
@@ -659,6 +769,7 @@ $(document).on('click', '[data-link-change]', function () {
   func(element, linkKey, newLink)
 
   $('#default_dialog').dialog('close')
+  toast('success', 'Component Save', 'Your component changes are saved successfully')
   $emit('save-state-elements') // FIXME : save just when save button is clicked
 })
 
@@ -765,6 +876,7 @@ $(document).on('click', '[data-tag-change]', function () {
   func(element, tagKey, newTag)
 
   $('#default_dialog').dialog('close')
+  toast('success', 'Tag Changed', 'Your text tag changed successfully.')
   $emit('save-state-elements') // FIXME : save just when save button is clicked
 })
 
@@ -841,14 +953,39 @@ function addDeleteEvent() {
       return el.dynamic_id !== dynamic_id
     })
     state.elements = elements
+    toast('success', 'Component Deleted', 'Your component has been deleted successfully.')
     $emit('save-state-elements')
   })
 }
+
 $(function () {
   if (!SERVER_DATA_SENT.editable) return
   addDeleteEvent()
 })
 
+/* -------------------------------------------------------------------------- */
+/*                          Register Change Image Key                         */
+/* -------------------------------------------------------------------------- */
+function addImageChangeEvent() {
+  if (!SERVER_DATA_SENT.editable) return
+  $('section').on('click', function (e) {
+    const section = $(this)
+    const isImage = $(e.target).prop('tagName') === 'IMG'
+    if (!section.hasClass('selected')) return
+    else if (!isImage) return
+    $('#file-manager').removeClass('hidden')
+    const dynamic_id = state.selected_section_id
+    state.selected_file_key = e.target.dataset.key
+  })
+}
+$(function () {
+  if (!SERVER_DATA_SENT.editable) return
+  addImageChangeEvent()
+})
+
+/* -------------------------------------------------------------------------- */
+/*                              Compile Component                             */
+/* -------------------------------------------------------------------------- */
 function addCompiledComponent(component) {
   $.get(`${SERVER_DATA_SENT.server_address}/components/${component}.ejs`, function (template) {
     const element = _.find(SERVER_DATA_SENT.components, { component })
@@ -904,7 +1041,8 @@ function addCompiledComponent(component) {
     addTagChangerEvent()
     addLinkChangeEvent()
     addDeleteEvent()
+    addImageChangeEvent()
+    toast('success', 'Component Added', 'Your component has been added successfully.')
     $emit('save-state-elements')
-    // TODO : Save
   })
 }
