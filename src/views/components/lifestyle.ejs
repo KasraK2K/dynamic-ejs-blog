@@ -41,7 +41,7 @@ Sample Object:
     <a <%if(data.editable){%> contenteditable <%}%> data-key="<%= `configuration.external_links[${index}].label` %>" href="<%= item.link %>" class="border-b border-white"><%= item.label %></a>
     <% }); %>
   </div>
-  <img src="<%= element.configuration.image %>" class="w-full h-full absolute inset-0 object-cover opacity-70" />
+  <img src="<%= element.configuration.image %>" data-key="configuration.image" class="w-full h-full absolute inset-0 object-cover opacity-70" />
 </div>
 
 <!-- ----------------------------------------------------------------------- -->
