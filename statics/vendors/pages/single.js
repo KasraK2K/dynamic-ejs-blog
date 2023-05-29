@@ -994,7 +994,7 @@ function addCompiledComponent(component) {
     const htmlCompiler = ejs.compile(template)
     const html = htmlCompiler({ element, data: SERVER_DATA_SENT })
     const finalTemplate = $(/* HTML */ `
-      <section id="${element.dynamic_id}" data-parent>
+      <section id="${element.dynamic_id}" data-parent class="selected">
         <div class="handle_top"></div>
         ${html}
         <div class="component_modifier" id="opener_${element.dynamic_id}">
@@ -1033,7 +1033,12 @@ function addCompiledComponent(component) {
       <div class="handle_bottom"></div>
     `)
     state.elements.push(element)
-    $('#sortable').append(finalTemplate)
+
+    const parent = $('#sortable')
+    parent.children().each(function (i, el) {
+      el.classList.remove('selected')
+    })
+    parent.append(finalTemplate)
 
     scrollToElement(`section#${dynamic_id}`)
 
