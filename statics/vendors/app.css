@@ -3953,6 +3953,9 @@ video {
 .inline-block {
   display: inline-block;
 }
+.\!inline {
+  display: inline !important;
+}
 .inline {
   display: inline;
 }
@@ -4009,6 +4012,9 @@ video {
 }
 .list-item {
   display: list-item;
+}
+.\!hidden {
+  display: none !important;
 }
 .hidden {
   display: none;
@@ -23830,6 +23836,10 @@ video {
 .hue-rotate-90 {
   --tw-hue-rotate: hue-rotate(90deg);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+.\!invert {
+  --tw-invert: invert(100%) !important;
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow) !important;
 }
 .invert {
   --tw-invert: invert(100%);
