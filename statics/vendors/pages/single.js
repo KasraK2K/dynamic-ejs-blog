@@ -484,7 +484,7 @@ $(async function () {
       const form = new FormData()
       form.append(uploadKey, file, file.name)
       const settings = {
-        url: `${SERVER_DATA_SENT.server_address}/v1/upload`,
+        url: `${SERVER_DATA_SENT.server_address}/v1/upload/asd/asd/asd/asd/`,
         method: 'POST',
         timeout: 0,
         processData: false,
@@ -499,8 +499,9 @@ $(async function () {
           refreshFileManager()
         })
         .catch(function (jqXHR, textStatus, errorThrown) {
-          const response = jqXHR.responseJSON
-          toast('error', response.message, response.errors.join('.<br />'))
+          const text =
+            jqXHR && jqXHR.responseJSON ? jqXHR.responseJSON.errors.join('.<br />') : errorThrown
+          toast('error', response.message, text)
         })
     })
     input.click()
