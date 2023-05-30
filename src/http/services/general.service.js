@@ -19,8 +19,8 @@ const uploadConfig = {
 class GeneralService {
   async getAllImages(company) {
     const basePath = `${process.env.SERVER_ADDRESS}/${company}`
-    if (fs.existsSync(basePath)) {
-      const uploadPath = path.resolve(process.cwd(), `uploads/${company}`)
+    const uploadPath = path.resolve(process.cwd(), `uploads/${company}`)
+    if (fs.existsSync(uploadPath)) {
       const images = await fs.readdirSync(uploadPath)
       const finalImages = images.map((image) => ({
         dateModified: fs.statSync(`uploads/${company}/${image}`).mtime,
@@ -33,9 +33,7 @@ class GeneralService {
         url: `${basePath}/${image}`,
       }))
       return finalImages
-    } else {
-      return []
-    }
+    } else return []
   }
 
   upload(args) {
