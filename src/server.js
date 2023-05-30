@@ -24,5 +24,5 @@ app.use(express.static('uploads'))
 app.use('/v1', v1)
 
 server.listen(process.env.PORT, () =>
-  console.log(`Server running on http://localhost:${process.env.PORT}`)
+  console.log(`Server running on ${process.env.SERVER_ADDRESS}`)
 )
