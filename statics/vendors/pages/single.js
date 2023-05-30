@@ -312,10 +312,14 @@ function registerSortBehavior(destroy) {
     placeholder: 'ui-state-highlight',
     axis: 'y',
     opacity: 0.5,
+    start: (event, ui) => {
+      const item = ui.item[0]
+      const itemHeight = $(item).height()
+      $('.ui-state-highlight').css('height', itemHeight / 3)
+    },
     stop: (event, ui) => {
       const sortedIDs = $('#sortable').sortable('toArray')
       handler.arrangeBy = { array: sortedIDs, target: 'elements', sensitiveKey: 'dynamic_id' }
-      console.log({ state, h: handler.arrangeBy, sortedIDs })
       const newSortedElements = state.RearrangeByArrayOfIDs
       state.elements = newSortedElements
 
