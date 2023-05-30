@@ -6,7 +6,7 @@
 
 /* ----------------- Create State and Add Styles and Scripts ---------------- */
 $(document).ready(function () {
-  const database = { elements: SERVER_DATA_SENT.elements }
+  const database = { elements: SERVER_DATA_SENT.elements ?? [] }
   window['state'] = new Proxy(database, handler)
 
   for (const element of state.elements) {
@@ -260,8 +260,7 @@ function addContainerRow(tag) {
   state.selected_element.configuration.rows.push(row)
   $(`#sortable section#${state.selected_section_id} .container`).append($(html))
   scrollToElement(`section#${state.selected_section_id} .container`)
-  toast('success', 'Container Added', 'New Container Added successfully.')
-  $emit('save-state-elements')
+  $emit('save-state-elements', 'Add Container', 'New Container Added successfully.')
 }
 
 /**
@@ -434,8 +433,7 @@ $(async function () {
     const fileDomElement = parent.find(`img[data-key="${elementKey}"]`)
     fileDomElement.attr('src', newFileUrl)
 
-    toast('success', 'Image Changed', 'Your image has been changed successfully.')
-    $emit('save-state-elements')
+    $emit('save-state-elements', 'Change Image', 'Your image has been changed successfully.')
 
     close()
   }
@@ -571,7 +569,7 @@ $(window).on('emit', function (e, name, ...args) {
   console.log(`Emit ${name} happened. Sent arguments:`, args)
   switch (name) {
     case 'save-state-elements':
-      saveStateElements()
+      saveStateElements(args[0], args[1])
       break
 
     default:
@@ -585,7 +583,11 @@ $(window).on('emit', function (e, name, ...args) {
 /* -------------------------------------------------------------------------- */
 window['$emit'] = (name, ...args) => $(window).trigger('emit', [name, ...args])
 
-function saveStateElements() {
+/**
+ * @param {string} title
+ * @param {string} successMessage
+ */
+function saveStateElements(title, successMessage) {
   if (!SERVER_DATA_SENT.editable) return
   SERVER_DATA_SENT.elements = state.elements
   // Save
@@ -596,6 +598,13 @@ function saveStateElements() {
     contentType: 'application/json',
     dataType: 'json',
   })
+    .then(function () {
+      toast('success', title, successMessage)
+    })
+    .catch(function (jqXHR, textStatus, errorThrown) {
+      const response = jqXHR.responseJSON
+      toast('error', title, jqXHR.responseJSON.message)
+    })
 }
 
 /* -------------------------------------------------------------------------- */
@@ -677,8 +686,7 @@ $(document).ready(function () {
         const func = new Function('element', 'elementKey', 'newText', command)
         func(element, elementKey, newText)
 
-        toast('success', 'Text saved', 'You text changes are saved successfully.')
-        $emit('save-state-elements') // FIXME : save just when save button is clicked
+        $emit('save-state-elements', 'Save Text', 'You text changes are saved successfully.') // FIXME : save just when save button is clicked
       }
     })
 })
@@ -767,8 +775,7 @@ $(document).on('click', '[data-link-change]', function () {
   func(element, linkKey, newLink)
 
   $('#default_dialog').dialog('close')
-  toast('success', 'Component Save', 'Your component changes are saved successfully')
-  $emit('save-state-elements') // FIXME : save just when save button is clicked
+  $emit('save-state-elements', 'Save Component', 'Your component changes are saved successfully') // FIXME : save just when save button is clicked
 })
 
 /* -------------------------------------------------------------------------- */
@@ -874,8 +881,7 @@ $(document).on('click', '[data-tag-change]', function () {
   func(element, tagKey, newTag)
 
   $('#default_dialog').dialog('close')
-  toast('success', 'Tag Changed', 'Your text tag changed successfully.')
-  $emit('save-state-elements') // FIXME : save just when save button is clicked
+  $emit('save-state-elements', 'Change Tag', 'Your text tag changed successfully.') // FIXME : save just when save button is clicked
 })
 
 /**
@@ -951,8 +957,11 @@ function addDeleteEvent() {
       return el.dynamic_id !== dynamic_id
     })
     state.elements = elements
-    toast('success', 'Component Deleted', 'Your component has been deleted successfully.')
-    $emit('save-state-elements')
+    $emit(
+      'save-state-elements',
+      'Delete Component',
+      'Your component has been deleted successfully.'
+    )
   })
 }
 
@@ -1048,7 +1057,6 @@ function addCompiledComponent(component) {
     addDeleteEvent()
     addImageChangeEvent()
 
-    toast('success', 'Component Added', 'Your component has been added successfully.')
-    $emit('save-state-elements')
+    $emit('save-state-elements', 'Add Component', 'Your component has been added successfully.')
   })
 }
