@@ -499,9 +499,8 @@ $(async function () {
           refreshFileManager()
         })
         .catch(function (jqXHR, textStatus, errorThrown) {
-          const text =
-            jqXHR && jqXHR.responseJSON ? jqXHR.responseJSON.errors.join('.<br />') : errorThrown
-          toast('error', response.message, text)
+          const response = jqXHR.responseJSON
+          toast('error', response.message, response.errors.join('.<br />'))
         })
     })
     input.click()
