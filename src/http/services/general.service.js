@@ -19,19 +19,23 @@ const uploadConfig = {
 class GeneralService {
   async getAllImages(company) {
     const basePath = `${process.env.SERVER_ADDRESS}/${company}`
-    const uploadPath = path.resolve(process.cwd(), `uploads/${company}`)
-    const images = await fs.readdirSync(uploadPath)
-    const finalImages = images.map((image) => ({
-      dateModified: fs.statSync(`uploads/${company}/${image}`).mtime,
-      thumbnail: `${basePath}/${image}`,
-      hasSubDirectories: false,
-      isDirectory: false,
-      key: (+new Date() + Math.floor(Math.random() * (999 - 100) + 100)).toString(16),
-      name: image,
-      size: fs.statSync(`uploads/${company}/${image}`).size,
-      url: `${basePath}/${image}`,
-    }))
-    return finalImages
+    if (fs.existsSync(basePath)) {
+      const uploadPath = path.resolve(process.cwd(), `uploads/${company}`)
+      const images = await fs.readdirSync(uploadPath)
+      const finalImages = images.map((image) => ({
+        dateModified: fs.statSync(`uploads/${company}/${image}`).mtime,
+        thumbnail: `${basePath}/${image}`,
+        hasSubDirectories: false,
+        isDirectory: false,
+        key: (+new Date() + Math.floor(Math.random() * (999 - 100) + 100)).toString(16),
+        name: image,
+        size: fs.statSync(`uploads/${company}/${image}`).size,
+        url: `${basePath}/${image}`,
+      }))
+      return finalImages
+    } else {
+      return []
+    }
   }
 
   upload(args) {
