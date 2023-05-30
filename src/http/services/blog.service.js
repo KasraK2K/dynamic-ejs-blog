@@ -6,7 +6,7 @@ class BlogService {
   async getBlogPostData(company, id) {
     const data = await blogRepository.getBlogPostData(company, id)
 
-    for (const element of data.elements) {
+    for (const element of data.elements ?? []) {
       const basePath = path.resolve(
         process.cwd(),
         `statics/vendors/components/${element.component}/${element.component}`
@@ -44,11 +44,20 @@ class BlogService {
     delete data.editable
     delete data.components
 
-    for (const element of data.elements) {
+    for (const element of data.elements ?? []) {
       delete element.basePath
       delete element.style
       delete element.script
       delete element.dynamic_id
+    }
+
+    if (!data.info) {
+      data.info = {
+        title: (+new Date() + Math.floor(Math.random() * (999 - 100) + 100)).toString(16),
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.',
+        image: 'https://placehold.co/600x400?text=Hello+World',
+      }
     }
 
     return await blogRepository.upsertBlogPost(company, data)
