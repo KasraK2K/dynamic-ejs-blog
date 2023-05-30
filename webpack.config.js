@@ -22,7 +22,7 @@ module.exports = {
   module: {
     rules: [
       {
-        // Transpiles ES6-8 into ES5
+        // Transpile ES6-8 into ES5
         test: /\.js$/,
         exclude: [/node_modules/],
         use: {
