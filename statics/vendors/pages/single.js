@@ -495,11 +495,14 @@ $(async function () {
       }
       $.ajax(settings)
         .then(function (data, status, jqXHR) {
-          toast('success', 'Upload successful', 'File uploaded successfully')
+          toast('success', 'Upload File', 'File uploaded successfully')
           refreshFileManager()
         })
         .catch(function (jqXHR, textStatus, errorThrown) {
-          const response = jqXHR.responseJSON
+          const response =
+            jqXHR && jqXHR.responseJSON
+              ? jqXHR.responseJSON
+              : { message: 'Upload File', errors: ['Error occurred while uploading'] }
           toast('error', response.message, response.errors.join('.<br />'))
         })
     })
