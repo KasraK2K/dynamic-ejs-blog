@@ -484,7 +484,7 @@ $(async function () {
       const form = new FormData()
       form.append(uploadKey, file, file.name)
       const settings = {
-        url: `${SERVER_DATA_SENT.server_address}/v1/upload/asd/asd/asd/asd/`,
+        url: `${SERVER_DATA_SENT.server_address}/v1/upload`,
         method: 'POST',
         timeout: 0,
         processData: false,
