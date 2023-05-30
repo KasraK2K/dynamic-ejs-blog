@@ -566,7 +566,6 @@ $(async function () {
 /*                           Register Emit Listener                           */
 /* -------------------------------------------------------------------------- */
 $(window).on('emit', function (e, name, ...args) {
-  console.log(`Emit ${name} happened. Sent arguments:`, args)
   switch (name) {
     case 'save-state-elements':
       saveStateElements(args[0], args[1])
