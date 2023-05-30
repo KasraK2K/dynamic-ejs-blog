@@ -12,7 +12,9 @@
     "build:dev": "rm -rf build && npm run build:css && webpack --mode development",
     "build:css": "postcss statics/vendors/global.css -o statics/vendors/app.css",
     "build:dev:css": "postcss statics/vendors/global.css -o statics/vendors/app.css --watch",
-    "build:local": "rm -rf build && npm run build:css && webpack --mode none"
+    "build:local": "rm -rf build && npm run build:css && webpack --mode none",
+    "pm2": "NODE_ENV=production NAME=blog.gen-prod pm2 start ecosystem.config.js --env production",
+    "pm2:dev": "cross-env NODE_ENV=development NAME=blog.gen-dev pm2 start ecosystem.config.js --env development"
   },
   "author": "Kasra Karami <Kasra.Karami.KK@gmail.com>",
   "license": "ISC",
