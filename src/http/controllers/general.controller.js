@@ -4,7 +4,7 @@ class GeneralController {
   async getAllImages(req, res) {
     const { company } = req.params
     const result = await generalService.getAllImages(company)
-    return res.json({ errorCode: null, errorText: '', result: result, success: true })
+    return res.json({ errorCode: null, errorText: '', result, success: true })
   }
 
   async upload(req, res) {

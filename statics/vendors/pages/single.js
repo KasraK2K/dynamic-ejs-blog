@@ -502,7 +502,7 @@ $(async function () {
           const response =
             jqXHR && jqXHR.responseJSON
               ? jqXHR.responseJSON
-              : { message: 'Upload File', errors: ['Error occurred while uploading'] }
+              : { message: 'Upload File', errors: [errorThrown] }
           toast('error', response.message, response.errors.join('.<br />'))
         })
     })
