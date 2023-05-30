@@ -1,5 +1,5 @@
 <div <% if (data.editable) { %>id="sortable" <% } %>>
-  <% data.elements.forEach(function(element) { %>
+  <% data.elements?.forEach(function(element) { %>
   <section id="<%= element.dynamic_id %>" data-parent>
     <!-- Handle drop & drag top of component -->
     <% if (data.editable) { %>

@@ -18,9 +18,7 @@ function closeModifyDialog(dynamic_id) {
 
 function publishModifyDialog(dynamic_id) {
   const title = $(`#title_${dynamic_id}`)
-
   console.log(title.val())
-
   closeModifyDialog(dynamic_id)
 }
 
