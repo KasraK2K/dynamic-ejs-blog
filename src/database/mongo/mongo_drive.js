@@ -1,6 +1,8 @@
 const { MongoClient } = require('mongodb')
 
 const mongoClient = new MongoClient(process.env.MONGO_URI)
+const defaultDatabase = process.env.MONGO_DATABASE
+const defaultCollection = process.env.MONGO_DEFAULT_COLLECTION
 
 mongoClient
   .on('connect', () => console.log('MongoDB connected'))
@@ -12,9 +14,9 @@ mongoClient
 
 const mongo = {
   mongoClient,
-  database: (databaseName = 'dynamicBlog') => mongoClient.db(databaseName),
-  collection: (collectionName = 'dynamicCol') =>
-    mongoClient.db('dynamicBlog').collection(collectionName),
+  database: (databaseName = defaultDatabase) => mongoClient.db(databaseName),
+  collection: (collectionName = defaultCollection) =>
+    mongoClient.db(defaultDatabase).collection(collectionName),
 }
 
 module.exports = { mongo, mongoClient }
