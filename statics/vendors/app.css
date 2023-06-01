@@ -24420,6 +24420,11 @@ div[role='dialog']:not(.swal-modal) .ui-dialog-titlebar-close {
   line-height: 150%;
   color: #0f1637;
 }
+
+[contenteditable] {
+  outline: none;
+  cursor: copy;
+}
 /* ----------------------------- END GLOBAL CSS ----------------------------- */
 .before\:pointer-events-none::before {
   content: var(--tw-content);
@@ -24732,6 +24737,10 @@ div[role='dialog']:not(.swal-modal) .ui-dialog-titlebar-close {
   .md\:order-first {
     order: -9999;
   }
+  .md\:my-48 {
+    margin-top: 12rem;
+    margin-bottom: 12rem;
+  }
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -24745,10 +24754,6 @@ div[role='dialog']:not(.swal-modal) .ui-dialog-titlebar-close {
   .md\:py-32 {
     padding-top: 8rem;
     padding-bottom: 8rem;
-  }
-  .md\:py-48 {
-    padding-top: 12rem;
-    padding-bottom: 12rem;
   }
   .md\:text-3xl {
     font-size: 1.875rem;

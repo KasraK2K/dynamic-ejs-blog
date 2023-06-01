@@ -202,12 +202,6 @@
 .modal_style {
   filter: blur(1px) brightness(0.7) saturate(0.9);
 }
-
-[contenteditable] {
-  outline: none;
-  cursor: copy;
-}
-
 /* ----------------------------- Default Dialog ----------------------------- */
 #default_dialog {
   min-height: auto !important;

@@ -139,4 +139,9 @@ div[role='dialog']:not(.swal-modal) .ui-dialog-titlebar-close {
   line-height: 150%;
   color: #0f1637;
 }
+
+[contenteditable] {
+  outline: none;
+  cursor: copy;
+}
 /* ----------------------------- END GLOBAL CSS ----------------------------- */

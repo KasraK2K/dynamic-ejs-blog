@@ -11,7 +11,9 @@ const startMetricsServer = (port) => {
     res.set('Content-Type', client.register.contentType)
     return res.send(await client.register.metrics())
   })
-  app.listen(port, () => console.log(`Metric server started att http://localhost:${port}`))
+  app.listen(port, () =>
+    console.log(`Blog Generator Metric server started at http://localhost:${port}`)
+  )
 }
 
 module.exports = startMetricsServer

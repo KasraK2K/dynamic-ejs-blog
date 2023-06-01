@@ -31,8 +31,8 @@ Sample Object:
 <%# } %>
 
 <div class="-mt-24 relative w-full py-12 px-12 bg-yellow-900" style="margin-top: 0px">
-  <div class="relative z-10 text-center py-24 md:py-48">
-    <<%= element.configuration.title.tag%> <%if(data.editable){%> contenteditable <%}%> data-key="configuration.title.text" data-tag="configuration.title.tag" class="text-white text-center text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold mb-12">
+  <div class="relative z-10 text-center my-24 md:my-48">
+    <<%= element.configuration.title.tag %> <%if(data.editable){%> contenteditable <%}%> data-key="configuration.title.text" data-tag="configuration.title.tag" class="text-white text-center text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-display font-bold mb-12">
       <%= element.configuration.title.text %> </<%= element.configuration.title.tag%>>
       <a <%if(data.editable){%> contenteditable <%}%> data-key="configuration.button.label" onclick=`${lifeStyleButton(<%= dynamic_id %>)}` href="<%= element.configuration.button.link %>" class="inline-block bg-yellow-800 text-white uppercase text-sm tracking-widest font-heading px-8 py-4"><%= element.configuration.button.label %></a>
   </div>

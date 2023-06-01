@@ -49,6 +49,7 @@ class BlogService {
       delete element.style
       delete element.script
       delete element.dynamic_id
+      delete element.src
     }
 
     if (!data.info) {
