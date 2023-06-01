@@ -4,7 +4,8 @@ const compression = require('compression')
 const cors = require('cors')
 const _ = require('lodash')
 const responseTime = require('response-time')
-const { restResponseTimeHistogram } = require('./common/metrics')
+const { restResponseTimeHistogram } = require('./common/prometheus/metrics')
+const registerPrometheus = require('./common/prometheus/register')
 require('./configuration')
 
 _.assign(global, {})
@@ -24,28 +25,23 @@ app.use(express.static('statics'))
 app.use('/components', express.static('src/views/components'))
 app.use(express.static('uploads'))
 app.use('/v1', v1)
+// Prometheus
+app.use('/metrics', registerPrometheus)
 app.use(
-  responseTime(
-    /**
-     * @param {request} req
-     * @param {response} res
-     * @param {number} time
-     */
-    (req, res, time) => {
-      if (req?.route?.path) {
-        restResponseTimeHistogram.observe(
-          {
-            business_name: process.env.BUSINESS_NAME,
-            app_name: process.env.APP_NAME,
-            method: req.method,
-            route: req.route.path,
-            status_code: res.statusCode,
-          },
-          time * 1000
-        )
-      }
+  responseTime((req, res, time) => {
+    if (req?.route?.path) {
+      restResponseTimeHistogram.observe(
+        {
+          business_name: process.env.BUSINESS_NAME,
+          app_name: process.env.APP_NAME,
+          method: req.method,
+          route: req.route.path,
+          status_code: res.statusCode,
+        },
+        time * 1000
+      )
     }
-  )
+  })
 )
 
 server.listen(process.env.PORT, () =>
