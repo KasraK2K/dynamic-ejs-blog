@@ -1,18 +1,17 @@
 const express = require('express')
-const router = express.Router()
 const client = require('prom-client')
+
+const app = express()
 const register = new client.Registry()
 
-const { restResponseTimeHistogram } = require('./metrics')
-
-const startMetricsServer = () => {
+const startMetricsServer = (port) => {
   client.collectDefaultMetrics(register)
 
-  router.get('/', async (req, res) => {
+  app.get('/metrics', async (req, res) => {
     res.set('Content-Type', client.register.contentType)
     return res.send(await client.register.metrics())
   })
+  app.listen(port, () => console.log(`Metric server started att http://localhost:${port}`))
 }
 
-module.exports = router
-module.exports.startMetricsServer = startMetricsServer
+module.exports = startMetricsServer
