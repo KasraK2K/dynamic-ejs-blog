@@ -15,3 +15,4 @@ const startMetricsServer = () => {
 }
 
 module.exports = router
+module.exports.startMetricsServer = startMetricsServer

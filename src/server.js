@@ -6,6 +6,7 @@ const _ = require('lodash')
 const responseTime = require('response-time')
 const { restResponseTimeHistogram } = require('./common/prometheus/metrics')
 const registerPrometheus = require('./common/prometheus/register')
+const { startMetricsServer } = require('./common/prometheus/register')
 require('./configuration')
 
 _.assign(global, {})
@@ -43,6 +44,7 @@ app.use(
     }
   })
 )
+startMetricsServer()
 
 server.listen(process.env.PORT, () =>
   console.log(`Server running on ${process.env.SERVER_ADDRESS}`)
