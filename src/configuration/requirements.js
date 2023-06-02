@@ -8,6 +8,7 @@ const REQUIRED_ENVIRONMENTS = [
   'METRIC_PORT',
   'BUSINESS_NAME',
   'APP_NAME',
+  'SENTRY_DSN',
 ]
 
 for (const key of REQUIRED_ENVIRONMENTS)
