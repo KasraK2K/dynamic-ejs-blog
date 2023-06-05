@@ -613,7 +613,12 @@ function saveStateElements(title, successMessage) {
 /*                               Register Dialog                              */
 /* -------------------------------------------------------------------------- */
 function sanitizeDialogs() {
-  if (!SERVER_DATA_SENT.editable) return
+  if (SERVER_DATA_SENT.editable) {
+    $('[data-editable-dialog]').each(function (e) {
+      console.log($(e.target))
+    })
+    return
+  }
   for (const element of state.elements) {
     const title = `${element.component} Modifier`
 
@@ -655,8 +660,7 @@ function sanitizeDialogs() {
   }
 }
 
-$(function () {
-  if (!SERVER_DATA_SENT.editable) return
+$(document).ready(function () {
   sanitizeDialogs()
 })
 
