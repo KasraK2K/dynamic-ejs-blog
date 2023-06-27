@@ -58,7 +58,7 @@ app.use(
           route: req.route.path,
           status_code: res.statusCode,
         },
-        time * 1000
+        time
       )
     }
   })
@@ -71,7 +71,7 @@ app.use('/v1', v1)
 // Sentry
 app.use(Sentry.Handlers.errorHandler())
 // Optional fallthrough error handler
-app.use(function onError(err, req, res, next) {
+app.use(function onError(err, req, res) {
   // The error id is attached to `res.sentry` to be returned
   // and optionally displayed to the user for support.
   res.statusCode = 500
